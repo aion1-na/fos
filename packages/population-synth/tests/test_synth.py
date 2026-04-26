@@ -164,3 +164,50 @@ def test_fixture_exists() -> None:
 
     assert table.num_rows == 5000
     assert table.schema == pa.schema([("age", pa.int64())])
+
+
+def test_cli_synthesize_and_fidelity(tmp_path: Path) -> None:
+    spec_path = ROOT / "fixtures" / "young_adult_spec.yml"
+    first = tmp_path / "snap1"
+    second = tmp_path / "snap2"
+
+    subprocess.check_call(
+        [
+            sys.executable,
+            "-m",
+            "fw_synth.cli",
+            "synthesize",
+            "--spec",
+            str(spec_path),
+            "--out",
+            str(first),
+        ]
+    )
+    subprocess.check_call(
+        [
+            sys.executable,
+            "-m",
+            "fw_synth.cli",
+            "synthesize",
+            "--spec",
+            str(spec_path),
+            "--out",
+            str(second),
+        ]
+    )
+    first_file = next(first.glob("*/agents.parquet"))
+    second_file = next(second.glob("*/agents.parquet"))
+    assert first_file.read_bytes() == second_file.read_bytes()
+
+    output = subprocess.check_output(
+        [
+            sys.executable,
+            "-m",
+            "fw_synth.cli",
+            "fidelity",
+            "--snapshot",
+            str(first),
+        ],
+        text=True,
+    )
+    assert '"status": "green"' in output
