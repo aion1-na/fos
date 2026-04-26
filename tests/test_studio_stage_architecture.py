@@ -66,3 +66,39 @@ def test_execute_stage_declares_stream_log_and_kpi_components() -> None:
     assert "RunConsoleStream" in text
     assert "EventLogTail" not in text
     assert "KpiTraceChart" not in text
+
+
+def test_validate_and_explore_routes_include_required_surfaces() -> None:
+    validate = (ROOT / "apps/studio/app/studio/validate/page.tsx").read_text(encoding="utf-8")
+    explore = (ROOT / "apps/studio/app/studio/explore/page.tsx").read_text(encoding="utf-8")
+
+    for token in [
+        "ClaimGateTable",
+        "BriefExportGate",
+        "CausalTraceDecomposition",
+        "FindingSaveButton",
+        "runId={RUN_ID}",
+    ]:
+        assert token in validate
+    for token in [
+        "BranchViewer",
+        "CausalTraceOverlay",
+        "SixDomainRadar",
+        "SubgroupBreakdownTable",
+        "UnintendedConsequenceList",
+        "RepresentativeAgentPanel",
+        "FindingSaveButton",
+    ]:
+        assert token in explore
+
+
+def test_override_dialog_requires_fifty_character_justification_and_brief_assumptions() -> None:
+    override_dialog = (ROOT / "apps/studio/components/validation/OverrideDialog.tsx").read_text(encoding="utf-8")
+    brief = (ROOT / "apps/studio/app/studio/brief/page.tsx").read_text(encoding="utf-8")
+    trace = (ROOT / "apps/studio/components/validation/CausalTraceDecomposition.tsx").read_text(encoding="utf-8")
+
+    assert "trimmed.length >= 50" in override_dialog
+    assert "/overrides" in override_dialog
+    assert "overridesForRun(RUN_ID)" in brief
+    assert "Assumptions" in brief
+    assert "Cited evidence claim id" in trace

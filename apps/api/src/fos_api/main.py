@@ -48,9 +48,25 @@ class ProposedEditRequest(BaseModel):
     value: str | int | float | bool | list[str]
 
 
+class FindingRequest(BaseModel):
+    title: str
+    claim: str
+    source: Literal["validate", "explore"]
+    artifact_refs: list[str] = Field(default_factory=list)
+    assumptions: list[str] = Field(default_factory=list)
+    override: dict[str, object] | None = None
+
+
+class OverrideRequest(BaseModel):
+    gate: str
+    justification: str = Field(min_length=50)
+
+
 POPULATIONS: dict[str, dict[str, object]] = {}
 COHORTS: dict[str, dict[str, object]] = {}
 STREAM_FRAMES: dict[str, list[dict[str, object]]] = {}
+FINDINGS: dict[str, list[dict[str, object]]] = {}
+OVERRIDES: dict[str, list[dict[str, object]]] = {}
 
 
 @app.get("/health")
@@ -138,6 +154,117 @@ def _stream_frames(simulation_id: str) -> list[dict[str, object]]:
     )
     STREAM_FRAMES[simulation_id] = frames
     return frames
+
+
+def _validation_payload(run_id: str) -> dict[str, object]:
+    return {
+        "run_id": run_id,
+        "report_id": f"validation:{run_id}",
+        "status": "blocked",
+        "brief_export_blocked": True,
+        "headline_claims": [
+            {
+                "id": "claim-paid-leave-relationships",
+                "claim": "Paid leave improves relationship stability for eligible caregivers.",
+                "e_value": 1.82,
+                "distributional_fidelity": {"status": "green", "ks": 0.024},
+                "seed_stability_variance": 0.004,
+                "drift_status": "green",
+                "gate": "green",
+            },
+            {
+                "id": "claim-training-financial",
+                "claim": "Job training improves financial security for low-buffer workers.",
+                "e_value": 1.21,
+                "distributional_fidelity": {"status": "amber", "ks": 0.047},
+                "seed_stability_variance": 0.018,
+                "drift_status": "amber",
+                "gate": "amber",
+            },
+            {
+                "id": "claim-mentoring-meaning",
+                "claim": "Mentoring improves meaning for isolated young adults.",
+                "e_value": 1.05,
+                "distributional_fidelity": {"status": "red", "ks": 0.091},
+                "seed_stability_variance": 0.052,
+                "drift_status": "red",
+                "gate": "red",
+            },
+        ],
+        "audit_log": [
+            {
+                "event": "validation_report_persisted",
+                "artifact": f"validation:{run_id}",
+            },
+            *OVERRIDES.get(run_id, []),
+        ],
+    }
+
+
+def _causal_trace_payload(run_id: str) -> dict[str, object]:
+    return {
+        "run_id": run_id,
+        "pathways": [
+            {
+                "id": "income-security",
+                "label": "Income security",
+                "shapley_value": 0.31,
+                "confidence_interval": [0.22, 0.39],
+                "evidence_claim_id": "income-security-001",
+                "calibrated": True,
+            },
+            {
+                "id": "social-support",
+                "label": "Social support",
+                "shapley_value": 0.27,
+                "confidence_interval": [0.18, 0.34],
+                "evidence_claim_id": "social-support-001",
+                "calibrated": True,
+            },
+            {
+                "id": "schedule-autonomy",
+                "label": "Schedule autonomy",
+                "shapley_value": 0.16,
+                "confidence_interval": [0.04, 0.24],
+                "evidence_claim_id": None,
+                "calibrated": False,
+            },
+            {
+                "id": "peer-modeling",
+                "label": "Peer modeling",
+                "shapley_value": 0.08,
+                "confidence_interval": [-0.01, 0.15],
+                "evidence_claim_id": None,
+                "calibrated": False,
+            },
+        ],
+        "branches": [
+            {"id": "baseline", "label": "Baseline", "delta": 0.0},
+            {"id": "paid-leave", "label": "Paid leave", "delta": 0.07},
+            {"id": "training-plus-mentoring", "label": "Training plus mentoring", "delta": 0.11},
+        ],
+        "subgroups": [
+            {"label": "Caregivers", "n": 812, "effect": 0.09, "ci": [0.05, 0.13]},
+            {"label": "Low buffer", "n": 1040, "effect": 0.06, "ci": [0.02, 0.10]},
+            {"label": "Young adults", "n": 950, "effect": 0.04, "ci": [-0.01, 0.08]},
+        ],
+        "unintended_consequences": [
+            {"label": "Care hours displacement", "severity": "amber", "note": "Some subgroups shift time from care to training."},
+            {"label": "Benefit cliff exposure", "severity": "red", "note": "Income gains may reduce eligibility in one branch."},
+        ],
+        "representative_agent": {
+            "id": "agent-00421",
+            "summary": "Caregiver with low savings buffer and high mentoring response.",
+            "domain_scores": {
+                "happiness": 0.61,
+                "health": 0.58,
+                "meaning": 0.67,
+                "character": 0.63,
+                "relationships": 0.72,
+                "financial": 0.55,
+            },
+        },
+    }
 
 
 def _agent(index: int, population_id: str) -> dict[str, object]:
@@ -294,6 +421,55 @@ async def simulation_stream(websocket: WebSocket, simulation_id: str) -> None:
     for frame in _stream_frames(simulation_id)[offset:]:
         await websocket.send_json(frame)
     await websocket.close()
+
+
+@app.get("/runs/{run_id}/validation")
+def get_run_validation(run_id: str) -> dict[str, object]:
+    return _validation_payload(run_id)
+
+
+@app.get("/runs/{run_id}/causal-trace")
+def get_run_causal_trace(run_id: str) -> dict[str, object]:
+    return _causal_trace_payload(run_id)
+
+
+@app.post("/runs/{run_id}/findings")
+def save_run_finding(run_id: str, request: FindingRequest) -> dict[str, object]:
+    payload = {
+        "run_id": run_id,
+        **request.model_dump(mode="json"),
+    }
+    finding = {
+        "id": f"finding_{_stable_digest(payload)[:24]}",
+        **payload,
+    }
+    FINDINGS.setdefault(run_id, [])
+    if all(existing["id"] != finding["id"] for existing in FINDINGS[run_id]):
+        FINDINGS[run_id].append(finding)
+    return finding
+
+
+@app.get("/runs/{run_id}/findings")
+def list_run_findings(run_id: str) -> dict[str, object]:
+    return {"run_id": run_id, "findings": FINDINGS.get(run_id, [])}
+
+
+@app.post("/runs/{run_id}/overrides")
+def record_run_override(run_id: str, request: OverrideRequest) -> dict[str, object]:
+    override = {
+        "id": f"override_{_stable_digest(request.model_dump(mode='json'))[:24]}",
+        "event": "validation_gate_override_recorded",
+        "run_id": run_id,
+        "gate": request.gate,
+        "justification": request.justification,
+        "assumptions": [
+            f"Privileged validation override for {request.gate}: {request.justification}"
+        ],
+    }
+    OVERRIDES.setdefault(run_id, [])
+    if all(existing["id"] != override["id"] for existing in OVERRIDES[run_id]):
+        OVERRIDES[run_id].append(override)
+    return override
 
 
 def main() -> None:
