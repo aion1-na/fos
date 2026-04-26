@@ -1,0 +1,19 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "encodings": {
+      "additionalProperties": true,
+      "title": "Encodings",
+      "type": "object"
+    },
+    "preferred_views": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Preferred Views",
+      "type": "array"
+    }
+  },
+  "title": "RenderHints",
+  "type": "object"
+}

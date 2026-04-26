@@ -6,13 +6,13 @@ requires-python = ">=3.11"
 members = [
     "fos",
     "fos-api",
-    "fos-contracts",
     "fos-pack-flourishing",
     "fos-pack-toy-sir",
     "fos-population-synth",
     "fos-render-core",
     "fos-sim-kernel",
     "fos-validation-core",
+    "fw-contracts",
 ]
 
 [[package]]
@@ -89,17 +89,14 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "fos-api" },
-    { name = "fos-contracts" },
     { name = "fos-pack-flourishing" },
     { name = "fos-pack-toy-sir" },
     { name = "fos-population-synth" },
     { name = "fos-render-core" },
     { name = "fos-sim-kernel" },
     { name = "fos-validation-core" },
-]
-
-[package.dev-dependencies]
-dev = [
+    { name = "fw-contracts" },
+    { name = "hypothesis" },
     { name = "pytest" },
     { name = "ruff" },
 ]
@@ -107,17 +104,14 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "fos-api", editable = "apps/api" },
-    { name = "fos-contracts", editable = "packages/contracts" },
     { name = "fos-pack-flourishing", editable = "packs/flourishing" },
     { name = "fos-pack-toy-sir", editable = "packs/toy-sir" },
     { name = "fos-population-synth", editable = "packages/population-synth" },
     { name = "fos-render-core", editable = "packages/render-core" },
     { name = "fos-sim-kernel", editable = "packages/sim-kernel" },
     { name = "fos-validation-core", editable = "packages/validation-core" },
-]
-
-[package.metadata.requires-dev]
-dev = [
+    { name = "fw-contracts", editable = "packages/contracts" },
+    { name = "hypothesis", specifier = ">=6.120.0" },
     { name = "pytest", specifier = ">=8.3.0" },
     { name = "ruff", specifier = ">=0.8.0" },
 ]
@@ -136,11 +130,6 @@ requires-dist = [
     { name = "fastapi", specifier = ">=0.115.0" },
     { name = "uvicorn", extras = ["standard"], specifier = ">=0.30.0" },
 ]
-
-[[package]]
-name = "fos-contracts"
-version = "0.1.0"
-source = { editable = "packages/contracts" }
 
 [[package]]
 name = "fos-pack-flourishing"
@@ -166,11 +155,28 @@ source = { editable = "packages/render-core" }
 name = "fos-sim-kernel"
 version = "0.1.0"
 source = { editable = "packages/sim-kernel" }
+dependencies = [
+    { name = "fw-contracts" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "fw-contracts", editable = "packages/contracts" }]
 
 [[package]]
 name = "fos-validation-core"
 version = "0.1.0"
 source = { editable = "packages/validation-core" }
+
+[[package]]
+name = "fw-contracts"
+version = "0.1.0"
+source = { editable = "packages/contracts" }
+dependencies = [
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "pydantic", specifier = ">=2.9.0" }]
 
 [[package]]
 name = "h11"
@@ -215,6 +221,18 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/4d/31/14df99e1c43bd132eec921c2e7e11cda7852f65619bc0fc5bdc2d0cb126c/httptools-0.7.1-cp314-cp314-musllinux_1_2_aarch64.whl", hash = "sha256:f084813239e1eb403ddacd06a30de3d3e09a9b76e7894dcda2b22f8a726e9c60", size = 452631, upload-time = "2025-10-10T03:54:58.219Z" },
     { url = "https://files.pythonhosted.org/packages/22/d2/b7e131f7be8d854d48cb6d048113c30f9a46dca0c9a8b08fcb3fcd588cdc/httptools-0.7.1-cp314-cp314-musllinux_1_2_x86_64.whl", hash = "sha256:7347714368fb2b335e9063bc2b96f2f87a9ceffcd9758ac295f8bbcd3ffbc0ca", size = 452910, upload-time = "2025-10-10T03:54:59.366Z" },
     { url = "https://files.pythonhosted.org/packages/53/cf/878f3b91e4e6e011eff6d1fa9ca39f7eb17d19c9d7971b04873734112f30/httptools-0.7.1-cp314-cp314-win_amd64.whl", hash = "sha256:cfabda2a5bb85aa2a904ce06d974a3f30fb36cc63d7feaddec05d2050acede96", size = 88205, upload-time = "2025-10-10T03:55:00.389Z" },
+]
+
+[[package]]
+name = "hypothesis"
+version = "6.152.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "sortedcontainers" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b0/7f/67a06c5f19368e0fa04612bbc446c535bf45b0b51bc6aa56055b112f7604/hypothesis-6.152.2.tar.gz", hash = "sha256:11fd5725958fe75597d1b831f703fdf7e636b7cf1f249117f381ad5cee4d888f", size = 466358, upload-time = "2026-04-24T04:26:18.917Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/59/ed/77eed094bceae845a994f936721293afae40a346c0005d85208407fd40e8/hypothesis-6.152.2-py3-none-any.whl", hash = "sha256:1ad5b87f0e6c0ab7a9a35b1378cc4963d23eaf0cb1e47e94f1d574b41155907a", size = 532034, upload-time = "2026-04-24T04:26:16.394Z" },
 ]
 
 [[package]]
@@ -482,6 +500,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/ea/f9/0ae446942c846b8266059ad8a30702a35afae55f5cdc54c5adf8d7afdc27/ruff-0.15.12-py3-none-win32.whl", hash = "sha256:d0185894e038d7043ba8fd6aee7499ece6462dc0ea9f1e260c7451807c714c20", size = 10657277, upload-time = "2026-04-24T18:17:18.591Z" },
     { url = "https://files.pythonhosted.org/packages/33/f1/9614e03e1cdcbf9437570b5400ced8a720b5db22b28d8e0f1bda429f660d/ruff-0.15.12-py3-none-win_amd64.whl", hash = "sha256:c87a162d61ab3adca47c03f7f717c68672edec7d1b5499e652331780fe74950d", size = 11837758, upload-time = "2026-04-24T18:17:00.113Z" },
     { url = "https://files.pythonhosted.org/packages/c0/98/6beb4b351e472e5f4c4613f7c35a5290b8be2497e183825310c4c3a3984b/ruff-0.15.12-py3-none-win_arm64.whl", hash = "sha256:a538f7a82d061cee7be55542aca1d86d1393d55d81d4fcc314370f4340930d4f", size = 11120821, upload-time = "2026-04-24T18:16:57.979Z" },
+]
+
+[[package]]
+name = "sortedcontainers"
+version = "2.4.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/e8/c4/ba2f8066cceb6f23394729afe52f3bf7adec04bf9ed2c820b39e19299111/sortedcontainers-2.4.0.tar.gz", hash = "sha256:25caa5a06cc30b6b83d11423433f65d1f9d76c4c6a0c90e3379eaa43b9bfdb88", size = 30594, upload-time = "2021-05-16T22:03:42.897Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/32/46/9cb0e58b2deb7f82b84065f37f3bffeb12413f947f9388e4cac22c4621ce/sortedcontainers-2.4.0-py2.py3-none-any.whl", hash = "sha256:a163dcaede0f1c021485e957a39245190e74249897e2ae4b2aa38595db237ee0", size = 29575, upload-time = "2021-05-16T22:03:41.177Z" },
 ]
 
 [[package]]

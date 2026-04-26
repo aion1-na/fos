@@ -1,0 +1,241 @@
+{
+  "$defs": {
+    "BranchSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": true,
+          "title": "Parameters",
+          "type": "object"
+        },
+        "parent_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parent Id"
+        }
+      },
+      "required": [
+        "id",
+        "label"
+      ],
+      "title": "BranchSpec",
+      "type": "object"
+    },
+    "Intervention": {
+      "additionalProperties": false,
+      "properties": {
+        "ends_at_step": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ends At Step"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": true,
+          "title": "Parameters",
+          "type": "object"
+        },
+        "starts_at_step": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Starts At Step"
+        }
+      },
+      "required": [
+        "id",
+        "label"
+      ],
+      "title": "Intervention",
+      "type": "object"
+    },
+    "OntologyRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "uri": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uri"
+        },
+        "version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Version"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "OntologyRef",
+      "type": "object"
+    },
+    "ShockSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "at_step": {
+          "minimum": 0,
+          "title": "At Step",
+          "type": "integer"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": true,
+          "title": "Parameters",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "at_step"
+      ],
+      "title": "ShockSpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "branches": {
+      "items": {
+        "$ref": "#/$defs/BranchSpec"
+      },
+      "title": "Branches",
+      "type": "array"
+    },
+    "domain_pack_id": {
+      "title": "Domain Pack Id",
+      "type": "string"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "interventions": {
+      "items": {
+        "$ref": "#/$defs/Intervention"
+      },
+      "title": "Interventions",
+      "type": "array"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "ontology": {
+      "items": {
+        "$ref": "#/$defs/OntologyRef"
+      },
+      "title": "Ontology",
+      "type": "array"
+    },
+    "parameters": {
+      "additionalProperties": true,
+      "title": "Parameters",
+      "type": "object"
+    },
+    "shocks": {
+      "items": {
+        "$ref": "#/$defs/ShockSpec"
+      },
+      "title": "Shocks",
+      "type": "array"
+    },
+    "stage_status": {
+      "additionalProperties": {
+        "enum": [
+          "empty",
+          "pending",
+          "ready",
+          "running",
+          "complete",
+          "error"
+        ],
+        "type": "string"
+      },
+      "propertyNames": {
+        "enum": [
+          "frame",
+          "compose",
+          "evidence",
+          "population",
+          "configure",
+          "execute",
+          "validate",
+          "explore",
+          "brief"
+        ]
+      },
+      "title": "Stage Status",
+      "type": "object"
+    }
+  },
+  "required": [
+    "id",
+    "domain_pack_id",
+    "name"
+  ],
+  "title": "Scenario",
+  "type": "object"
+}

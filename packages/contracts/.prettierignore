@@ -1,0 +1,3 @@
+dist/
+schemas/
+.pytest_cache/
