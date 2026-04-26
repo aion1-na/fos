@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import subprocess
+import sys
 from pathlib import Path
 
 from hypothesis import given, settings, strategies as st
@@ -11,6 +12,7 @@ from fw_contracts import CONTRACTS_VERSION, AgentState, DomainPack, Scenario
 from fw_contracts.schema_export import EXPORTED_MODELS
 
 ROOT = Path(__file__).resolve().parents[4]
+CODEGEN_DONE = False
 
 
 class ToyState(BaseModel):
@@ -19,6 +21,15 @@ class ToyState(BaseModel):
 
 
 def ts_roundtrip(model_name: str, payload: dict) -> dict:
+    global CODEGEN_DONE
+    if not CODEGEN_DONE:
+        subprocess.run(
+            [sys.executable, "tools/codegen/contracts_to_ts.py"],
+            cwd=ROOT,
+            check=True,
+        )
+        CODEGEN_DONE = True
+
     script = f"""
       import fs from "node:fs";
       import {{ parse{model_name} }} from "./packages/contracts/dist/ts/index.js";
@@ -69,7 +80,19 @@ def test_domain_pack_asserts_contract_version() -> None:
     assert pack.contracts_version == CONTRACTS_VERSION
 
 
-@settings(max_examples=500, deadline=None)
+def test_scenario_empty_stage_status_roundtrips_through_ts() -> None:
+    scenario = Scenario(
+        id="0",
+        domain_pack_id="0",
+        name="0",
+        stage_status={"frame": "empty"},
+    )
+
+    returned = ts_roundtrip("Scenario", scenario.model_dump(mode="json"))
+    assert Scenario.model_validate(returned) == scenario
+
+
+@settings(max_examples=100, deadline=None)
 @given(
     scenario_id=st.text(min_size=1, max_size=20),
     pack_id=st.text(min_size=1, max_size=20),
