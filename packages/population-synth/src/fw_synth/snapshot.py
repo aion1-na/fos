@@ -99,11 +99,23 @@ def write_snapshot(
 
 
 def read_bytes(store: SynthStore, snapshot_path: str) -> dict[str, bytes]:
-    manifest_path = f"{snapshot_path.rstrip('/')}/manifest.json"
+    snapshot_root = _snapshot_root(store, snapshot_path)
+    manifest_path = f"{snapshot_root}/manifest.json"
     with store.open(manifest_path, "rb") as handle:
         manifest = json.loads(handle.read().decode("utf-8"))
     output = {"manifest.json": json.dumps(manifest, sort_keys=True).encode("utf-8")}
     for filename in manifest["files"].values():
-        with store.open(f"{snapshot_path.rstrip('/')}/{filename}", "rb") as handle:
+        with store.open(f"{snapshot_root}/{filename}", "rb") as handle:
             output[filename] = handle.read()
     return output
+
+
+def _snapshot_root(store: SynthStore, snapshot_path: str) -> str:
+    root = snapshot_path.rstrip("/")
+    if store.fs.exists(f"{root}/manifest.json"):
+        return root
+    entries = sorted(store.fs.ls(root, detail=False))
+    for entry in entries:
+        if store.fs.exists(f"{entry}/manifest.json"):
+            return entry.rstrip("/")
+    raise FileNotFoundError(f"snapshot manifest not found under {snapshot_path}")

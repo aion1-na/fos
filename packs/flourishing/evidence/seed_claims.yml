@@ -1,0 +1,25 @@
+claims:
+  - id: income-security-001
+    statement: Stable earnings and income supports are associated with higher household financial security and lower stress exposure.
+    source_uri: synthetic://seed/income-security
+    confidence: 0.72
+  - id: identity-agency-001
+    statement: Agency and coherent self-direction are associated with better life evaluation trajectories.
+    source_uri: synthetic://seed/identity-agency
+    confidence: 0.68
+  - id: social-support-001
+    statement: Regular supportive contact is associated with stronger relationship scores and lower loneliness risk.
+    source_uri: synthetic://seed/social-support
+    confidence: 0.76
+  - id: time-structure-001
+    statement: Predictable time structure and lower schedule volatility are associated with better daily functioning.
+    source_uri: synthetic://seed/time-structure
+    confidence: 0.64
+  - id: health-behavior-001
+    statement: Sleep regularity, physical activity, and care access are associated with better self-rated health.
+    source_uri: synthetic://seed/health-behavior
+    confidence: 0.74
+  - id: meaning-purpose-001
+    statement: Purpose, contribution, and values alignment are associated with stronger meaning scores.
+    source_uri: synthetic://seed/meaning-purpose
+    confidence: 0.70

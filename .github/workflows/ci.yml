@@ -36,6 +36,9 @@ jobs:
       - name: Kernel import seam
         run: python3 tools/lint/import-lint.py
 
+      - name: Pack lint
+        run: python3 tools/lint/pack-lint.py
+
       - name: Node lint
         run: pnpm -r lint
 
