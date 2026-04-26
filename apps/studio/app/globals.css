@@ -617,6 +617,12 @@ h1 {
   min-height: 320px;
 }
 
+.run-stream-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .console-log {
   border-left: 1px solid var(--line);
   margin: 0 0 18px 8px;
@@ -631,6 +637,27 @@ h1 {
 .console-log li[data-state="complete"] {
   color: var(--accent);
   font-weight: 700;
+}
+
+.event-log-tail {
+  max-height: 260px;
+  overflow: auto;
+}
+
+.kpi-trace {
+  align-items: flex-end;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  gap: 4px;
+  height: 100px;
+  padding-top: 8px;
+}
+
+.kpi-bar {
+  background: var(--accent);
+  border-radius: 3px 3px 0 0;
+  flex: 1;
+  min-width: 6px;
 }
 
 .modal-scrim {

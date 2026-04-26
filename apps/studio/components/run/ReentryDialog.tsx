@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import type { InvalidatedArtifact } from "@/lib/run/types";
 
 export function ReentryDialog({
@@ -7,12 +9,44 @@ export function ReentryDialog({
   open,
   onCancel,
   onConfirm,
+  proposedEdit,
+  scenarioId = "scenario-default",
 }: {
   artifacts: InvalidatedArtifact[];
   open: boolean;
   onCancel: () => void;
   onConfirm: () => void;
+  proposedEdit?: { field: string; value: string | number | boolean | string[] };
+  scenarioId?: string;
 }) {
+  const [previewArtifacts, setPreviewArtifacts] = useState<InvalidatedArtifact[]>(artifacts);
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+    if (!proposedEdit) {
+      setPreviewArtifacts(artifacts);
+      return;
+    }
+    const controller = new AbortController();
+    fetch(`/scenarios/${scenarioId}/invalidation-preview`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(proposedEdit),
+      signal: controller.signal,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("preview unavailable");
+        }
+        return response.json() as Promise<{ invalidated_artifacts: InvalidatedArtifact[] }>;
+      })
+      .then((preview) => setPreviewArtifacts(preview.invalidated_artifacts))
+      .catch(() => setPreviewArtifacts(artifacts));
+    return () => controller.abort();
+  }, [artifacts, open, proposedEdit, scenarioId]);
+
   if (!open) {
     return null;
   }
@@ -25,7 +59,7 @@ export function ReentryDialog({
           <h2>Regenerate downstream artifacts first</h2>
         </header>
         <div className="artifact-list">
-          {artifacts.map((artifact) => (
+          {previewArtifacts.map((artifact) => (
             <article className="artifact-row" key={artifact.id}>
               <div>
                 <strong>{artifact.id}</strong>
