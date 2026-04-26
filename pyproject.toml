@@ -12,12 +12,8 @@ dependencies = [
   "fos-render-core",
   "fos-pack-flourishing",
   "fos-pack-toy-sir",
-]
-
-[dependency-groups]
-dev = [
-  "pytest>=8.3.0",
   "hypothesis>=6.120.0",
+  "pytest>=8.3.0",
   "ruff>=0.8.0",
 ]
 

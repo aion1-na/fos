@@ -96,10 +96,6 @@ dependencies = [
     { name = "fos-sim-kernel" },
     { name = "fos-validation-core" },
     { name = "fw-contracts" },
-]
-
-[package.dev-dependencies]
-dev = [
     { name = "hypothesis" },
     { name = "pytest" },
     { name = "ruff" },
@@ -115,10 +111,6 @@ requires-dist = [
     { name = "fos-sim-kernel", editable = "packages/sim-kernel" },
     { name = "fos-validation-core", editable = "packages/validation-core" },
     { name = "fw-contracts", editable = "packages/contracts" },
-]
-
-[package.metadata.requires-dev]
-dev = [
     { name = "hypothesis", specifier = ">=6.120.0" },
     { name = "pytest", specifier = ">=8.3.0" },
     { name = "ruff", specifier = ">=0.8.0" },
