@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Literal
 
+import numpy as np
 from fw_contracts import (
     CONTRACTS_VERSION,
     DomainPack,
@@ -77,7 +78,7 @@ def _pack() -> DomainPack:
             TransitionModel(
                 id="infection",
                 version="0.1.0",
-                entrypoint="fos_pack_toy_sir.pack.apply_infection",
+                entrypoint="fos_pack_toy_sir.pack.vectorized_infection",
                 parameters_schema={
                     "type": "object",
                     "properties": {
@@ -88,7 +89,7 @@ def _pack() -> DomainPack:
             TransitionModel(
                 id="recovery",
                 version="0.1.0",
-                entrypoint="fos_pack_toy_sir.pack.apply_recovery",
+                entrypoint="fos_pack_toy_sir.pack.vectorized_recovery",
                 parameters_schema={
                     "type": "object",
                     "properties": {
@@ -157,6 +158,17 @@ def spawn_population(spec: SpawnSpec) -> list[ToySirAgent]:
     return agents
 
 
+def spawn_population_state(spec: SpawnSpec) -> dict[str, list[int] | list[str]]:
+    agents = spawn_population(spec)
+    return {
+        "status": [agent.state.status for agent in agents],
+        "days_since_infection": [
+            agent.state.days_since_infection for agent in agents
+        ],
+        "age": [agent.state.age for agent in agents],
+    }
+
+
 def apply_vaccination(
     agents: list[ToySirAgent],
     intervention: Intervention = VACCINATION_INTERVENTION,
@@ -192,11 +204,13 @@ def apply_infection(
         index for index, agent in enumerate(agents) if agent.state.status == "S"
     ]
     new_infections = round(len(susceptible_indexes) * beta * infectious / total)
-    infected_indexes = set(susceptible_indexes[:new_infections])
+    infection_mask = [False] * total
+    for index in susceptible_indexes[:new_infections]:
+        infection_mask[index] = True
 
     next_agents: list[ToySirAgent] = []
     for index, agent in enumerate(agents):
-        if index in infected_indexes:
+        if infection_mask[index]:
             next_agents.append(
                 ToySirAgent(
                     agent_id=agent.agent_id,
@@ -210,6 +224,89 @@ def apply_infection(
         else:
             next_agents.append(agent)
     return next_agents
+
+
+def vectorized_infection(
+    fields: dict[str, np.ndarray],
+    rng: np.random.Generator,
+    parameters: dict[str, object],
+    tick: int,
+) -> dict[str, object]:
+    del rng, tick
+    beta = float(parameters.get("beta", DEFAULT_BETA))
+    status = fields["status"]
+    total = status.shape[0]
+    if total == 0:
+        return {"mode": "replace", "fields": {}, "masks": {}, "kpis": {"prevalence": 0.0}}
+
+    infectious = status == "I"
+    susceptible = status == "S"
+    infection_probability = beta * float(np.count_nonzero(infectious)) / total
+    susceptible_rank = np.cumsum(susceptible) - 1
+    infection_count = int(round(float(np.count_nonzero(susceptible)) * infection_probability))
+    infection_mask = susceptible & (susceptible_rank < infection_count)
+
+    next_status = status.copy()
+    next_days = fields["days_since_infection"].copy()
+    next_status[infection_mask] = "I"
+    next_days[infection_mask] = 1
+    next_prevalence = float(np.count_nonzero(next_status == "I") / total)
+    return {
+        "mode": "replace",
+        "fields": {
+            "status": next_status,
+            "days_since_infection": next_days,
+        },
+        "masks": {
+            "status": infection_mask,
+            "days_since_infection": infection_mask,
+        },
+        "kpis": {
+            "new_cases": float(np.count_nonzero(infection_mask)),
+            "prevalence": next_prevalence,
+        },
+    }
+
+
+def vectorized_recovery(
+    fields: dict[str, np.ndarray],
+    rng: np.random.Generator,
+    parameters: dict[str, object],
+    tick: int,
+) -> dict[str, object]:
+    del rng, tick
+    recovery_days = int(parameters.get("recovery_days", DEFAULT_RECOVERY_DAYS))
+    status = fields["status"]
+    days = fields["days_since_infection"]
+    infectious = status == "I"
+    incremented_days = days.copy()
+    incremented_days[infectious] = incremented_days[infectious] + 1
+    recovery_mask = infectious & (incremented_days >= recovery_days)
+    stay_infectious_mask = infectious & ~recovery_mask
+
+    next_status = status.copy()
+    next_days = days.copy()
+    next_status[recovery_mask] = "R"
+    next_days[recovery_mask] = 0
+    next_days[stay_infectious_mask] = incremented_days[stay_infectious_mask]
+    days_mask = recovery_mask | stay_infectious_mask
+    total = status.shape[0]
+    prevalence_value = 0.0 if total == 0 else float(np.count_nonzero(next_status == "I") / total)
+    return {
+        "mode": "replace",
+        "fields": {
+            "status": next_status,
+            "days_since_infection": next_days,
+        },
+        "masks": {
+            "status": recovery_mask,
+            "days_since_infection": days_mask,
+        },
+        "kpis": {
+            "recoveries": float(np.count_nonzero(recovery_mask)),
+            "prevalence": prevalence_value,
+        },
+    }
 
 
 def apply_recovery(
