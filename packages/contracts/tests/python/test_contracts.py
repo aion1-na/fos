@@ -4,7 +4,7 @@ import json
 import subprocess
 from pathlib import Path
 
-from hypothesis import given, strategies as st
+from hypothesis import given, settings, strategies as st
 from pydantic import BaseModel
 
 from fw_contracts import CONTRACTS_VERSION, AgentState, DomainPack, Scenario
@@ -20,16 +20,18 @@ class ToyState(BaseModel):
 
 def ts_roundtrip(model_name: str, payload: dict) -> dict:
     script = f"""
+      import fs from "node:fs";
       import {{ parse{model_name} }} from "./packages/contracts/dist/ts/index.js";
-      const input = JSON.parse(process.argv[1]);
+      const input = JSON.parse(fs.readFileSync(0, "utf8"));
       const parsed = parse{model_name}(input);
       process.stdout.write(JSON.stringify(parsed));
     """
     result = subprocess.run(
-        ["node", "--input-type=module", "-e", script, json.dumps(payload)],
+        ["node", "--input-type=module", "-e", script],
         cwd=ROOT,
         check=True,
         capture_output=True,
+        input=json.dumps(payload),
         text=True,
     )
     return json.loads(result.stdout)
@@ -67,6 +69,7 @@ def test_domain_pack_asserts_contract_version() -> None:
     assert pack.contracts_version == CONTRACTS_VERSION
 
 
+@settings(max_examples=500)
 @given(
     scenario_id=st.text(min_size=1, max_size=20),
     pack_id=st.text(min_size=1, max_size=20),

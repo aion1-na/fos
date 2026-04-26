@@ -16,16 +16,18 @@ scenario = Scenario(
 )
 
 script = """
+  import fs from "node:fs";
   import { parseScenario } from "./packages/contracts/dist/ts/index.js";
-  const parsed = parseScenario(JSON.parse(process.argv[1]));
+  const parsed = parseScenario(JSON.parse(fs.readFileSync(0, "utf8")));
   process.stdout.write(JSON.stringify(parsed));
 """
 
 result = subprocess.run(
-    ["node", "--input-type=module", "-e", script, scenario.model_dump_json()],
+    ["node", "--input-type=module", "-e", script],
     cwd=ROOT,
     check=True,
     capture_output=True,
+    input=scenario.model_dump_json(),
     text=True,
 )
 
