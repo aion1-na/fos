@@ -1,19 +1,10 @@
 "use client";
 
 import type { Stage } from "./stages";
+import { defaultStageStatuses, type StageStatus } from "./stageStatusMachine";
 
-export type StageStatus = "empty" | "pending" | "ready";
+export type { StageStatus };
 
 export function useStageStatus(): Record<Stage, StageStatus> {
-  return {
-    frame: "ready",
-    compose: "pending",
-    evidence: "empty",
-    population: "empty",
-    configure: "empty",
-    execute: "empty",
-    validate: "empty",
-    explore: "empty",
-    brief: "empty",
-  };
+  return defaultStageStatuses();
 }
