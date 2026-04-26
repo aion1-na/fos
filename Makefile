@@ -19,4 +19,5 @@ fmt:
 lint:
 	uv run ruff check .
 	python3 tools/lint/import-lint.py
+	python3 tools/lint/pack-lint.py
 	pnpm -r lint
