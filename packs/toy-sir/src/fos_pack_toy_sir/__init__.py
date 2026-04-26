@@ -13,6 +13,9 @@ from fos_pack_toy_sir.pack import (
     run_validation,
     simulate,
     spawn_population,
+    spawn_population_state,
+    vectorized_infection,
+    vectorized_recovery,
 )
 
 __all__ = [
@@ -30,6 +33,9 @@ __all__ = [
     "run_validation",
     "simulate",
     "spawn_population",
+    "spawn_population_state",
+    "vectorized_infection",
+    "vectorized_recovery",
 ]
 
 __version__ = PACK_VERSION
