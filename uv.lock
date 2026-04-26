@@ -140,6 +140,16 @@ source = { editable = "packs/flourishing" }
 name = "fos-pack-toy-sir"
 version = "0.1.0"
 source = { editable = "packs/toy-sir" }
+dependencies = [
+    { name = "fw-contracts" },
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "fw-contracts", editable = "packages/contracts" },
+    { name = "pydantic", specifier = ">=2.9.0" },
+]
 
 [[package]]
 name = "fos-population-synth"
