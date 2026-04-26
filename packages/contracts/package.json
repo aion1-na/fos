@@ -9,11 +9,19 @@
     ".": {
       "types": "./dist/ts/index.d.ts",
       "import": "./dist/ts/index.js"
+    },
+    "./api": {
+      "types": "./dist/api/client.d.ts",
+      "import": "./dist/api/client.js"
+    },
+    "./api/openapi.json": {
+      "default": "./dist/api/openapi.json"
     }
   },
   "scripts": {
     "gen": "pnpm run codegen",
     "codegen": "cd ../.. && uv run python tools/codegen/contracts_to_ts.py",
+    "gen:api": "cd ../.. && uv run python tools/codegen/openapi_to_ts.py",
     "build": "pnpm run codegen",
     "typecheck": "node -e \"process.exit(0)\"",
     "lint": "node -e \"process.exit(0)\"",

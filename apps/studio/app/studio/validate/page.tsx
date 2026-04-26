@@ -8,7 +8,7 @@ export default function ValidatePage() {
   const redGate = validationFixture.headline_claims.some((claim) => claim.gate === "red");
 
   return (
-    <main className="workspace run-workspace">
+    <main className="workspace run-workspace" id="studio-main">
       <header className="workspace-header">
         <p className="eyebrow">Studio Stage 7</p>
         <h1>Validate</h1>
