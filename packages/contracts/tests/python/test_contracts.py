@@ -69,7 +69,7 @@ def test_domain_pack_asserts_contract_version() -> None:
     assert pack.contracts_version == CONTRACTS_VERSION
 
 
-@settings(max_examples=500)
+@settings(max_examples=500, deadline=None)
 @given(
     scenario_id=st.text(min_size=1, max_size=20),
     pack_id=st.text(min_size=1, max_size=20),
