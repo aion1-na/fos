@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import Literal
 
 import numpy as np
+from fw_synth import synthesize_state
 from fw_contracts import (
     CONTRACTS_VERSION,
     DomainPack,
@@ -139,34 +140,24 @@ def build_pack() -> DomainPack:
 
 
 def spawn_population(spec: SpawnSpec) -> list[ToySirAgent]:
-    initial_infected = int(spec.state_seed.get("initial_infected", 10))
-    adult_share = float(spec.state_seed.get("adult_share", 0.8))
-    if initial_infected < 0 or initial_infected > spec.count:
-        raise ValueError("initial_infected must be between 0 and count")
-    if adult_share < 0 or adult_share > 1:
-        raise ValueError("adult_share must be between 0 and 1")
-
-    adult_cutoff = round(spec.count * adult_share)
+    state = spawn_population_state(spec)
     agents: list[ToySirAgent] = []
     for index in range(spec.count):
-        state = ToySirState(
-            status="I" if index < initial_infected else "S",
-            days_since_infection=1 if index < initial_infected else 0,
-            age=35 if index < adult_cutoff else 12,
+        agent_state = ToySirState(
+            status=state["status"][index],
+            days_since_infection=state["days_since_infection"][index],
+            age=state["age"][index],
         )
-        agents.append(ToySirAgent(agent_id=f"{spec.population_id}-{index}", state=state))
+        agents.append(ToySirAgent(agent_id=f"{spec.population_id}-{index}", state=agent_state))
     return agents
 
 
 def spawn_population_state(spec: SpawnSpec) -> dict[str, list[int] | list[str]]:
-    agents = spawn_population(spec)
-    return {
-        "status": [agent.state.status for agent in agents],
-        "days_since_infection": [
-            agent.state.days_since_infection for agent in agents
-        ],
-        "age": [agent.state.age for agent in agents],
-    }
+    return synthesize_state(
+        spec,
+        seed=int(spec.state_seed.get("seed", 0)),
+        reference_path=spec.metadata.get("reference_path"),
+    )
 
 
 def apply_vaccination(
