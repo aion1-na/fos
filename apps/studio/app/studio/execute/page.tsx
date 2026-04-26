@@ -28,7 +28,7 @@ function UpstreamEditGuard() {
 
 export default function ExecutePage() {
   return (
-    <main className="workspace run-workspace">
+    <main className="workspace run-workspace" id="studio-main">
       <header className="workspace-header">
         <p className="eyebrow">Studio Stage 6</p>
         <h1>Execute</h1>

@@ -9,7 +9,7 @@ import { RUN_ID, causalTraceFixture } from "@/lib/validation/fixture";
 
 export default function ExplorePage() {
   return (
-    <main className="workspace run-workspace">
+    <main className="workspace run-workspace" id="studio-main">
       <header className="workspace-header">
         <p className="eyebrow">Studio Stage 8</p>
         <h1>Explore</h1>

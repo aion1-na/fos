@@ -20,7 +20,7 @@ export default function StagePage({ params }: StagePageProps) {
   const title = stageTitle(params.stage);
 
   return (
-    <main className="workspace">
+    <main className="workspace" id="studio-main">
       <header className="workspace-header">
         <p className="eyebrow">Studio Stage</p>
         <h1>{title}</h1>

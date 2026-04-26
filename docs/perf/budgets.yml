@@ -1,0 +1,5 @@
+budgets:
+  toy_sir_infection: 0.000500
+  toy_sir_recovery: 0.000500
+  flourishing_income: 0.000500
+  flourishing_social_ties: 0.000500

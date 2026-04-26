@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: "17 8 * * *"
 
 jobs:
   ci:
@@ -38,6 +40,12 @@ jobs:
 
       - name: Pack lint
         run: python3 tools/lint/pack-lint.py
+
+      - name: OpenAPI client generation is current
+        run: uv run python tools/codegen/openapi_to_ts.py && git diff --exit-code packages/contracts/dist/api
+
+      - name: Agent-step performance budget
+        run: uv run python tools/perf/agent_step_budget.py
 
       - name: Node lint
         run: pnpm -r lint

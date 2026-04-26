@@ -33,6 +33,24 @@ a {
   text-decoration: none;
 }
 
+.skip-link {
+  background: var(--ink);
+  border-radius: 6px;
+  color: var(--panel);
+  left: 16px;
+  padding: 10px 14px;
+  position: fixed;
+  top: 12px;
+  transform: translateY(-140%);
+  z-index: 20;
+}
+
+.skip-link:focus {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  transform: translateY(0);
+}
+
 .studio-shell {
   display: grid;
   grid-template-columns: 248px minmax(360px, 1fr) 320px;
@@ -77,6 +95,15 @@ a {
   grid-template-columns: 10px 1fr;
   min-height: 38px;
   padding: 8px 10px;
+}
+
+.rail-link:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .rail-link[data-active="true"] {

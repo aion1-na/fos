@@ -224,7 +224,7 @@ export default function ConfigurePage() {
   }
 
   return (
-    <main className="workspace run-workspace">
+    <main className="workspace run-workspace" id="studio-main">
       <header className="workspace-header">
         <p className="eyebrow">Studio Stage 5</p>
         <h1>Configure</h1>
