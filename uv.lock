@@ -162,6 +162,7 @@ dependencies = [
     { name = "fw-contracts" },
     { name = "numpy" },
     { name = "pyarrow" },
+    { name = "pyyaml" },
 ]
 
 [package.metadata]
@@ -170,6 +171,7 @@ requires-dist = [
     { name = "fw-contracts", editable = "packages/contracts" },
     { name = "numpy", specifier = ">=2.0.0" },
     { name = "pyarrow", specifier = ">=18.0.0" },
+    { name = "pyyaml", specifier = ">=6.0.0" },
 ]
 
 [[package]]

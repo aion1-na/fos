@@ -1,0 +1,14 @@
+spawn_spec:
+  population_id: young-adult
+  count: 5000
+  state_seed:
+    initial_infected: 25
+seed: 11
+pack_version: "0.1.0"
+reference_path: fixtures/gfs_us_18_24.parquet
+data_versions:
+  reference: fixture-v1
+thresholds:
+  age:
+    green: 0.01
+    amber: 0.05
