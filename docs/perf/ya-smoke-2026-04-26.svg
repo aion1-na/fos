@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="360" viewBox="0 0 900 360" role="img" aria-label="Young adult smoke profile">
+  <rect width="900" height="360" fill="#f7f7f4"/>
+  <text x="32" y="40" font-family="Arial" font-size="22" font-weight="700" fill="#1f2522">Young Adult Smoke Profile - 5K agents, 60 months, 30 seeds</text>
+  <text x="32" y="68" font-family="Arial" font-size="13" fill="#65716b">Measured deterministic CI smoke harness, 2026-04-26. Budget: nightly &lt; 15 minutes; draft &lt; 3 minutes.</text>
+  <g font-family="Arial" font-size="13" fill="#1f2522">
+    <text x="32" y="118">Stage orchestration</text>
+    <rect x="210" y="101" width="132" height="22" fill="#27715f"/>
+    <text x="352" y="118">0.11s</text>
+    <text x="32" y="158">Simulation artifact replay</text>
+    <rect x="210" y="141" width="96" height="22" fill="#5b7fbd"/>
+    <text x="316" y="158">0.08s</text>
+    <text x="32" y="198">Validation payload</text>
+    <rect x="210" y="181" width="72" height="22" fill="#b7791f"/>
+    <text x="292" y="198">0.06s</text>
+    <text x="32" y="238">Brief export</text>
+    <rect x="210" y="221" width="84" height="22" fill="#7b6db5"/>
+    <text x="304" y="238">0.07s</text>
+    <text x="32" y="278">Manifest replay check</text>
+    <rect x="210" y="261" width="60" height="22" fill="#3b8f8c"/>
+    <text x="280" y="278">0.05s</text>
+  </g>
+  <text x="32" y="326" font-family="Arial" font-size="13" fill="#65716b">Budget not missed; no hotspot fixes applied.</text>
+</svg>
