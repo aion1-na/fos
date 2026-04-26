@@ -4,47 +4,25 @@ import { useState } from "react";
 
 import { ReadOnlyRunSpec } from "@/components/run/ReadOnlyRunSpec";
 import { ReentryDialog } from "@/components/run/ReentryDialog";
+import { RunConsoleStream } from "@/components/run/RunConsoleStream";
 import { DEFAULT_INVALIDATIONS, STANDARD_RUN_SPEC } from "@/lib/run/types";
 
-function RunConsole() {
-  const [status, setStatus] = useState<"idle" | "queued" | "running" | "complete">("idle");
+function UpstreamEditGuard() {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
-    <section className="run-panel console-panel">
-      <header>
-        <p className="eyebrow">Run Console</p>
-        <h2>Execution queue</h2>
-      </header>
-      <ol className="console-log">
-        <li data-state="complete">Loaded saved run spec</li>
-        <li data-state={status === "idle" ? "pending" : "complete"}>Reserved runtime worker</li>
-        <li data-state={status === "complete" ? "complete" : "pending"}>Wrote run artifact manifest</li>
-      </ol>
-      <div className="console-actions">
-        <button className="secondary-button" type="button" onClick={() => setDialogOpen(true)}>
-          Upstream edit
-        </button>
-        <button
-          className="primary-button"
-          type="button"
-          onClick={() => {
-            setStatus("queued");
-            window.setTimeout(() => setStatus("running"), 150);
-            window.setTimeout(() => setStatus("complete"), 450);
-          }}
-        >
-          Start run
-        </button>
-      </div>
-      <p className="summary-line">Status: {status}</p>
+    <>
+      <button className="secondary-button" type="button" onClick={() => setDialogOpen(true)}>
+        Upstream edit
+      </button>
       <ReentryDialog
         artifacts={DEFAULT_INVALIDATIONS}
         open={dialogOpen}
         onCancel={() => setDialogOpen(false)}
         onConfirm={() => setDialogOpen(false)}
+        proposedEdit={{ field: "execute_upstream_edit", value: "requested" }}
       />
-    </section>
+    </>
   );
 }
 
@@ -56,9 +34,13 @@ export default function ExecutePage() {
         <h1>Execute</h1>
         <p className="summary-line">Run Console executes a saved spec. Parameters are read-only here.</p>
       </header>
+      <div className="run-footer execute-toolbar">
+        <span>Execution accepts saved specs only.</span>
+        <UpstreamEditGuard />
+      </div>
       <div className="run-grid execute-grid">
         <ReadOnlyRunSpec spec={STANDARD_RUN_SPEC} />
-        <RunConsole />
+        <RunConsoleStream simulationId={STANDARD_RUN_SPEC.id} />
       </div>
     </main>
   );

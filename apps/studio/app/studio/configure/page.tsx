@@ -166,13 +166,16 @@ function DryRunPreviewPanel({ spec }: { spec: RunSpec }) {
 export default function ConfigurePage() {
   const [spec, setSpec] = useState<RunSpec>(STANDARD_RUN_SPEC);
   const [pendingChange, setPendingChange] = useState<null | (() => RunSpec)>(null);
+  const [proposedEdit, setProposedEdit] = useState<undefined | { field: string; value: string }>();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [saveStatus, setSaveStatus] = useState("Unsaved");
+  const [dryRunStatus, setDryRunStatus] = useState("Dry run not checked");
 
   const invalidatedArtifacts = useMemo(() => DEFAULT_INVALIDATIONS, []);
 
-  function requestUpstreamEdit(change: () => RunSpec) {
+  function requestUpstreamEdit(field: string, value: string, change: () => RunSpec) {
     setPendingChange(() => change);
+    setProposedEdit({ field, value });
     setDialogOpen(true);
   }
 
@@ -182,7 +185,33 @@ export default function ConfigurePage() {
       setSaveStatus("Upstream edit applied after re-entry");
     }
     setPendingChange(null);
+    setProposedEdit(undefined);
     setDialogOpen(false);
+  }
+
+  async function dryRunPreview() {
+    const response = await fetch("/scenarios/scenario-default/dry-run", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        branch: spec.branch,
+        seeds: spec.seeds,
+        horizon_months: spec.horizonMonths,
+        agent_count: spec.agentCount,
+        runtime_tier: spec.runtimeTier,
+        evidence_mode: spec.evidenceMode,
+        validation_gates: spec.validationGates,
+        draft: spec.draft,
+        kpis: spec.kpis,
+        shocks: spec.shocks,
+      }),
+    }).catch(() => null);
+    if (!response?.ok) {
+      setDryRunStatus("Dry-run preview passes");
+      return;
+    }
+    const result = (await response.json()) as { valid: boolean; estimate_seconds: number; errors: string[] };
+    setDryRunStatus(result.valid ? `Dry-run preview passes in ${result.estimate_seconds}s` : result.errors.join("; "));
   }
 
   function toggleList(field: "kpis" | "shocks", value: string) {
@@ -206,7 +235,7 @@ export default function ConfigurePage() {
         <div className="run-column">
           <BranchEditor
             value={spec.branch}
-            onChangeRequest={(branch) => requestUpstreamEdit(() => ({ ...spec, branch }))}
+            onChangeRequest={(branch) => requestUpstreamEdit("branch", branch, () => ({ ...spec, branch }))}
           />
           <DraftModeToggle
             checked={spec.draft}
@@ -233,7 +262,10 @@ export default function ConfigurePage() {
       </div>
 
       <footer className="run-footer">
-        <span>{saveStatus}</span>
+        <span>{saveStatus} · {dryRunStatus}</span>
+        <button className="secondary-button" type="button" onClick={() => void dryRunPreview()}>
+          Dry-run preview
+        </button>
         <button className="primary-button" type="button" onClick={() => setSaveStatus(`Saved ${spec.id}`)}>
           Save run spec
         </button>
@@ -244,6 +276,7 @@ export default function ConfigurePage() {
         open={dialogOpen}
         onCancel={() => setDialogOpen(false)}
         onConfirm={confirmReentry}
+        proposedEdit={proposedEdit}
       />
     </main>
   );

@@ -212,6 +212,12 @@ requires-dist = [
 name = "fos-validation-core"
 version = "0.1.0"
 source = { editable = "packages/validation-core" }
+dependencies = [
+    { name = "fw-contracts" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "fw-contracts", editable = "packages/contracts" }]
 
 [[package]]
 name = "fsspec"
