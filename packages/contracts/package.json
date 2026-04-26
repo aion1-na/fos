@@ -12,6 +12,7 @@
     }
   },
   "scripts": {
+    "gen": "pnpm run codegen",
     "codegen": "cd ../.. && uv run python tools/codegen/contracts_to_ts.py",
     "build": "pnpm run codegen",
     "typecheck": "node -e \"process.exit(0)\"",
