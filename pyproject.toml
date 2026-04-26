@@ -38,3 +38,6 @@ fos-validation-core = { workspace = true }
 fos-render-core = { workspace = true }
 fos-pack-flourishing = { workspace = true }
 fos-pack-toy-sir = { workspace = true }
+
+[tool.pytest.ini_options]
+python_files = ["test_*.py", "*_test.py", "smoke_*.py"]
