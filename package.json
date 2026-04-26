@@ -4,8 +4,9 @@
   "version": "0.1.0",
   "packageManager": "pnpm@9.15.4",
   "scripts": {
-    "dev": "pnpm --filter @fos/studio dev",
+    "dev": "pnpm --filter @fw/studio dev",
     "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
     "lint": "pnpm -r lint",
     "fmt": "pnpm -r fmt",
     "test": "pnpm -r test"

@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-KERNEL_PATHS = [
+DEFAULT_KERNEL_PATHS = [
     ROOT / "packages" / "sim-kernel",
     ROOT / "packages" / "population-synth",
     ROOT / "packages" / "validation-core",
@@ -63,10 +63,18 @@ def imports_for(path: Path) -> list[tuple[int, str]]:
 
 def main() -> int:
     violations: list[str] = []
-    for package_path in KERNEL_PATHS:
+    scan_paths = (
+        [ROOT / arg for arg in sys.argv[1:]]
+        if len(sys.argv) > 1
+        else DEFAULT_KERNEL_PATHS
+    )
+    for package_path in scan_paths:
         if not package_path.exists():
-            continue
-        for path in package_path.rglob("*"):
+            print(f"import-lint: path does not exist: {package_path}", file=sys.stderr)
+            return 2
+
+        paths = [package_path] if package_path.is_file() else package_path.rglob("*")
+        for path in paths:
             if path.is_file() and path.suffix in SOURCE_SUFFIXES:
                 for lineno, specifier in imports_for(path):
                     if is_forbidden_specifier(specifier):
