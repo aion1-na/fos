@@ -1,0 +1,81 @@
+{
+  "$defs": {
+    "AgentState_BaseModel_": {
+      "additionalProperties": false,
+      "properties": {
+        "agent_id": {
+          "title": "Agent Id",
+          "type": "string"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        },
+        "state": {
+          "$ref": "#/$defs/BaseModel"
+        },
+        "step": {
+          "minimum": 0,
+          "title": "Step",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "agent_id",
+        "step",
+        "state"
+      ],
+      "title": "AgentState[BaseModel]",
+      "type": "object"
+    },
+    "BaseModel": {
+      "properties": {},
+      "title": "BaseModel",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "agents": {
+      "items": {
+        "$ref": "#/$defs/AgentState_BaseModel_"
+      },
+      "title": "Agents",
+      "type": "array"
+    },
+    "created_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Created At"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "population_id": {
+      "title": "Population Id",
+      "type": "string"
+    },
+    "step": {
+      "minimum": 0,
+      "title": "Step",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "population_id",
+    "step"
+  ],
+  "title": "PopulationSnapshot[BaseModel]",
+  "type": "object"
+}

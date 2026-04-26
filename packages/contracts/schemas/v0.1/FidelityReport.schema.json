@@ -1,0 +1,31 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "level": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "title": "Level",
+      "type": "string"
+    },
+    "metrics": {
+      "additionalProperties": true,
+      "title": "Metrics",
+      "type": "object"
+    },
+    "notes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Notes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "level"
+  ],
+  "title": "FidelityReport",
+  "type": "object"
+}

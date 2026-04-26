@@ -1,0 +1,30 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "at_step": {
+      "minimum": 0,
+      "title": "At Step",
+      "type": "integer"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "label": {
+      "title": "Label",
+      "type": "string"
+    },
+    "parameters": {
+      "additionalProperties": true,
+      "title": "Parameters",
+      "type": "object"
+    }
+  },
+  "required": [
+    "id",
+    "label",
+    "at_step"
+  ],
+  "title": "ShockSpec",
+  "type": "object"
+}

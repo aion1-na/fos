@@ -1,8 +1,16 @@
 [project]
-name = "fos-contracts"
+name = "fw-contracts"
 version = "0.1.0"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+  "pydantic>=2.9.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/python/fw_contracts", "src/python/fos_contracts"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/python"]
 
 [build-system]
 requires = ["hatchling"]

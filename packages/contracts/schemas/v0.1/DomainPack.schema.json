@@ -1,0 +1,174 @@
+{
+  "$defs": {
+    "OntologyRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "uri": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uri"
+        },
+        "version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Version"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "OntologyRef",
+      "type": "object"
+    },
+    "RenderHints": {
+      "additionalProperties": false,
+      "properties": {
+        "encodings": {
+          "additionalProperties": true,
+          "title": "Encodings",
+          "type": "object"
+        },
+        "preferred_views": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Preferred Views",
+          "type": "array"
+        }
+      },
+      "title": "RenderHints",
+      "type": "object"
+    },
+    "TransitionModel": {
+      "additionalProperties": false,
+      "properties": {
+        "entrypoint": {
+          "title": "Entrypoint",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "parameters_schema": {
+          "additionalProperties": true,
+          "title": "Parameters Schema",
+          "type": "object"
+        },
+        "version": {
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "entrypoint"
+      ],
+      "title": "TransitionModel",
+      "type": "object"
+    },
+    "ValidationSuite": {
+      "additionalProperties": false,
+      "properties": {
+        "checks": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Checks",
+          "type": "array"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": true,
+          "title": "Parameters",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "ValidationSuite",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "contracts_version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Contracts Version",
+      "type": "string"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "ontology": {
+      "items": {
+        "$ref": "#/$defs/OntologyRef"
+      },
+      "title": "Ontology",
+      "type": "array"
+    },
+    "render_hints": {
+      "$ref": "#/$defs/RenderHints"
+    },
+    "state_schema": {
+      "additionalProperties": true,
+      "title": "State Schema",
+      "type": "object"
+    },
+    "transition_models": {
+      "items": {
+        "$ref": "#/$defs/TransitionModel"
+      },
+      "title": "Transition Models",
+      "type": "array"
+    },
+    "validation_suites": {
+      "items": {
+        "$ref": "#/$defs/ValidationSuite"
+      },
+      "title": "Validation Suites",
+      "type": "array"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "version",
+    "state_schema"
+  ],
+  "title": "DomainPack",
+  "type": "object"
+}

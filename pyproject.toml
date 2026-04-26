@@ -5,7 +5,7 @@ description = "FOS monorepo"
 requires-python = ">=3.11"
 dependencies = [
   "fos-api",
-  "fos-contracts",
+  "fw-contracts",
   "fos-sim-kernel",
   "fos-population-synth",
   "fos-validation-core",
@@ -17,6 +17,7 @@ dependencies = [
 [dependency-groups]
 dev = [
   "pytest>=8.3.0",
+  "hypothesis>=6.120.0",
   "ruff>=0.8.0",
 ]
 
@@ -34,7 +35,7 @@ members = [
 
 [tool.uv.sources]
 fos-api = { workspace = true }
-fos-contracts = { workspace = true }
+fw-contracts = { workspace = true }
 fos-sim-kernel = { workspace = true }
 fos-population-synth = { workspace = true }
 fos-validation-core = { workspace = true }

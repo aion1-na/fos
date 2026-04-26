@@ -1,0 +1,30 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "count": {
+      "minimum": 0,
+      "title": "Count",
+      "type": "integer"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "title": "Metadata",
+      "type": "object"
+    },
+    "population_id": {
+      "title": "Population Id",
+      "type": "string"
+    },
+    "state_seed": {
+      "additionalProperties": true,
+      "title": "State Seed",
+      "type": "object"
+    }
+  },
+  "required": [
+    "population_id",
+    "count"
+  ],
+  "title": "SpawnSpec",
+  "type": "object"
+}
