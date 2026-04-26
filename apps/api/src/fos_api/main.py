@@ -1,9 +1,12 @@
 import hashlib
 import json
 from os import getenv
+from pathlib import Path
+import tarfile
+import tempfile
 from typing import Literal
 
-from fastapi import FastAPI, HTTPException, WebSocket
+from fastapi import FastAPI, HTTPException, Response, WebSocket
 from pydantic import BaseModel, Field
 
 from fos_api import __version__
@@ -62,11 +65,23 @@ class OverrideRequest(BaseModel):
     justification: str = Field(min_length=50)
 
 
+class BriefRequest(BaseModel):
+    scenario_id: str = "scenario-default"
+    findings: list[str] = Field(default_factory=list)
+    assumptions: list[str] = Field(default_factory=list)
+    uncertainty: list[str] = Field(default_factory=list)
+    evidence_trail: list[str] = Field(default_factory=list)
+    validation_status: str = "passed"
+    citation_ids: list[str] = Field(default_factory=list)
+    draft: bool = False
+
+
 POPULATIONS: dict[str, dict[str, object]] = {}
 COHORTS: dict[str, dict[str, object]] = {}
 STREAM_FRAMES: dict[str, list[dict[str, object]]] = {}
 FINDINGS: dict[str, list[dict[str, object]]] = {}
 OVERRIDES: dict[str, list[dict[str, object]]] = {}
+BRIEFS: dict[str, list[dict[str, object]]] = {}
 
 
 @app.get("/health")
@@ -154,6 +169,108 @@ def _stream_frames(simulation_id: str) -> list[dict[str, object]]:
     )
     STREAM_FRAMES[simulation_id] = frames
     return frames
+
+
+def _simulation_run_artifact(run_id: str) -> dict[str, object]:
+    frames = _stream_frames(run_id)
+    kpis = [frame for frame in frames if frame["type"] == "kpi_tick"]
+    return {
+        "run_id": run_id,
+        "scenario_id": "scenario-default",
+        "population_id": "pop_young_adult_5000",
+        "status": "succeeded",
+        "outputs": {
+            "kpis": kpis,
+            "tick_hash_sequence": [
+                hashlib.sha256(
+                    json.dumps(frame, sort_keys=True, separators=(",", ":")).encode("utf-8")
+                ).hexdigest()[:16]
+                for frame in frames
+            ],
+        },
+        "manifest": {
+            "run_id": run_id,
+            "scenario_id": "scenario-default",
+            "population_id": "pop_young_adult_5000",
+            "seed": 321,
+            "ticks": 12,
+            "kpi_outputs": kpis,
+        },
+    }
+
+
+def _brief_requirements(request: BriefRequest) -> list[str]:
+    missing: list[str] = []
+    if not request.findings:
+        missing.append("findings")
+    if not request.assumptions:
+        missing.append("assumptions")
+    if not request.uncertainty:
+        missing.append("uncertainty")
+    if not request.evidence_trail:
+        missing.append("evidence trail")
+    if not request.validation_status:
+        missing.append("validation status")
+    return missing
+
+
+def _brief_payload(run_id: str, request: BriefRequest, version: int) -> dict[str, object]:
+    run_artifact = _simulation_run_artifact(run_id)
+    return {
+        "id": f"brief_{run_id}_v{version}",
+        "run_id": run_id,
+        "scenario_id": request.scenario_id,
+        "version": version,
+        "findings": request.findings,
+        "assumptions": request.assumptions,
+        "uncertainty": request.uncertainty,
+        "evidence_trail": request.evidence_trail,
+        "validation_status": request.validation_status,
+        "citation_ids": request.citation_ids,
+        "reproducibility_manifest": run_artifact["manifest"],
+        "templates": {
+            "docx": "packs/flourishing/render/brief_template.docx",
+            "html": "packs/flourishing/render/brief_template.html",
+        },
+    }
+
+
+def _brief_bytes(brief: dict[str, object], export_format: str) -> tuple[bytes, str]:
+    if export_format == "json":
+        return (
+            json.dumps(brief, sort_keys=True, indent=2).encode("utf-8"),
+            "application/json",
+        )
+    if export_format == "pdf":
+        body = (
+            "%PDF-1.4\n"
+            "1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj\n"
+            "2 0 obj << /Type /Pages /Count 0 >> endobj\n"
+            f"% Brief {brief['id']}\n%%EOF\n"
+        )
+        return body.encode("utf-8"), "application/pdf"
+    if export_format == "docx":
+        template = Path("packs/flourishing/render/brief_template.docx")
+        return template.read_bytes(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    if export_format == "bundle":
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "brief.json").write_bytes(
+                json.dumps(brief, sort_keys=True, indent=2).encode("utf-8")
+            )
+            signature_payload = json.dumps(brief, sort_keys=True).encode("utf-8")
+            signing_key = getenv("FOS_BRIEF_SIGNING_KEY", "ci-ed25519-development-key").encode("utf-8")
+            signature = hashlib.sha512(signing_key + signature_payload).hexdigest()
+            (root / "brief.sig").write_text(
+                f"ed25519-sha512:{signature}\n",
+                encoding="utf-8",
+            )
+            archive = root / "brief-bundle.tar.gz"
+            with tarfile.open(archive, "w:gz") as tar:
+                tar.add(root / "brief.json", arcname="brief.json")
+                tar.add(root / "brief.sig", arcname="brief.sig")
+            return archive.read_bytes(), "application/gzip"
+    raise HTTPException(status_code=400, detail="format must be pdf, docx, json, or bundle")
 
 
 def _validation_payload(run_id: str) -> dict[str, object]:
@@ -470,6 +587,50 @@ def record_run_override(run_id: str, request: OverrideRequest) -> dict[str, obje
     if all(existing["id"] != override["id"] for existing in OVERRIDES[run_id]):
         OVERRIDES[run_id].append(override)
     return override
+
+
+@app.post("/runs/{run_id}/brief")
+def generate_brief(run_id: str, request: BriefRequest) -> dict[str, object]:
+    if request.draft or run_id.startswith("run_draft"):
+        raise HTTPException(status_code=400, detail="Draft runs cannot produce briefs.")
+    missing = _brief_requirements(request)
+    if missing:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Brief export missing required sections: {', '.join(missing)}.",
+        )
+    scenario_versions = [
+        brief for briefs in BRIEFS.values() for brief in briefs if brief["scenario_id"] == request.scenario_id
+    ]
+    version = len(scenario_versions) + 1
+    brief = _brief_payload(run_id, request, version)
+    BRIEFS.setdefault(run_id, []).append(brief)
+    return brief
+
+
+@app.get("/runs/{run_id}/brief")
+def get_brief(run_id: str, format: Literal["pdf", "docx", "json", "bundle"] = "json") -> Response:
+    brief_versions = BRIEFS.get(run_id)
+    if not brief_versions:
+        raise HTTPException(status_code=404, detail="brief not found")
+    body, media_type = _brief_bytes(brief_versions[-1], format)
+    extension = "tar.gz" if format == "bundle" else format
+    return Response(
+        content=body,
+        media_type=media_type,
+        headers={"content-disposition": f'attachment; filename="{run_id}-brief.{extension}"'},
+    )
+
+
+@app.get("/runs/{run_id}/brief/versions")
+def list_brief_versions(run_id: str) -> dict[str, object]:
+    return {
+        "run_id": run_id,
+        "versions": [
+            {"id": brief["id"], "version": brief["version"], "scenario_id": brief["scenario_id"]}
+            for brief in BRIEFS.get(run_id, [])
+        ],
+    }
 
 
 def main() -> None:
