@@ -25,14 +25,58 @@ OLD_FIXTURE_REFERENCE = DatasetReference(
     version="fixture-0.0",
     content_hash="b" * 64,
 )
-for reference in [OLD_FIXTURE_REFERENCE, FIXTURE_REFERENCE]:
+TIER1_V1_REFERENCES = [
+    DatasetReference(
+        canonical_dataset_name="acs-ipums",
+        version="1.0.0",
+        content_hash="4b064f72dee92ed13a4dbb7945d29e04184199c6e8da67013a6a0c0cb3de9eb9",
+    ),
+    DatasetReference(
+        canonical_dataset_name="onet",
+        version="1.0.0",
+        content_hash="9e62214c0f58829191797b942a49e691f1065996a1e445ce4c62f8ea9e84a405",
+    ),
+    DatasetReference(
+        canonical_dataset_name="bls-oews",
+        version="1.0.0",
+        content_hash="0d5bd5e75a3367a632677ef51aa22949353c4d1db723716165e5137692e21d95",
+    ),
+    DatasetReference(
+        canonical_dataset_name="gfs-wave1",
+        version="1.0.0",
+        content_hash="8630b7664865a8ea63fa4ebb7bed3224aeb97f7db3cddefd112003ce6bef2545",
+    ),
+    DatasetReference(
+        canonical_dataset_name="community-pathways",
+        version="1.0.0",
+        content_hash="fb28f7b26a0e4047627607aecb9249c45d2a678b34bdda3a34d886810613483a",
+    ),
+]
+CARD_PATHS = {
+    "acs-ipums": "docs/data/datasets/acs-ipums.md",
+    "onet": "docs/data/datasets/onet.md",
+    "bls-oews": "docs/data/datasets/bls-oews.md",
+    "gfs-wave1": "docs/data/datasets/gfs-wave1.md",
+    "community-pathways": "docs/data/datasets/community-pathways.md",
+    "features.community_context": "docs/data/datasets/community-pathways.md",
+}
+
+for reference in [OLD_FIXTURE_REFERENCE, FIXTURE_REFERENCE, *TIER1_V1_REFERENCES]:
     catalog.register_dataset_record(
         DatasetRecord(
             reference=reference,
-            card_path="docs/data/datasets/community-pathways.md",
-            manifest_path=f"manifests/{reference.version}/community-context.json",
+            card_path=CARD_PATHS[reference.canonical_dataset_name],
+            manifest_path=(
+                "docs/data/releases/tier1-v1.0.0-provenance.json"
+                if reference.version == "1.0.0"
+                else f"manifests/{reference.version}/community-context.json"
+            ),
             upstream_references=(),
-            consumed_by_runs=("simulation-run-fdw-smoke",),
+            consumed_by_runs=(
+                ("mvp-tier1-smoke",)
+                if reference.version == "1.0.0"
+                else ("simulation-run-fdw-smoke",)
+            ),
             claim_ids=("claim_mentoring_meaning_v0",),
         )
     )

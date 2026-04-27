@@ -1,0 +1,63 @@
+{
+  "release": "tier1-v1.0.0",
+  "version": "1.0.0",
+  "status": "mvp-fixture-and-request-status-release",
+  "provenance_manifest": "docs/data/releases/tier1-v1.0.0-provenance.json",
+  "datasets": [
+    {
+      "canonical_dataset_name": "acs-ipums",
+      "version": "1.0.0",
+      "content_hash": "4b064f72dee92ed13a4dbb7945d29e04184199c6e8da67013a6a0c0cb3de9eb9",
+      "connector_name": "acs_ipums_fixture",
+      "connector_version": "0.1.0",
+      "codebook_version": "acs-v0.1",
+      "license_class": "fixture-public-metadata",
+      "card_url": "docs/data/datasets/acs-ipums.md",
+      "artifact_uri": "packages/data-pipelines/fixtures/acs/person_fixture.csv"
+    },
+    {
+      "canonical_dataset_name": "onet",
+      "version": "1.0.0",
+      "content_hash": "9e62214c0f58829191797b942a49e691f1065996a1e445ce4c62f8ea9e84a405",
+      "connector_name": "onet_fixture",
+      "connector_version": "0.1.0",
+      "codebook_version": "onet-v0.1",
+      "license_class": "fixture-public-metadata",
+      "card_url": "docs/data/datasets/onet.md",
+      "artifact_uri": "packages/data-pipelines/fixtures/onet/occupation_fixture.json"
+    },
+    {
+      "canonical_dataset_name": "bls-oews",
+      "version": "1.0.0",
+      "content_hash": "0d5bd5e75a3367a632677ef51aa22949353c4d1db723716165e5137692e21d95",
+      "connector_name": "bls_oews_fixture",
+      "connector_version": "0.1.0",
+      "codebook_version": "bls-oews-v0.1",
+      "license_class": "fixture-public-metadata",
+      "card_url": "docs/data/datasets/bls-oews.md",
+      "artifact_uri": "packages/data-pipelines/fixtures/bls/oews_fixture.json"
+    },
+    {
+      "canonical_dataset_name": "gfs-wave1",
+      "version": "1.0.0",
+      "content_hash": "8630b7664865a8ea63fa4ebb7bed3224aeb97f7db3cddefd112003ce6bef2545",
+      "connector_name": "gfs_wave1_fixture",
+      "connector_version": "0.1.0",
+      "codebook_version": "gfs-wave1-v0.1",
+      "license_class": "fixture-request-status",
+      "card_url": "docs/data/datasets/gfs-wave1.md",
+      "artifact_uri": "packages/data-pipelines/fixtures/gfs/wave1_fixture.csv"
+    },
+    {
+      "canonical_dataset_name": "community-pathways",
+      "version": "1.0.0",
+      "content_hash": "fb28f7b26a0e4047627607aecb9249c45d2a678b34bdda3a34d886810613483a",
+      "connector_name": "community_context_fixture",
+      "connector_version": "0.1.0",
+      "codebook_version": "community-pathways-v0.1",
+      "license_class": "fixture-public-metadata",
+      "card_url": "docs/data/datasets/community-pathways.md",
+      "artifact_uri": "packages/data-pipelines/fixtures/community_context/community_pathways_fixture.csv"
+    }
+  ]
+}
