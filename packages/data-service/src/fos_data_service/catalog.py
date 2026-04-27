@@ -6,6 +6,7 @@ from typing import Literal
 from fw_contracts import DatasetReference
 from fos_data_pipelines.models import RawArtifact
 from fos_data_pipelines.quality.cards import REQUIRED_CARD_FIELDS
+from fos_data_service.secure_analysis import RestrictedAggregateRecord
 
 
 @dataclass(frozen=True, slots=True)
@@ -107,6 +108,7 @@ class Catalog:
         self.dataset_records: dict[tuple[str, str, str], DatasetRecord] = {}
         self.atlas_access_policies: dict[str, AtlasAccessPolicy] = {}
         self.tier2_access_requests: dict[str, Tier2AccessRequest] = {}
+        self.restricted_aggregates: dict[tuple[str, str, str], RestrictedAggregateRecord] = {}
 
     def register_connector_version(self, connector_name: str, connector_version: str) -> None:
         self.connector_versions.add((connector_name, connector_version))
@@ -205,4 +207,15 @@ class Catalog:
             raise MissingDatasetError(
                 f"dataset_reference {reference.as_tuple()} is not registered"
             )
+        return record
+
+    def register_restricted_aggregate(
+        self,
+        record: RestrictedAggregateRecord,
+    ) -> RestrictedAggregateRecord:
+        if record.stored_raw_restricted_data:
+            raise AccessDeniedError("Tier 3 raw restricted data cannot be registered in FDW")
+        if not record.disclosure_review.approved_for_fdw:
+            raise AccessDeniedError("aggregate output lacks approved disclosure review")
+        self.restricted_aggregates[record.dataset_reference.as_tuple()] = record
         return record

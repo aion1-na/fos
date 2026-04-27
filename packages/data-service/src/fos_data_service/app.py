@@ -14,6 +14,11 @@ from fos_data_service.catalog import (
     Tier2AccessRequest,
     UserRole,
 )
+from fos_data_service.secure_analysis import (
+    AggregateResultSubmission,
+    SecureAnalysisManifest,
+    ingest_restricted_aggregate,
+)
 
 app = FastAPI(title="FOS Data Service")
 catalog = Catalog()
@@ -211,6 +216,18 @@ def _reference_from_parts(
         raise DatasetReferenceSchemaError(str(exc)) from exc
 
 
+RDC_TRACKER = [
+    {
+        "project_id": "census-rdc-lehd-displacement-calibration",
+        "owner": "Secure data lead",
+        "leadership_visible": True,
+        "status": "request_status_stub",
+        "next_action": "Submit Census RDC proposal package after scientific curator review.",
+        "timeline": "2026 Q3 proposal, 2026 Q4 disclosure-reviewed aggregates if approved",
+    }
+]
+
+
 @app.get("/datasets")
 def list_datasets() -> dict[str, list[dict[str, str]]]:
     return {
@@ -226,6 +243,38 @@ def list_datasets() -> dict[str, list[dict[str, str]]]:
                 "version": "access-not-approved",
             },
         ]
+    }
+
+
+@app.get("/secure-analysis/rdc-projects")
+def rdc_project_tracker() -> dict[str, list[dict[str, object]]]:
+    return {"projects": RDC_TRACKER}
+
+
+@app.post("/secure-analysis/manifest/validate")
+def validate_secure_analysis_manifest(manifest: SecureAnalysisManifest) -> dict[str, object]:
+    return {
+        "project_id": manifest.project_id,
+        "environment": manifest.environment,
+        "raw_restricted_data_in_fdw_allowed": manifest.raw_restricted_data_in_fdw_allowed,
+        "intended_outputs": list(manifest.intended_outputs),
+        "code_ref": manifest.code_ref,
+        "environment_ref": manifest.environment_ref,
+    }
+
+
+@app.post("/secure-analysis/aggregates")
+def restricted_aggregate_ingest(submission: AggregateResultSubmission) -> dict[str, object]:
+    record = ingest_restricted_aggregate(submission)
+    catalog.register_restricted_aggregate(record)
+    return {
+        "dataset_reference": record.dataset_reference.model_dump(mode="json"),
+        "source_project_id": record.source_project_id,
+        "restricted_dataset_name": record.restricted_dataset_name,
+        "output_name": record.output_name,
+        "manifest_hash": record.manifest_hash,
+        "stored_raw_restricted_data": record.stored_raw_restricted_data,
+        "disclosure_review": record.disclosure_review.model_dump(mode="json"),
     }
 
 
