@@ -23,6 +23,29 @@ test("atlas dataset directory source exposes required metadata", () => {
   assert.match(source, /bls_oews/);
 });
 
+test("atlas public view excludes gated records and shows transparency fields", () => {
+  const page = readFileSync(new URL("../app/public/page.tsx", import.meta.url), "utf-8");
+  const source = readFileSync(new URL("../lib/access/public.ts", import.meta.url), "utf-8");
+  assert.match(page, /Public transparency subset/);
+  assert.match(page, /Tier/);
+  assert.match(page, /Limitations/);
+  assert.match(page, /Provenance/);
+  assert.match(source, /publicAtlasDatasets/);
+  assert.match(source, /restricted_data_access/);
+  assert.match(source, /license_constrained/);
+});
+
+test("atlas search emits citations across cards codebooks and claims", () => {
+  const page = readFileSync(new URL("../app/search/page.tsx", import.meta.url), "utf-8");
+  const source = readFileSync(new URL("../lib/search/citations.ts", import.meta.url), "utf-8");
+  assert.match(page, /Search and citations/);
+  assert.match(page, /Sign-off/);
+  assert.match(source, /dataset_card/);
+  assert.match(source, /codebook/);
+  assert.match(source, /evidence_claim/);
+  assert.match(source, /searchCitations/);
+});
+
 test("atlas completeness dashboard labels tier and status", () => {
   const page = readFileSync(new URL("../app/completeness/page.tsx", import.meta.url), "utf-8");
   const source = readFileSync(new URL("../lib/completeness/tier1.ts", import.meta.url), "utf-8");

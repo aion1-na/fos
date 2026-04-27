@@ -5,6 +5,7 @@ from pydantic import ValidationError
 
 from fw_contracts import DatasetReference
 from fos_data_service.catalog import (
+    AtlasAccessPolicy,
     Catalog,
     DataServiceError,
     DatasetRecord,
@@ -35,6 +36,36 @@ for reference in [OLD_FIXTURE_REFERENCE, FIXTURE_REFERENCE]:
             claim_ids=("claim_mentoring_meaning_v0",),
         )
     )
+
+for policy in [
+    AtlasAccessPolicy(
+        canonical_dataset_name="community-pathways",
+        scope="public",
+        tier="Tier 1",
+        status="fixture",
+        limitations="Fixture-only public aggregate context; no individual inference.",
+        provenance_link="docs/data/datasets/community-pathways.md",
+    ),
+    AtlasAccessPolicy(
+        canonical_dataset_name="hrs",
+        scope="private",
+        tier="Tier 1",
+        status="request_status_stub",
+        limitations="DUA-gated; no public data rows in repository.",
+        provenance_link="docs/data/datasets/hrs.md",
+        gated_reason="restricted_data_access",
+    ),
+    AtlasAccessPolicy(
+        canonical_dataset_name="commercial-labor-data",
+        scope="private",
+        tier="Tier 1",
+        status="request_status_stub",
+        limitations="License-constrained vendor data; request-status only.",
+        provenance_link="docs/data/datasets/commercial-labor-data.md",
+        gated_reason="license_constrained",
+    ),
+]:
+    catalog.register_atlas_access_policy(policy)
 
 
 @app.get("/health")
@@ -81,6 +112,28 @@ def list_datasets() -> dict[str, list[dict[str, str]]]:
             },
         ]
     }
+
+
+def _policy_payload(policy: AtlasAccessPolicy) -> dict[str, object]:
+    return {
+        "canonical_dataset_name": policy.canonical_dataset_name,
+        "scope": policy.scope,
+        "tier": policy.tier,
+        "status": policy.status,
+        "limitations": policy.limitations,
+        "provenance_link": policy.provenance_link,
+        "gated_reason": policy.gated_reason,
+    }
+
+
+@app.get("/atlas/public")
+def public_atlas_subset() -> dict[str, list[dict[str, object]]]:
+    return {"datasets": [_policy_payload(policy) for policy in catalog.public_atlas_policies()]}
+
+
+@app.get("/atlas/private")
+def private_atlas_inventory() -> dict[str, list[dict[str, object]]]:
+    return {"datasets": [_policy_payload(policy) for policy in catalog.private_atlas_policies()]}
 
 
 @app.get("/datasets/{canonical_dataset_name}/policy")

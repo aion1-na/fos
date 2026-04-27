@@ -1,0 +1,26 @@
+{
+  "constructs": [
+    {
+      "id": "social_capital",
+      "status": "pending_advisor_review",
+      "reviewer": "unassigned",
+      "notes": "Fixture-only construct mapping; no decision-grade use."
+    }
+  ],
+  "codebooks": [
+    {
+      "id": "constructs.yaml:v0.1",
+      "status": "pending_advisor_review",
+      "reviewer": "unassigned",
+      "notes": "Awaiting scientific review before production use."
+    }
+  ],
+  "evidence_claims": [
+    {
+      "id": "claim_mentoring_meaning_v0",
+      "status": "draft",
+      "reviewer": "unassigned",
+      "notes": "Request-status citation path only."
+    }
+  ]
+}

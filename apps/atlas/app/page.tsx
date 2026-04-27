@@ -13,6 +13,12 @@ export default function HomePage() {
       <Link className="primary-link" href="/datasets">
         View datasets
       </Link>
+      <Link className="primary-link" href="/public">
+        View public Atlas
+      </Link>
+      <Link className="primary-link" href="/search">
+        Search citations
+      </Link>
       <Link className="primary-link" href="/completeness">
         View Tier 1 completeness
       </Link>
