@@ -1,0 +1,11 @@
+{
+  "version": "cross-country-panels-v0.1",
+  "constructs": {
+    "employment": {"comparability": "approximate", "notes": "Employment definitions vary by labor-force status and survey reference week."},
+    "education": {"comparability": "approximate", "notes": "Map source education to broad ISCED-style levels only."},
+    "income": {"comparability": "approximate", "notes": "Currency, household equivalization, tax basis, and price year differ by panel."},
+    "family": {"comparability": "approximate", "notes": "Household roster and partnership definitions vary."},
+    "health": {"comparability": "comparable_with_caution", "notes": "Self-rated health is broadly comparable after scale harmonization."},
+    "wellbeing": {"comparability": "approximate", "notes": "Life satisfaction, depression, and flourishing proxies are not interchangeable."}
+  }
+}

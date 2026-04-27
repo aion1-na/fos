@@ -1,0 +1,7 @@
+[
+  {"country": "USA", "regime": "liberal", "safety_net_indicator": "public_transfer_generosity", "status": "fixture_metadata"},
+  {"country": "GBR", "regime": "liberal", "safety_net_indicator": "public_transfer_generosity", "status": "fixture_metadata"},
+  {"country": "DEU", "regime": "conservative_corporatist", "safety_net_indicator": "social_insurance_generosity", "status": "fixture_metadata"},
+  {"country": "AUS", "regime": "liberal_targeted", "safety_net_indicator": "means_tested_support", "status": "fixture_metadata"},
+  {"country": "EUR", "regime": "multi_regime_age50", "safety_net_indicator": "pension_healthcare_context", "status": "fixture_metadata"}
+]

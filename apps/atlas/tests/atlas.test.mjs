@@ -162,3 +162,15 @@ test("atlas international context exposes source and iso3 country identifiers", 
   assert.match(source, /employment_rate/);
   assert.match(source, /atlas.cross_country_policy_dashboard/);
 });
+
+test("atlas cross-country panels compare required countries", () => {
+  const page = readFileSync(new URL("../app/international-panels/page.tsx", import.meta.url), "utf-8");
+  const source = readFileSync(new URL("../lib/international/panels.ts", import.meta.url), "utf-8");
+  assert.match(page, /Cross-country longitudinal comparison/);
+  for (const country of ["USA", "GBR", "DEU", "AUS", "EUR"]) {
+    assert.match(source, new RegExp(country));
+  }
+  assert.match(source, /weightColumn/);
+  assert.match(source, /samplingDesign/);
+  assert.match(source, /not_approved/);
+});

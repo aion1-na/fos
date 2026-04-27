@@ -42,6 +42,10 @@ from fos_data_pipelines.international.context import (
     build_cross_country_dashboard_view,
     build_policy_regime_context,
 )
+from fos_data_pipelines.international_panels.features import (
+    build_cross_country_employment_wellbeing_panels,
+    build_safety_net_regime_comparators,
+)
 from fos_data_pipelines.quality.gates import (
     run_quality_gate,
     validate_tier1_release_candidate,
@@ -76,6 +80,8 @@ __all__ = [
     "build_health_validation_context",
     "build_policy_regime_context",
     "build_cross_country_dashboard_view",
+    "build_cross_country_employment_wellbeing_panels",
+    "build_safety_net_regime_comparators",
     "build_us_employment_wellbeing_panels",
     "run_quality_gate",
     "validate_tier1_release_candidate",

@@ -1,0 +1,52 @@
+[
+  {
+    "canonical_dataset_name": "psid_us",
+    "panel_family": "US household panel",
+    "country": "USA",
+    "coverage": "US",
+    "access_status": "request_status_stub",
+    "license_status": "not_approved",
+    "wave_metadata": {"waves": ["request_status_stub"], "weight_column": "family_weight", "sampling_design": "US longitudinal household sample"},
+    "rows": []
+  },
+  {
+    "canonical_dataset_name": "understanding_society_uk",
+    "panel_family": "UK household panel",
+    "country": "GBR",
+    "coverage": "UK",
+    "access_status": "request_status_stub",
+    "license_status": "not_approved",
+    "wave_metadata": {"waves": ["request_status_stub"], "weight_column": "indinui_xw", "sampling_design": "UK longitudinal household sample"},
+    "rows": []
+  },
+  {
+    "canonical_dataset_name": "soep_germany",
+    "panel_family": "German household panel",
+    "country": "DEU",
+    "coverage": "Germany",
+    "access_status": "request_status_stub",
+    "license_status": "not_approved",
+    "wave_metadata": {"waves": ["request_status_stub"], "weight_column": "phrf", "sampling_design": "German longitudinal household sample"},
+    "rows": []
+  },
+  {
+    "canonical_dataset_name": "hilda_australia",
+    "panel_family": "Australian household panel",
+    "country": "AUS",
+    "coverage": "Australia",
+    "access_status": "request_status_stub",
+    "license_status": "not_approved",
+    "wave_metadata": {"waves": ["request_status_stub"], "weight_column": "hhwte", "sampling_design": "Australian longitudinal household sample"},
+    "rows": []
+  },
+  {
+    "canonical_dataset_name": "share_eu_age50",
+    "panel_family": "EU age-50+ panel",
+    "country": "EUR",
+    "coverage": "EU age-50+",
+    "access_status": "request_status_stub",
+    "license_status": "not_approved",
+    "wave_metadata": {"waves": ["request_status_stub"], "weight_column": "dw_w", "sampling_design": "multi-country age-50+ panel"},
+    "rows": []
+  }
+]
