@@ -18,6 +18,15 @@ importers:
         specifier: 3.3.3
         version: 3.3.3
 
+  apps/atlas:
+    devDependencies:
+      prettier:
+        specifier: 3.3.3
+        version: 3.3.3
+      typescript:
+        specifier: 5.5.4
+        version: 5.5.4
+
   apps/studio:
     dependencies:
       '@fos/render-core':
@@ -59,6 +68,18 @@ importers:
         version: 5.5.4
 
   packages/contracts:
+    devDependencies:
+      prettier:
+        specifier: 3.3.3
+        version: 3.3.3
+
+  packages/data-pipelines:
+    devDependencies:
+      prettier:
+        specifier: 3.3.3
+        version: 3.3.3
+
+  packages/data-service:
     devDependencies:
       prettier:
         specifier: 3.3.3

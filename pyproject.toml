@@ -5,6 +5,8 @@ description = "FOS monorepo"
 requires-python = ">=3.11"
 dependencies = [
   "fos-api",
+  "fos-data-pipelines",
+  "fos-data-service",
   "fw-contracts",
   "fos-sim-kernel",
   "fos-population-synth",
@@ -20,6 +22,8 @@ dependencies = [
 [tool.uv.workspace]
 members = [
   "apps/api",
+  "packages/data-pipelines",
+  "packages/data-service",
   "packages/contracts",
   "packages/sim-kernel",
   "packages/population-synth",
@@ -31,6 +35,8 @@ members = [
 
 [tool.uv.sources]
 fos-api = { workspace = true }
+fos-data-pipelines = { workspace = true }
+fos-data-service = { workspace = true }
 fw-contracts = { workspace = true }
 fos-sim-kernel = { workspace = true }
 fos-population-synth = { workspace = true }

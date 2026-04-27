@@ -1,0 +1,92 @@
+from __future__ import annotations
+
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+DATASETS = [
+    "hrs",
+    "soep",
+    "understanding-society",
+    "gfs",
+    "anthropic-economic-index",
+    "census-rdc",
+    "commercial-labor-data",
+]
+WORKSTREAM_READMES = [
+    "packages/data-pipelines/README.md",
+    "packages/data-service/README.md",
+    "packages/contracts/README.md",
+    "apps/atlas/README.md",
+    "infra/README.md",
+]
+
+
+def _read(relative: str) -> str:
+    return (ROOT / relative).read_text(encoding="utf-8")
+
+
+def test_codex_data_instructions_set_safe_defaults() -> None:
+    instructions = _read(".codex/instructions.md")
+    for phrase in [
+        "Do not fabricate data",
+        "Do not perform unversioned reads",
+        "Do not make undocumented transformations",
+        "Do not introduce silent schema changes",
+        "Do not commit real credentials",
+        "dataset_reference = (canonical_dataset_name, version, content_hash)",
+    ]:
+        assert phrase in instructions
+
+
+def test_partnership_trackers_and_dataset_cards_exist_as_request_status_stubs() -> None:
+    for slug in DATASETS:
+        tracker = _read(f"docs/data/partnerships/{slug}.md")
+        dataset_card = _read(f"docs/data/datasets/{slug}.md")
+        assert "Access status: request-status stub" in tracker
+        assert "DUA status: not approved" in tracker
+        assert "Access status: request-status stub" in dataset_card
+        for required in [
+            "License metadata:",
+            "Codebook mapping:",
+            "Quality profile:",
+            "Provenance manifest:",
+            "Access policy:",
+        ]:
+            assert required in dataset_card
+
+
+def test_workstream_readmes_have_owner_test_command_and_definition_of_done() -> None:
+    for relative in WORKSTREAM_READMES:
+        content = _read(relative)
+        assert "Owner:" in content, relative
+        assert "Test command:" in content, relative
+        assert "Definition of done:" in content, relative
+
+
+def test_backlog_maps_each_drd_section_to_a_sprint() -> None:
+    backlog = _read("docs/data/backlog.md")
+    for index in range(1, 11):
+        assert f"DRD-{index:02d}" in backlog
+    assert "| DRD Section | Sprint | Outcome |" in backlog
+
+
+def test_no_connector_or_dashboard_credentials_are_committed() -> None:
+    scanned_roots = [
+        ROOT / "apps" / "atlas",
+        ROOT / "packages" / "data-service",
+        ROOT / "packages" / "data-pipelines",
+        ROOT / "infra",
+    ]
+    forbidden = re.compile(
+        r"(aws_access_key_id|aws_secret_access_key|api[_-]?key\s*[:=]\s*['\"][^'\"]+|"
+        r"password\s*[:=]\s*['\"][^'\"]+|token\s*[:=]\s*['\"][^'\"]+|"
+        r"sk-[A-Za-z0-9]{16,}|github_pat_[A-Za-z0-9_]+)",
+        re.IGNORECASE,
+    )
+    for root in scanned_roots:
+        for path in root.rglob("*"):
+            if path.is_dir() or path.suffix in {".pyc", ".gz"}:
+                continue
+            content = path.read_text(encoding="utf-8")
+            assert not forbidden.search(content), path
