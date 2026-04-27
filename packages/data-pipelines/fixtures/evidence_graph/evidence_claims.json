@@ -1,0 +1,41 @@
+[
+  {
+    "claim_id": "claim_paid_leave_relationships_v0",
+    "source_id": "src_paid_leave_meta_stub",
+    "estimate": 0.12,
+    "uncertainty": 0.04,
+    "population": "working caregivers",
+    "treatment": "paid leave",
+    "outcome": "relationships",
+    "confidence_label": "draft",
+    "risk_of_bias": "medium",
+    "review_status": "draft",
+    "provenance_link": "request-status:paid-leave-literature"
+  },
+  {
+    "claim_id": "claim_job_training_financial_v0",
+    "source_id": "src_job_training_rct_stub",
+    "estimate": 0.18,
+    "uncertainty": 0.07,
+    "population": "low-buffer workers",
+    "treatment": "job training",
+    "outcome": "financial",
+    "confidence_label": "advisor_reviewed",
+    "risk_of_bias": "low",
+    "review_status": "advisor_reviewed",
+    "provenance_link": "request-status:job-training-literature"
+  },
+  {
+    "claim_id": "claim_mentoring_meaning_v0",
+    "source_id": "src_mentoring_eval_stub",
+    "estimate": 0.09,
+    "uncertainty": 0.05,
+    "population": "isolated young adults",
+    "treatment": "mentoring",
+    "outcome": "meaning",
+    "confidence_label": "draft",
+    "risk_of_bias": "high",
+    "review_status": "draft",
+    "provenance_link": "request-status:mentoring-literature"
+  }
+]

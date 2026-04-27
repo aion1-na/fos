@@ -57,3 +57,15 @@ test("atlas backtest viewer exposes gate and slices", () => {
   assert.match(source, /fail-closed/);
   assert.match(source, /robotExposure/);
 });
+
+test("atlas evidence viewer traces claim to provenance", () => {
+  const page = readFileSync(new URL("../app/evidence/page.tsx", import.meta.url), "utf-8");
+  const source = readFileSync(new URL("../lib/evidence/claims.ts", import.meta.url), "utf-8");
+  assert.match(page, /Evidence forest plot/);
+  assert.match(page, /Risk of bias/);
+  assert.match(page, /Confidence/);
+  assert.match(source, /advisor_reviewed/);
+  assert.match(source, /draft/);
+  assert.match(source, /datasetCard/);
+  assert.match(source, /provenanceManifest/);
+});

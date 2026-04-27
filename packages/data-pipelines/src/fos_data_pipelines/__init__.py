@@ -24,6 +24,14 @@ from fos_data_pipelines.backtests.replication import (
     load_replication_archive,
     validate_china_shock_gate,
 )
+from fos_data_pipelines.evidence_graph.claims import (
+    EvidenceClaim,
+    EvidenceSource,
+    build_intervention_effect_size_priors,
+    load_evidence_claims,
+    load_evidence_sources,
+    trace_claim,
+)
 
 __all__ = [
     "ConnectorConfig",
@@ -31,6 +39,8 @@ __all__ = [
     "CodebookField",
     "DatasetReference",
     "DatasetReferenceModel",
+    "EvidenceClaim",
+    "EvidenceSource",
     "FeatureTable",
     "HarmonizedArtifact",
     "RawArtifact",
@@ -44,8 +54,12 @@ __all__ = [
     "build_adh_china_shock_panel",
     "build_pntr_mortality_backtest",
     "build_robot_exposure_table",
+    "build_intervention_effect_size_priors",
     "load_codebook",
+    "load_evidence_claims",
+    "load_evidence_sources",
     "load_replication_archive",
     "score_six_domain_country_marginals",
     "validate_china_shock_gate",
+    "trace_claim",
 ]

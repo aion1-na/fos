@@ -28,6 +28,9 @@ DATASETS = [
     "adh-china-shock-replication",
     "pntr-mortality-backtest",
     "robot-exposure-backtest",
+    "paid-leave-literature",
+    "job-training-literature",
+    "mentoring-literature",
 ]
 WORKSTREAM_READMES = [
     "packages/data-pipelines/README.md",

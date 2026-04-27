@@ -22,6 +22,9 @@ export default function HomePage() {
       <Link className="primary-link" href="/backtests">
         View backtests
       </Link>
+      <Link className="primary-link" href="/evidence">
+        View evidence
+      </Link>
     </main>
   );
 }
