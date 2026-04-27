@@ -6,10 +6,12 @@ requires-python = ">=3.11"
 dependencies = [
   "fastapi",
   "fos-data-pipelines",
+  "fw-contracts",
 ]
 
 [tool.uv.sources]
 fos-data-pipelines = { workspace = true }
+fw-contracts = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]

@@ -2,9 +2,19 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from fw_contracts import DatasetReference
 from fos_data_pipelines.models import RawArtifact
-from fos_data_service.app import dataset_policy, health, list_datasets
-from fos_data_service.catalog import Catalog
+from fos_data_service.app import (
+    claim_lookup,
+    dataset_card,
+    dataset_lineage,
+    dataset_manifest,
+    dataset_policy,
+    health,
+    list_datasets,
+    resolve_dataset,
+)
+from fos_data_service.catalog import Catalog, DatasetRecord
 
 
 def test_health_is_metadata_only() -> None:
@@ -86,6 +96,55 @@ def test_catalog_policy_endpoint_fails_closed_for_unknown_dataset() -> None:
     payload = dataset_policy("unknown")
     assert payload["policy"] is None
     assert payload["can_mark_production_ready"] is False
+
+
+def test_resolve_requires_version_and_content_hash() -> None:
+    payload = resolve_dataset("features.community_context")
+    assert payload["error"] == "dataset_reference_schema_break"
+    assert "canonical_dataset_name, version, and content_hash" in payload["message"]
+
+
+def test_resolve_returns_card_and_manifest_for_full_reference() -> None:
+    payload = resolve_dataset("features.community_context", "fixture-0.1", "a" * 64)
+    assert payload["dataset_reference"]["canonical_dataset_name"] == "features.community_context"
+    assert payload["dataset_reference"]["version"] == "fixture-0.1"
+    assert payload["card_path"] == "docs/data/datasets/community-pathways.md"
+    assert payload["manifest_path"] == "manifests/fixture-0.1/community-context.json"
+
+
+def test_old_versions_remain_resolvable_after_new_version_is_registered() -> None:
+    old_payload = resolve_dataset("features.community_context", "fixture-0.0", "b" * 64)
+    new_payload = resolve_dataset("features.community_context", "fixture-0.1", "a" * 64)
+    assert old_payload["dataset_reference"]["version"] == "fixture-0.0"
+    assert new_payload["dataset_reference"]["version"] == "fixture-0.1"
+
+
+def test_card_manifest_lineage_and_claim_lookup_endpoints() -> None:
+    card = dataset_card("features.community_context", "fixture-0.1", "a" * 64)
+    manifest = dataset_manifest("features.community_context", "fixture-0.1", "a" * 64)
+    lineage = dataset_lineage("features.community_context", "fixture-0.1", "a" * 64)
+    claim = claim_lookup("claim_mentoring_meaning_v0")
+    assert card["card_path"] == "docs/data/datasets/community-pathways.md"
+    assert manifest["dataset_reference"]["content_hash"] == "a" * 64
+    assert lineage["downstream"] == ["simulation-run-fdw-smoke"]
+    assert claim["dataset_references"][0]["canonical_dataset_name"] == "features.community_context"
+
+
+def test_catalog_resolves_registered_dataset_reference_records() -> None:
+    catalog = Catalog()
+    reference = DatasetReference(
+        canonical_dataset_name="features.time_use_context",
+        version="fixture-0.1",
+        content_hash="c" * 64,
+    )
+    catalog.register_dataset_record(
+        DatasetRecord(
+            reference=reference,
+            card_path="docs/data/datasets/atus-public-time-use.md",
+            manifest_path="manifests/fixture-0.1/time-use.json",
+        )
+    )
+    assert catalog.resolve_dataset_reference(reference).reference == reference
 
 
 def test_postgres_catalog_migration_declares_lineage_tables() -> None:

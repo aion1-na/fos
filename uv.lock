@@ -163,12 +163,14 @@ source = { editable = "packages/data-service" }
 dependencies = [
     { name = "fastapi" },
     { name = "fos-data-pipelines" },
+    { name = "fw-contracts" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "fastapi" },
     { name = "fos-data-pipelines", editable = "packages/data-pipelines" },
+    { name = "fw-contracts", editable = "packages/contracts" },
 ]
 
 [[package]]

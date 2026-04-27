@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from fw_contracts import DatasetReference
 from fos_data_pipelines.models import RawArtifact
 from fos_data_pipelines.quality.cards import REQUIRED_CARD_FIELDS
 
@@ -29,12 +30,39 @@ class DatasetPolicyStatus:
         return not self.missing_metadata and self.status == "approved_production"
 
 
+@dataclass(frozen=True, slots=True)
+class DatasetRecord:
+    reference: DatasetReference
+    card_path: str
+    manifest_path: str
+    upstream_references: tuple[DatasetReference, ...] = ()
+    consumed_by_runs: tuple[str, ...] = ()
+    claim_ids: tuple[str, ...] = ()
+
+
+class DataServiceError(Exception):
+    code = "data_service_error"
+
+    def __init__(self, message: str) -> None:
+        self.message = message
+        super().__init__(message)
+
+
+class MissingDatasetError(DataServiceError):
+    code = "missing_dataset"
+
+
+class DatasetReferenceSchemaError(DataServiceError):
+    code = "dataset_reference_schema_break"
+
+
 class Catalog:
     def __init__(self) -> None:
         self.connector_versions: set[tuple[str, str]] = set()
         self.dataset_versions: set[tuple[str, str]] = set()
         self.artifacts: dict[str, ArtifactLineage] = {}
         self.dataset_policies: dict[str, DatasetPolicyStatus] = {}
+        self.dataset_records: dict[tuple[str, str, str], DatasetRecord] = {}
 
     def register_connector_version(self, connector_name: str, connector_version: str) -> None:
         self.connector_versions.add((connector_name, connector_version))
@@ -85,3 +113,14 @@ class Catalog:
 
     def dataset_policy(self, canonical_dataset_name: str) -> DatasetPolicyStatus | None:
         return self.dataset_policies.get(canonical_dataset_name)
+
+    def register_dataset_record(self, record: DatasetRecord) -> None:
+        self.dataset_records[record.reference.as_tuple()] = record
+
+    def resolve_dataset_reference(self, reference: DatasetReference) -> DatasetRecord:
+        record = self.dataset_records.get(reference.as_tuple())
+        if record is None:
+            raise MissingDatasetError(
+                f"dataset_reference {reference.as_tuple()} is not registered"
+            )
+        return record

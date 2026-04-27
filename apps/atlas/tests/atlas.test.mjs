@@ -34,6 +34,17 @@ test("atlas completeness dashboard labels tier and status", () => {
   assert.match(source, /qualityGate/);
 });
 
+test("atlas provenance view answers upstream and downstream lineage", () => {
+  const page = readFileSync(new URL("../app/provenance/page.tsx", import.meta.url), "utf-8");
+  const source = readFileSync(new URL("../lib/provenance/lineage.ts", import.meta.url), "utf-8");
+  assert.match(page, /Provenance lineage/);
+  assert.match(page, /What fed this dataset and what consumed it/);
+  assert.match(source, /features.community_context/);
+  assert.match(source, /fed this dataset/);
+  assert.match(source, /consumed by simulation run/);
+  assert.match(source, /simulation-run-fdw-smoke/);
+});
+
 test("atlas ai exposure gallery exposes side-by-side measures and quartiles", () => {
   const page = readFileSync(new URL("../app/ai-exposure/page.tsx", import.meta.url), "utf-8");
   const source = readFileSync(

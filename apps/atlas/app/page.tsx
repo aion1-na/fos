@@ -16,6 +16,9 @@ export default function HomePage() {
       <Link className="primary-link" href="/completeness">
         View Tier 1 completeness
       </Link>
+      <Link className="primary-link" href="/provenance">
+        View provenance lineage
+      </Link>
       <Link className="primary-link" href="/ai-exposure">
         View AI exposure
       </Link>
