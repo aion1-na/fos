@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DATASETS = [
+PARTNER_DATASETS = [
     "hrs",
     "soep",
     "understanding-society",
@@ -12,6 +12,12 @@ DATASETS = [
     "anthropic-economic-index",
     "census-rdc",
     "commercial-labor-data",
+]
+DATASETS = [
+    *PARTNER_DATASETS,
+    "acs-ipums",
+    "onet",
+    "bls-oews",
 ]
 WORKSTREAM_READMES = [
     "packages/data-pipelines/README.md",
@@ -40,12 +46,14 @@ def test_codex_data_instructions_set_safe_defaults() -> None:
 
 
 def test_partnership_trackers_and_dataset_cards_exist_as_request_status_stubs() -> None:
-    for slug in DATASETS:
+    for slug in PARTNER_DATASETS:
         tracker = _read(f"docs/data/partnerships/{slug}.md")
         dataset_card = _read(f"docs/data/datasets/{slug}.md")
         assert "Access status: request-status stub" in tracker
         assert "DUA status: not approved" in tracker
         assert "Access status: request-status stub" in dataset_card
+    for slug in DATASETS:
+        dataset_card = _read(f"docs/data/datasets/{slug}.md")
         for required in [
             "License metadata:",
             "Codebook mapping:",
@@ -71,6 +79,18 @@ def test_backlog_maps_each_drd_section_to_a_sprint() -> None:
     assert "| DRD Section | Sprint | Outcome |" in backlog
 
 
+def test_atlas_dataset_directory_lists_required_metadata() -> None:
+    page = (ROOT / "apps" / "atlas" / "app" / "datasets" / "page.tsx").read_text(
+        encoding="utf-8"
+    )
+    source = (ROOT / "apps" / "atlas" / "lib" / "datasets.ts").read_text(encoding="utf-8")
+    for field in ["version", "license", "contentHash", "fetchTimestamp", "cardLink"]:
+        assert field in source
+        assert field in page
+    for dataset in ["acs_ipums", "onet", "bls_oews"]:
+        assert dataset in source
+
+
 def test_no_connector_or_dashboard_credentials_are_committed() -> None:
     scanned_roots = [
         ROOT / "apps" / "atlas",
@@ -87,6 +107,8 @@ def test_no_connector_or_dashboard_credentials_are_committed() -> None:
     for root in scanned_roots:
         for path in root.rglob("*"):
             if path.is_dir() or path.suffix in {".pyc", ".gz"}:
+                continue
+            if any(part in {".next", "node_modules", "__pycache__"} for part in path.parts):
                 continue
             content = path.read_text(encoding="utf-8")
             assert not forbidden.search(content), path

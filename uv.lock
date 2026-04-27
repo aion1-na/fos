@@ -143,13 +143,17 @@ version = "0.1.0"
 source = { editable = "packages/data-pipelines" }
 dependencies = [
     { name = "fw-contracts" },
+    { name = "pyarrow" },
     { name = "pydantic" },
+    { name = "pyyaml" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "fw-contracts", editable = "packages/contracts" },
+    { name = "pyarrow", specifier = ">=18.0.0" },
     { name = "pydantic" },
+    { name = "pyyaml", specifier = ">=6.0.0" },
 ]
 
 [[package]]

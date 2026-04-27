@@ -1,0 +1,17 @@
+{
+  "status": "REQUEST_SUCCEEDED",
+  "Results": {
+    "series": [
+      {
+        "occ_code": "15-1252",
+        "occ_title": "Software Developers",
+        "h_mean": "68.94"
+      },
+      {
+        "occ_code": "29-1141",
+        "occ_title": "Registered Nurses",
+        "h_mean": "45.42"
+      }
+    ]
+  }
+}

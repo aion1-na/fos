@@ -1,0 +1,11 @@
+version: "0.1"
+canonical_dataset_name: acs_ipums
+fields:
+  - source_field: SERIAL
+    original_label: Household serial number
+    canonical_name: household_id
+    data_type: string
+  - source_field: HHINCOME
+    original_label: Household income
+    canonical_name: household_income
+    data_type: number

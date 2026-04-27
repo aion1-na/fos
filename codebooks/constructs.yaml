@@ -1,0 +1,24 @@
+version: "0.1"
+owner: "Data Governance"
+scientific_review_queue: "docs/data/review/construct-change-queue.md"
+constructs:
+  - canonical_name: age
+    label: Age
+    domain: demographics
+    description: Respondent age in completed years.
+    review_status: approved_fixture
+  - canonical_name: occupation_code
+    label: Occupation code
+    domain: labor
+    description: Standard occupation identifier preserved from the source codebook.
+    review_status: approved_fixture
+  - canonical_name: hourly_wage
+    label: Hourly wage
+    domain: labor
+    description: Wage estimate normalized to an hourly basis when source metadata permits.
+    review_status: review_required
+  - canonical_name: employment_status
+    label: Employment status
+    domain: labor
+    description: Source employment status mapped to a canonical labor-force category.
+    review_status: review_required
