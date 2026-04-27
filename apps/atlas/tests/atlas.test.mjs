@@ -35,6 +35,17 @@ test("atlas public view excludes gated records and shows transparency fields", (
   assert.match(source, /license_constrained/);
 });
 
+test("atlas admin exposes tier2 dua status outside public view", () => {
+  const page = readFileSync(new URL("../app/admin/tier2/page.tsx", import.meta.url), "utf-8");
+  const source = readFileSync(new URL("../lib/admin/tier2.ts", import.meta.url), "utf-8");
+  const publicSource = readFileSync(new URL("../lib/access/public.ts", import.meta.url), "utf-8");
+  assert.match(page, /Tier 2 DUA dashboard/);
+  assert.match(page, /Access requests/);
+  assert.match(source, /secureCompartment/);
+  assert.match(source, /not_approved/);
+  assert.doesNotMatch(publicSource, /secureCompartment/);
+});
+
 test("atlas search emits citations across cards codebooks and claims", () => {
   const page = readFileSync(new URL("../app/search/page.tsx", import.meta.url), "utf-8");
   const source = readFileSync(new URL("../lib/search/citations.ts", import.meta.url), "utf-8");

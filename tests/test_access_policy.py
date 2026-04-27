@@ -2,7 +2,12 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from fos_data_service.app import private_atlas_inventory, public_atlas_subset
+from fos_data_service.app import (
+    private_atlas_inventory,
+    public_atlas_subset,
+    tier2_admin_dashboard,
+    tier2_ingest,
+)
 from fos_data_service.catalog import AtlasAccessPolicy, Catalog
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -91,3 +96,24 @@ def test_signoff_status_visible_per_construct_codebook_and_claim() -> None:
     assert "evidence_claims" in signoff
     assert "pending_advisor_review" in signoff
     assert "claim_mentoring_meaning_v0" in signoff
+
+
+def test_tier2_dua_status_visible_to_admin_not_public() -> None:
+    public = tier2_admin_dashboard(role="public")
+    admin = tier2_admin_dashboard(role="admin")
+    assert public["requests"] == []
+    assert admin["requests"]
+    assert admin["requests"][0]["access_status"] == "request_status_stub"
+    assert admin["requests"][0]["license_status"] == "not_approved"
+
+
+def test_tier2_ingest_denies_unapproved_sources_with_structured_error() -> None:
+    payload = tier2_ingest("hrs", role="secure_researcher")
+    assert payload["error"] == "access_denied"
+    assert "approved access and license" in payload["message"]
+
+
+def test_unauthorized_tier2_user_gets_structured_denial() -> None:
+    payload = tier2_ingest("hrs", role="public")
+    assert payload["error"] == "access_denied"
+    assert "not authorized" in payload["message"]

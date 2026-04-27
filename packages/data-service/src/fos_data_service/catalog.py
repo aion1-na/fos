@@ -32,6 +32,9 @@ class DatasetPolicyStatus:
 
 
 AccessScope = Literal["public", "private"]
+Tier2AccessStatus = Literal["request_status_stub", "pending", "approved", "rejected"]
+Tier2LicenseStatus = Literal["not_approved", "pending", "approved", "rejected"]
+UserRole = Literal["public", "admin", "secure_researcher"]
 
 
 @dataclass(frozen=True, slots=True)
@@ -47,6 +50,22 @@ class AtlasAccessPolicy:
     @property
     def is_public(self) -> bool:
         return self.scope == "public" and self.gated_reason is None
+
+
+@dataclass(frozen=True, slots=True)
+class Tier2AccessRequest:
+    canonical_dataset_name: str
+    owner: str
+    submitted_on: str | None
+    access_status: Tier2AccessStatus
+    license_status: Tier2LicenseStatus
+    secure_compartment: str
+    requested_use: str
+    updated_on: str
+
+    @property
+    def ingest_allowed(self) -> bool:
+        return self.access_status == "approved" and self.license_status == "approved"
 
 
 @dataclass(frozen=True, slots=True)
@@ -75,6 +94,10 @@ class DatasetReferenceSchemaError(DataServiceError):
     code = "dataset_reference_schema_break"
 
 
+class AccessDeniedError(DataServiceError):
+    code = "access_denied"
+
+
 class Catalog:
     def __init__(self) -> None:
         self.connector_versions: set[tuple[str, str]] = set()
@@ -83,6 +106,7 @@ class Catalog:
         self.dataset_policies: dict[str, DatasetPolicyStatus] = {}
         self.dataset_records: dict[tuple[str, str, str], DatasetRecord] = {}
         self.atlas_access_policies: dict[str, AtlasAccessPolicy] = {}
+        self.tier2_access_requests: dict[str, Tier2AccessRequest] = {}
 
     def register_connector_version(self, connector_name: str, connector_version: str) -> None:
         self.connector_versions.add((connector_name, connector_version))
@@ -146,6 +170,31 @@ class Catalog:
 
     def private_atlas_policies(self) -> list[AtlasAccessPolicy]:
         return list(self.atlas_access_policies.values())
+
+    def register_tier2_access_request(self, request: Tier2AccessRequest) -> None:
+        self.tier2_access_requests[request.canonical_dataset_name] = request
+
+    def tier2_requests_for_role(self, role: UserRole) -> list[Tier2AccessRequest]:
+        if role == "public":
+            return []
+        return list(self.tier2_access_requests.values())
+
+    def authorize_tier2_ingest(
+        self,
+        canonical_dataset_name: str,
+        *,
+        role: UserRole,
+    ) -> Tier2AccessRequest:
+        request = self.tier2_access_requests.get(canonical_dataset_name)
+        if request is None:
+            raise AccessDeniedError(f"{canonical_dataset_name} has no Tier 2 access request")
+        if role != "secure_researcher":
+            raise AccessDeniedError(f"{role} is not authorized for Tier 2 ingest")
+        if not request.ingest_allowed:
+            raise AccessDeniedError(
+                f"{canonical_dataset_name} cannot be ingested before approved access and license"
+            )
+        return request
 
     def register_dataset_record(self, record: DatasetRecord) -> None:
         self.dataset_records[record.reference.as_tuple()] = record

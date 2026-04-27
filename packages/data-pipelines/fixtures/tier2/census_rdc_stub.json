@@ -1,0 +1,7 @@
+{
+  "canonical_dataset_name": "census_rdc",
+  "connector_name": "census_rdc_request_status",
+  "access_status": "request_status_stub",
+  "license_status": "not_approved",
+  "rows": []
+}

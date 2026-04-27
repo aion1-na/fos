@@ -6,10 +6,13 @@ from pydantic import ValidationError
 from fw_contracts import DatasetReference
 from fos_data_service.catalog import (
     AtlasAccessPolicy,
+    AccessDeniedError,
     Catalog,
     DataServiceError,
     DatasetRecord,
     DatasetReferenceSchemaError,
+    Tier2AccessRequest,
+    UserRole,
 )
 
 app = FastAPI(title="FOS Data Service")
@@ -111,6 +114,60 @@ for policy in [
 ]:
     catalog.register_atlas_access_policy(policy)
 
+for request in [
+    Tier2AccessRequest(
+        canonical_dataset_name="hrs",
+        owner="Data partnerships lead",
+        submitted_on=None,
+        access_status="request_status_stub",
+        license_status="not_approved",
+        secure_compartment="tier2/hrs",
+        requested_use="longitudinal retirement and health panel validation",
+        updated_on="2026-05-15",
+    ),
+    Tier2AccessRequest(
+        canonical_dataset_name="soep",
+        owner="Data partnerships lead",
+        submitted_on=None,
+        access_status="request_status_stub",
+        license_status="not_approved",
+        secure_compartment="tier2/soep",
+        requested_use="cross-country longitudinal panel validation",
+        updated_on="2026-05-22",
+    ),
+    Tier2AccessRequest(
+        canonical_dataset_name="understanding_society",
+        owner="Data partnerships lead",
+        submitted_on=None,
+        access_status="request_status_stub",
+        license_status="not_approved",
+        secure_compartment="tier2/understanding_society",
+        requested_use="UK longitudinal household panel validation",
+        updated_on="2026-05-29",
+    ),
+    Tier2AccessRequest(
+        canonical_dataset_name="census_rdc",
+        owner="Secure data lead",
+        submitted_on=None,
+        access_status="request_status_stub",
+        license_status="not_approved",
+        secure_compartment="tier2/census_rdc",
+        requested_use="restricted geographic validation after disclosure approval",
+        updated_on="2026-06-05",
+    ),
+    Tier2AccessRequest(
+        canonical_dataset_name="commercial_labor_data",
+        owner="Partnerships lead",
+        submitted_on=None,
+        access_status="request_status_stub",
+        license_status="not_approved",
+        secure_compartment="tier2/commercial_labor_data",
+        requested_use="licensed labor-market validation",
+        updated_on="2026-06-12",
+    ),
+]:
+    catalog.register_tier2_access_request(request)
+
 
 @app.get("/health")
 def health() -> dict[str, str]:
@@ -119,6 +176,20 @@ def health() -> dict[str, str]:
 
 def structured_error(error: DataServiceError) -> dict[str, str]:
     return {"error": error.code, "message": error.message}
+
+
+def _tier2_payload(request: Tier2AccessRequest) -> dict[str, object]:
+    return {
+        "canonical_dataset_name": request.canonical_dataset_name,
+        "owner": request.owner,
+        "submitted_on": request.submitted_on,
+        "access_status": request.access_status,
+        "license_status": request.license_status,
+        "secure_compartment": request.secure_compartment,
+        "requested_use": request.requested_use,
+        "updated_on": request.updated_on,
+        "ingest_allowed": request.ingest_allowed,
+    }
 
 
 def _reference_from_parts(
@@ -178,6 +249,25 @@ def public_atlas_subset() -> dict[str, list[dict[str, object]]]:
 @app.get("/atlas/private")
 def private_atlas_inventory() -> dict[str, list[dict[str, object]]]:
     return {"datasets": [_policy_payload(policy) for policy in catalog.private_atlas_policies()]}
+
+
+@app.get("/atlas/admin/tier2")
+def tier2_admin_dashboard(role: UserRole = "public") -> dict[str, object]:
+    return {
+        "role": role,
+        "requests": [
+            _tier2_payload(request) for request in catalog.tier2_requests_for_role(role)
+        ],
+    }
+
+
+@app.post("/tier2/{canonical_dataset_name}/ingest")
+def tier2_ingest(canonical_dataset_name: str, role: UserRole = "public") -> dict[str, object]:
+    try:
+        request = catalog.authorize_tier2_ingest(canonical_dataset_name, role=role)
+    except AccessDeniedError as exc:
+        return structured_error(exc)
+    return {"status": "accepted", "request": _tier2_payload(request)}
 
 
 @app.get("/datasets/{canonical_dataset_name}/policy")
