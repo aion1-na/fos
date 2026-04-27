@@ -1,0 +1,22 @@
+{
+  "variable_labels": {
+    "czone": "Commuting zone",
+    "year": "Year",
+    "d_tradeusch_pw": "Import exposure per worker",
+    "manufacturing_share": "Manufacturing employment share"
+  },
+  "rows": [
+    {
+      "czone": "01001",
+      "year": 1990,
+      "d_tradeusch_pw": 1.2,
+      "manufacturing_share": 0.31
+    },
+    {
+      "czone": "01001",
+      "year": 2000,
+      "d_tradeusch_pw": 2.4,
+      "manufacturing_share": 0.24
+    }
+  ]
+}

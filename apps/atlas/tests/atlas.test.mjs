@@ -47,3 +47,13 @@ test("atlas gfs view labels wave 1 as cross-sectional research-grade", () => {
   assert.match(page, /Demographic cuts/);
   assert.match(page, /weighted mean/);
 });
+
+test("atlas backtest viewer exposes gate and slices", () => {
+  const page = readFileSync(new URL("../app/backtests/page.tsx", import.meta.url), "utf-8");
+  const source = readFileSync(new URL("../lib/backtests/anchors.ts", import.meta.url), "utf-8");
+  assert.match(page, /Backtest anchors/);
+  assert.match(page, /Geography and demographic slices/);
+  assert.match(source, /china_shock_backtest_v0\.1/);
+  assert.match(source, /fail-closed/);
+  assert.match(source, /robotExposure/);
+});

@@ -1,0 +1,15 @@
+{
+  "canonical_dataset_name": "adh_china_shock_replication",
+  "dataset_version": "fixture-0.1",
+  "source_citation": "Autor, Dorn, and Hanson China shock replication archive; request-status fixture pending approved acquisition.",
+  "files": [
+    {
+      "path": "china_shock_fixture.dta.json",
+      "media_type": "application/x-stata-dta-fixture"
+    },
+    {
+      "path": "build_panel_fixture.do",
+      "media_type": "text/x-stata-do"
+    }
+  ]
+}

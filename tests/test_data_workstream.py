@@ -25,6 +25,9 @@ DATASETS = [
     "world-happiness-report",
     "ess",
     "wvs",
+    "adh-china-shock-replication",
+    "pntr-mortality-backtest",
+    "robot-exposure-backtest",
 ]
 WORKSTREAM_READMES = [
     "packages/data-pipelines/README.md",

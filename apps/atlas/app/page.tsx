@@ -19,6 +19,9 @@ export default function HomePage() {
       <Link className="primary-link" href="/gfs">
         View GFS Wave 1
       </Link>
+      <Link className="primary-link" href="/backtests">
+        View backtests
+      </Link>
     </main>
   );
 }
