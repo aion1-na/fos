@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from fos_data_pipelines.models import RawArtifact
-from fos_data_service.app import health, list_datasets
+from fos_data_service.app import dataset_policy, health, list_datasets
 from fos_data_service.catalog import Catalog
 
 
@@ -64,6 +64,28 @@ def test_catalog_answers_artifact_lineage() -> None:
     assert lineage is not None
     assert lineage.dataset_version == "access-not-approved"
     assert lineage.connector_version == "0.1.0"
+
+
+def test_catalog_rejects_production_ready_without_complete_policy_metadata() -> None:
+    catalog = Catalog()
+    try:
+        catalog.register_dataset_policy(
+            "gfs-wave1",
+            tier="Tier 1",
+            status="fixture",
+            production_ready=True,
+            metadata_fields={"License metadata:"},
+        )
+    except ValueError as exc:
+        assert "cannot be production-ready" in str(exc)
+    else:
+        raise AssertionError("production-ready fixture without complete metadata was accepted")
+
+
+def test_catalog_policy_endpoint_fails_closed_for_unknown_dataset() -> None:
+    payload = dataset_policy("unknown")
+    assert payload["policy"] is None
+    assert payload["can_mark_production_ready"] is False
 
 
 def test_postgres_catalog_migration_declares_lineage_tables() -> None:

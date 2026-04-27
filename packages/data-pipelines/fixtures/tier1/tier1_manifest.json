@@ -1,0 +1,41 @@
+{
+  "release_candidate": "tier1-rc0",
+  "generated_from": "offline fixtures and request-status metadata",
+  "datasets": [
+    {
+      "canonical_dataset_name": "acs-ipums",
+      "tier": "Tier 1",
+      "status": "fixture",
+      "production_ready": false,
+      "card_path": "docs/data/datasets/acs-ipums.md"
+    },
+    {
+      "canonical_dataset_name": "onet",
+      "tier": "Tier 1",
+      "status": "fixture",
+      "production_ready": false,
+      "card_path": "docs/data/datasets/onet.md"
+    },
+    {
+      "canonical_dataset_name": "bls-oews",
+      "tier": "Tier 1",
+      "status": "fixture",
+      "production_ready": false,
+      "card_path": "docs/data/datasets/bls-oews.md"
+    },
+    {
+      "canonical_dataset_name": "gfs-wave1",
+      "tier": "Tier 1",
+      "status": "fixture",
+      "production_ready": false,
+      "card_path": "docs/data/datasets/gfs-wave1.md"
+    },
+    {
+      "canonical_dataset_name": "community-pathways",
+      "tier": "Tier 1",
+      "status": "fixture",
+      "production_ready": false,
+      "card_path": "docs/data/datasets/community-pathways.md"
+    }
+  ]
+}

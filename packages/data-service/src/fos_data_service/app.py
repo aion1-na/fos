@@ -31,6 +31,25 @@ def list_datasets() -> dict[str, list[dict[str, str]]]:
     }
 
 
+@app.get("/datasets/{canonical_dataset_name}/policy")
+def dataset_policy(canonical_dataset_name: str) -> dict[str, object]:
+    policy = catalog.dataset_policy(canonical_dataset_name)
+    if policy is None:
+        return {
+            "canonical_dataset_name": canonical_dataset_name,
+            "policy": None,
+            "can_mark_production_ready": False,
+        }
+    return {
+        "canonical_dataset_name": policy.canonical_dataset_name,
+        "tier": policy.tier,
+        "status": policy.status,
+        "production_ready": policy.production_ready,
+        "missing_metadata": list(policy.missing_metadata),
+        "can_mark_production_ready": policy.can_mark_production_ready,
+    }
+
+
 @app.get("/artifacts/{artifact_id}/lineage")
 def artifact_lineage(artifact_id: str) -> dict[str, str] | dict[str, None]:
     lineage = catalog.artifact_lineage(artifact_id)

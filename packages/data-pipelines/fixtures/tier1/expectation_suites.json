@@ -1,0 +1,32 @@
+{
+  "acs-ipums": {
+    "required_columns": ["age", "sex", "occupation_code", "wage"],
+    "sampling_metadata": ["fixture_source", "survey_year"],
+    "pii_candidates": [],
+    "distribution_columns": ["age", "occupation_code", "wage"]
+  },
+  "onet": {
+    "required_columns": ["onet_soc_code", "title", "task"],
+    "sampling_metadata": ["fixture_source", "release"],
+    "pii_candidates": [],
+    "distribution_columns": ["onet_soc_code"]
+  },
+  "bls-oews": {
+    "required_columns": ["area", "occupation_code", "employment", "mean_wage"],
+    "sampling_metadata": ["fixture_source", "release"],
+    "pii_candidates": [],
+    "distribution_columns": ["employment", "mean_wage"]
+  },
+  "gfs-wave1": {
+    "required_columns": ["country", "weight", "happiness", "health", "meaning"],
+    "sampling_metadata": ["fixture_source", "sampling_design", "weight_column"],
+    "pii_candidates": [],
+    "distribution_columns": ["happiness", "health", "meaning"]
+  },
+  "community-pathways": {
+    "required_columns": ["source", "construct", "source_geography_id", "geography_level", "join_allowed"],
+    "sampling_metadata": ["fixture_source", "source_year"],
+    "pii_candidates": [],
+    "distribution_columns": ["construct", "geography_level"]
+  }
+}

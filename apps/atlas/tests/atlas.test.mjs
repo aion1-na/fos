@@ -23,6 +23,17 @@ test("atlas dataset directory source exposes required metadata", () => {
   assert.match(source, /bls_oews/);
 });
 
+test("atlas completeness dashboard labels tier and status", () => {
+  const page = readFileSync(new URL("../app/completeness/page.tsx", import.meta.url), "utf-8");
+  const source = readFileSync(new URL("../lib/completeness/tier1.ts", import.meta.url), "utf-8");
+  assert.match(page, /Tier 1 completeness dashboard/);
+  assert.match(page, /Production-ready/);
+  assert.match(source, /tier: "Tier 1"/);
+  assert.match(source, /status: "fixture"/);
+  assert.match(source, /metadataComplete/);
+  assert.match(source, /qualityGate/);
+});
+
 test("atlas ai exposure gallery exposes side-by-side measures and quartiles", () => {
   const page = readFileSync(new URL("../app/ai-exposure/page.tsx", import.meta.url), "utf-8");
   const source = readFileSync(

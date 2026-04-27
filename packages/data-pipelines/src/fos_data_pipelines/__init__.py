@@ -42,6 +42,10 @@ from fos_data_pipelines.international.context import (
     build_cross_country_dashboard_view,
     build_policy_regime_context,
 )
+from fos_data_pipelines.quality.gates import (
+    run_quality_gate,
+    validate_tier1_release_candidate,
+)
 
 __all__ = [
     "ConnectorConfig",
@@ -71,6 +75,8 @@ __all__ = [
     "build_health_validation_context",
     "build_policy_regime_context",
     "build_cross_country_dashboard_view",
+    "run_quality_gate",
+    "validate_tier1_release_candidate",
     "load_codebook",
     "load_evidence_claims",
     "load_evidence_sources",
