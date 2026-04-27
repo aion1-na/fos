@@ -4,6 +4,11 @@ from fastapi import FastAPI
 from pydantic import ValidationError
 
 from fw_contracts import DatasetReference
+from fos_data_service.admin_data import (
+    AdministrativeAggregateSubmission,
+    ClaimsConnectorContract,
+    ingest_administrative_aggregate,
+)
 from fos_data_service.catalog import (
     AtlasAccessPolicy,
     AccessDeniedError,
@@ -226,6 +231,50 @@ RDC_TRACKER = [
         "timeline": "2026 Q3 proposal, 2026 Q4 disclosure-reviewed aggregates if approved",
     }
 ]
+STATE_PARTNERSHIP_TARGETS = [
+    {
+        "state": "Colorado",
+        "workflow": "state_ui",
+        "owner": "State partnerships lead",
+        "license_status": "request_status_stub",
+        "irb_status": "request_status_stub",
+        "legal_status": "request_status_stub",
+        "paid_license_status": None,
+        "next_action": "Identify unemployment insurance research contact.",
+    },
+    {
+        "state": "Washington",
+        "workflow": "state_ui",
+        "owner": "State partnerships lead",
+        "license_status": "request_status_stub",
+        "irb_status": "request_status_stub",
+        "legal_status": "request_status_stub",
+        "paid_license_status": None,
+        "next_action": "Draft request-status DUA scope for job-loss aggregates.",
+    },
+]
+ADMIN_DUA_TRACKER = [
+    {
+        "source_name": "state-ui-displacement",
+        "workflow": "state_ui",
+        "owner": "State partnerships lead",
+        "license_status": "request_status_stub",
+        "irb_status": "request_status_stub",
+        "legal_status": "request_status_stub",
+        "paid_license_status": None,
+        "ingest_allowed": False,
+    },
+    {
+        "source_name": "commercial-claims-utilization",
+        "workflow": "claims",
+        "owner": "Health partnerships lead",
+        "license_status": "request_status_stub",
+        "irb_status": "request_status_stub",
+        "legal_status": "request_status_stub",
+        "paid_license_status": "request_status_stub",
+        "ingest_allowed": False,
+    },
+]
 
 
 @app.get("/datasets")
@@ -249,6 +298,46 @@ def list_datasets() -> dict[str, list[dict[str, str]]]:
 @app.get("/secure-analysis/rdc-projects")
 def rdc_project_tracker() -> dict[str, list[dict[str, object]]]:
     return {"projects": RDC_TRACKER}
+
+
+@app.get("/admin-data/state-targets")
+def state_partnership_target_matrix() -> dict[str, list[dict[str, object]]]:
+    return {"targets": STATE_PARTNERSHIP_TARGETS}
+
+
+@app.get("/admin-data/dua-tracker")
+def administrative_data_dua_tracker() -> dict[str, list[dict[str, object]]]:
+    return {"sources": ADMIN_DUA_TRACKER}
+
+
+@app.post("/admin-data/claims-contract/validate")
+def validate_claims_connector_contract(contract: ClaimsConnectorContract) -> dict[str, object]:
+    return {
+        "connector_name": contract.connector_name,
+        "connector_version": contract.connector_version,
+        "vendor_or_steward": contract.vendor_or_steward,
+        "license_status": contract.license_status,
+        "paid_license_required": contract.paid_license_required,
+        "secret_free_contract_test": contract.secret_free_contract_test,
+        "allowed_outputs": list(contract.allowed_outputs),
+    }
+
+
+@app.post("/admin-data/aggregates")
+def administrative_aggregate_ingest(
+    submission: AdministrativeAggregateSubmission,
+) -> dict[str, object]:
+    record = ingest_administrative_aggregate(submission)
+    catalog.register_administrative_aggregate(record)
+    return {
+        "dataset_reference": record.dataset_reference.model_dump(mode="json"),
+        "source_name": record.source_name,
+        "workflow": record.workflow,
+        "aggregate_family": record.aggregate_family,
+        "output_name": record.output_name,
+        "disclosure_approval_status": record.disclosure_approval_status,
+        "stored_row_level_data": record.stored_row_level_data,
+    }
 
 
 @app.post("/secure-analysis/manifest/validate")

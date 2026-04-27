@@ -6,6 +6,7 @@ from typing import Literal
 from fw_contracts import DatasetReference
 from fos_data_pipelines.models import RawArtifact
 from fos_data_pipelines.quality.cards import REQUIRED_CARD_FIELDS
+from fos_data_service.admin_data import AdministrativeAggregateRecord
 from fos_data_service.secure_analysis import RestrictedAggregateRecord
 
 
@@ -109,6 +110,9 @@ class Catalog:
         self.atlas_access_policies: dict[str, AtlasAccessPolicy] = {}
         self.tier2_access_requests: dict[str, Tier2AccessRequest] = {}
         self.restricted_aggregates: dict[tuple[str, str, str], RestrictedAggregateRecord] = {}
+        self.administrative_aggregates: dict[
+            tuple[str, str, str], AdministrativeAggregateRecord
+        ] = {}
 
     def register_connector_version(self, connector_name: str, connector_version: str) -> None:
         self.connector_versions.add((connector_name, connector_version))
@@ -218,4 +222,15 @@ class Catalog:
         if not record.disclosure_review.approved_for_fdw:
             raise AccessDeniedError("aggregate output lacks approved disclosure review")
         self.restricted_aggregates[record.dataset_reference.as_tuple()] = record
+        return record
+
+    def register_administrative_aggregate(
+        self,
+        record: AdministrativeAggregateRecord,
+    ) -> AdministrativeAggregateRecord:
+        if record.stored_row_level_data:
+            raise AccessDeniedError("administrative row-level data cannot be registered in FDW")
+        if record.disclosure_approval_status != "approved":
+            raise AccessDeniedError("administrative aggregate lacks approved disclosure status")
+        self.administrative_aggregates[record.dataset_reference.as_tuple()] = record
         return record
