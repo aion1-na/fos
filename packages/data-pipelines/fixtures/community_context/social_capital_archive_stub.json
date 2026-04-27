@@ -1,0 +1,7 @@
+{
+  "canonical_dataset_name": "social-capital-archive",
+  "access_status": "request_status_stub",
+  "reason": "source archive access is not approved for production ingestion",
+  "rows": [],
+  "allowed_output": "request-status metadata only"
+}

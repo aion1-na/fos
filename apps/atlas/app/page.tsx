@@ -25,6 +25,9 @@ export default function HomePage() {
       <Link className="primary-link" href="/evidence">
         View evidence
       </Link>
+      <Link className="primary-link" href="/evidence-graph">
+        Explore evidence graph
+      </Link>
       <Link className="primary-link" href="/international">
         View international context
       </Link>

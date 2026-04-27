@@ -70,6 +70,19 @@ test("atlas evidence viewer traces claim to provenance", () => {
   assert.match(source, /provenanceManifest/);
 });
 
+test("atlas evidence graph exposes react flow traversal and filters", () => {
+  const page = readFileSync(new URL("../app/evidence-graph/page.tsx", import.meta.url), "utf-8");
+  const source = readFileSync(new URL("../lib/evidence/graph.ts", import.meta.url), "utf-8");
+  assert.match(page, /Evidence graph explorer/);
+  assert.match(page, /React Flow/);
+  assert.match(source, /reactFlowNodes/);
+  assert.match(source, /reactFlowEdges/);
+  assert.match(source, /construct -> evidence claim/);
+  assert.match(source, /evidence claim -> citation/);
+  assert.match(source, /citation -> dataset/);
+  assert.match(source, /confidenceLabel/);
+});
+
 test("atlas international context exposes source and iso3 country identifiers", () => {
   const page = readFileSync(new URL("../app/international/page.tsx", import.meta.url), "utf-8");
   const source = readFileSync(new URL("../lib/international/context.ts", import.meta.url), "utf-8");

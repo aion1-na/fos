@@ -37,6 +37,9 @@ DATASETS = [
     "nhanes-public",
     "meps-public",
     "international-policy-context",
+    "community-pathways",
+    "atus-public-time-use",
+    "social-capital-context",
 ]
 WORKSTREAM_READMES = [
     "packages/data-pipelines/README.md",
