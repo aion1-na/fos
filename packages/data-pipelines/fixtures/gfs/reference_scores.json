@@ -1,0 +1,18 @@
+{
+  "US": {
+    "happiness": 6.6,
+    "health": 7.6,
+    "meaning": 6.4,
+    "character": 7.6,
+    "relationships": 6.6,
+    "financial": 5.4
+  },
+  "JP": {
+    "happiness": 5.45,
+    "health": 6.55,
+    "meaning": 6.9,
+    "character": 7.55,
+    "relationships": 6.45,
+    "financial": 6.55
+  }
+}

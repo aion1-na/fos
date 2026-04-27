@@ -1,0 +1,35 @@
+version: "0.1"
+canonical_dataset_name: gfs_wave1
+fields:
+  - source_field: country
+    original_label: Country
+    canonical_name: country
+    data_type: string
+  - source_field: weight
+    original_label: Sampling weight
+    canonical_name: sampling_weight
+    data_type: number
+  - source_field: happiness
+    original_label: Happiness domain score
+    canonical_name: happiness
+    data_type: number
+  - source_field: health
+    original_label: Health domain score
+    canonical_name: health
+    data_type: number
+  - source_field: meaning
+    original_label: Meaning domain score
+    canonical_name: meaning
+    data_type: number
+  - source_field: character
+    original_label: Character domain score
+    canonical_name: character
+    data_type: number
+  - source_field: relationships
+    original_label: Relationships domain score
+    canonical_name: relationships
+    data_type: number
+  - source_field: financial
+    original_label: Financial stability domain score
+    canonical_name: financial
+    data_type: number

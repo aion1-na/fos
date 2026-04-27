@@ -13,6 +13,10 @@ from fos_data_pipelines.features.ai_exposure import (
     build_ai_exposure_ensemble,
     build_occupation_ai_demographic_distributions,
 )
+from fos_data_pipelines.scoring.flourishing import (
+    build_gfs_wave1_marginals,
+    score_six_domain_country_marginals,
+)
 
 __all__ = [
     "ConnectorConfig",
@@ -29,5 +33,7 @@ __all__ = [
     "build_fixture_reference",
     "build_ai_exposure_ensemble",
     "build_occupation_ai_demographic_distributions",
+    "build_gfs_wave1_marginals",
     "load_codebook",
+    "score_six_domain_country_marginals",
 ]

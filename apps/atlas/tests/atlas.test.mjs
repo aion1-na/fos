@@ -37,3 +37,13 @@ test("atlas ai exposure gallery exposes side-by-side measures and quartiles", ()
   assert.match(source, /age_18_34/);
   assert.match(source, /geography/);
 });
+
+test("atlas gfs view labels wave 1 as cross-sectional research-grade", () => {
+  const page = readFileSync(new URL("../app/gfs/page.tsx", import.meta.url), "utf-8");
+  const source = readFileSync(new URL("../lib/gfs/wave1.ts", import.meta.url), "utf-8");
+  assert.match(source, /cross-sectional and research-grade/);
+  assert.match(source, /not prospective forecasting/);
+  assert.match(page, /Country comparison/);
+  assert.match(page, /Demographic cuts/);
+  assert.match(page, /weighted mean/);
+});

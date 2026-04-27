@@ -21,6 +21,10 @@ DATASETS = [
     "eloundou-ai-exposure",
     "felten-ai-exposure",
     "webb-ai-exposure",
+    "gfs-wave1",
+    "world-happiness-report",
+    "ess",
+    "wvs",
 ]
 WORKSTREAM_READMES = [
     "packages/data-pipelines/README.md",

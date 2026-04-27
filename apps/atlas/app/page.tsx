@@ -16,6 +16,9 @@ export default function HomePage() {
       <Link className="primary-link" href="/ai-exposure">
         View AI exposure
       </Link>
+      <Link className="primary-link" href="/gfs">
+        View GFS Wave 1
+      </Link>
     </main>
   );
 }
