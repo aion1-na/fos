@@ -19,6 +19,10 @@ from fos_data_service.catalog import (
     Tier2AccessRequest,
     UserRole,
 )
+from fos_data_service.restricted_health import (
+    RestrictedMortalityAggregateSubmission,
+    ingest_restricted_mortality_aggregate,
+)
 from fos_data_service.secure_analysis import (
     AggregateResultSubmission,
     SecureAnalysisManifest,
@@ -275,6 +279,16 @@ ADMIN_DUA_TRACKER = [
         "ingest_allowed": False,
     },
 ]
+NCHS_ACCESS_TRACKER = [
+    {
+        "project_id": "nchs-rdc-mortality-despair-validation",
+        "owner": "Health data lead",
+        "access_status": "request_status_stub",
+        "irb_dua_status": "not_submitted",
+        "next_action": "Assemble IRB/DUA packet and NCHS RDC proposal.",
+        "leadership_visible": True,
+    }
+]
 
 
 @app.get("/datasets")
@@ -340,6 +354,11 @@ def administrative_aggregate_ingest(
     }
 
 
+@app.get("/restricted-health/nchs-access")
+def nchs_access_tracker() -> dict[str, list[dict[str, object]]]:
+    return {"projects": NCHS_ACCESS_TRACKER}
+
+
 @app.post("/secure-analysis/manifest/validate")
 def validate_secure_analysis_manifest(manifest: SecureAnalysisManifest) -> dict[str, object]:
     return {
@@ -364,6 +383,22 @@ def restricted_aggregate_ingest(submission: AggregateResultSubmission) -> dict[s
         "manifest_hash": record.manifest_hash,
         "stored_raw_restricted_data": record.stored_raw_restricted_data,
         "disclosure_review": record.disclosure_review.model_dump(mode="json"),
+    }
+
+
+@app.post("/restricted-health/mortality-aggregates")
+def restricted_mortality_aggregate_ingest(
+    submission: RestrictedMortalityAggregateSubmission,
+) -> dict[str, object]:
+    record = ingest_restricted_mortality_aggregate(submission)
+    catalog.register_restricted_mortality_aggregate(record)
+    return {
+        "dataset_reference": record.dataset_reference.model_dump(mode="json"),
+        "approval_status": record.approval_status,
+        "review_id": record.review_id,
+        "source_environment": record.source_environment.model_dump(mode="json"),
+        "stored_raw_restricted_data": record.stored_raw_restricted_data,
+        "atlas_safe_rows": [row.model_dump(mode="json") for row in record.atlas_safe_rows],
     }
 
 
