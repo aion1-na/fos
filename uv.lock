@@ -143,10 +143,14 @@ version = "0.1.0"
 source = { editable = "packages/data-pipelines" }
 dependencies = [
     { name = "fw-contracts" },
+    { name = "pydantic" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "fw-contracts", editable = "packages/contracts" }]
+requires-dist = [
+    { name = "fw-contracts", editable = "packages/contracts" },
+    { name = "pydantic" },
+]
 
 [[package]]
 name = "fos-data-service"
@@ -154,10 +158,14 @@ version = "0.1.0"
 source = { editable = "packages/data-service" }
 dependencies = [
     { name = "fastapi" },
+    { name = "fos-data-pipelines" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "fastapi" }]
+requires-dist = [
+    { name = "fastapi" },
+    { name = "fos-data-pipelines", editable = "packages/data-pipelines" },
+]
 
 [[package]]
 name = "fos-pack-flourishing"

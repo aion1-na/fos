@@ -1,6 +1,10 @@
 from __future__ import annotations
 
+from pathlib import Path
+
+from fos_data_pipelines.models import RawArtifact
 from fos_data_service.app import health, list_datasets
+from fos_data_service.catalog import Catalog
 
 
 def test_health_is_metadata_only() -> None:
@@ -11,3 +15,64 @@ def test_dataset_listing_uses_request_status_stubs() -> None:
     datasets = list_datasets()["datasets"]
     assert datasets
     assert all(dataset["access_status"] == "request_status_stub" for dataset in datasets)
+
+
+def test_catalog_tracks_connector_versions_separately_from_dataset_versions() -> None:
+    catalog = Catalog()
+    first = RawArtifact(
+        artifact_id="raw:gfs:2026:v1",
+        canonical_dataset_name="gfs",
+        dataset_version="2026-fixture",
+        connector_name="gfs_fixture",
+        connector_version="0.1.0",
+        content_hash="a" * 64,
+        raw_uri="s3://fos-raw/raw/gfs/a.csv",
+        byte_size=10,
+    )
+    second = first.model_copy(
+        update={
+            "artifact_id": "raw:gfs:2026:v2",
+            "connector_version": "0.2.0",
+            "content_hash": "b" * 64,
+            "raw_uri": "s3://fos-raw/raw/gfs/b.csv",
+        }
+    )
+
+    catalog.register_raw_artifact(first)
+    catalog.register_raw_artifact(second)
+
+    assert catalog.dataset_versions == {("gfs", "2026-fixture")}
+    assert catalog.connector_versions == {("gfs_fixture", "0.1.0"), ("gfs_fixture", "0.2.0")}
+
+
+def test_catalog_answers_artifact_lineage() -> None:
+    catalog = Catalog()
+    artifact = RawArtifact(
+        artifact_id="raw:hrs:stub:v1",
+        canonical_dataset_name="hrs",
+        dataset_version="access-not-approved",
+        connector_name="hrs_request_status",
+        connector_version="0.1.0",
+        content_hash="c" * 64,
+        raw_uri="s3://fos-raw/raw/hrs/stub.json",
+        byte_size=2,
+    )
+
+    catalog.register_raw_artifact(artifact)
+    lineage = catalog.artifact_lineage("raw:hrs:stub:v1")
+
+    assert lineage is not None
+    assert lineage.dataset_version == "access-not-approved"
+    assert lineage.connector_version == "0.1.0"
+
+
+def test_postgres_catalog_migration_declares_lineage_tables() -> None:
+    migration = (
+        Path(__file__).resolve().parents[1] / "migrations" / "001_catalog.sql"
+    ).read_text(encoding="utf-8")
+
+    assert "CREATE TABLE IF NOT EXISTS connector_versions" in migration
+    assert "CREATE TABLE IF NOT EXISTS dataset_versions" in migration
+    assert "CREATE TABLE IF NOT EXISTS artifacts" in migration
+    assert "connector_version TEXT NOT NULL" in migration
+    assert "dataset_version TEXT NOT NULL" in migration

@@ -5,7 +5,11 @@ description = "Request-status metadata service scaffolding for FOS data workstre
 requires-python = ">=3.11"
 dependencies = [
   "fastapi",
+  "fos-data-pipelines",
 ]
+
+[tool.uv.sources]
+fos-data-pipelines = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]

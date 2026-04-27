@@ -90,3 +90,23 @@ def test_no_connector_or_dashboard_credentials_are_committed() -> None:
                 continue
             content = path.read_text(encoding="utf-8")
             assert not forbidden.search(content), path
+
+
+def test_platform_code_does_not_read_raw_files_directly() -> None:
+    platform_roots = [
+        ROOT / "apps" / "api",
+        ROOT / "apps" / "studio",
+        ROOT / "packages" / "sim-kernel",
+        ROOT / "packages" / "population-synth",
+        ROOT / "packages" / "validation-core",
+        ROOT / "packages" / "render-core",
+    ]
+    forbidden = re.compile(r"(fos_data_pipelines\.raw_zone|RawZone|/raw/|s3://fos-raw)")
+    for root in platform_roots:
+        for path in root.rglob("*"):
+            if path.is_dir() or path.suffix in {".pyc", ".gz", ".pack"}:
+                continue
+            if any(part in {".next", "node_modules", "__pycache__"} for part in path.parts):
+                continue
+            content = path.read_text(encoding="utf-8")
+            assert not forbidden.search(content), path

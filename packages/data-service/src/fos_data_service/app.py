@@ -2,7 +2,10 @@ from __future__ import annotations
 
 from fastapi import FastAPI
 
+from fos_data_service.catalog import Catalog
+
 app = FastAPI(title="FOS Data Service")
+catalog = Catalog()
 
 
 @app.get("/health")
@@ -25,4 +28,19 @@ def list_datasets() -> dict[str, list[dict[str, str]]]:
                 "version": "access-not-approved",
             },
         ]
+    }
+
+
+@app.get("/artifacts/{artifact_id}/lineage")
+def artifact_lineage(artifact_id: str) -> dict[str, str] | dict[str, None]:
+    lineage = catalog.artifact_lineage(artifact_id)
+    if lineage is None:
+        return {"artifact_id": artifact_id, "lineage": None}
+    return {
+        "artifact_id": lineage.artifact_id,
+        "canonical_dataset_name": lineage.canonical_dataset_name,
+        "dataset_version": lineage.dataset_version,
+        "connector_name": lineage.connector_name,
+        "connector_version": lineage.connector_version,
+        "content_hash": lineage.content_hash,
     }
