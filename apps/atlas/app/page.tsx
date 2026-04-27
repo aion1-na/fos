@@ -13,6 +13,9 @@ export default function HomePage() {
       <Link className="primary-link" href="/datasets">
         View datasets
       </Link>
+      <Link className="primary-link" href="/ai-exposure">
+        View AI exposure
+      </Link>
     </main>
   );
 }

@@ -102,3 +102,22 @@ dd {
   font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   overflow-wrap: anywhere;
 }
+
+table {
+  border-collapse: collapse;
+  margin-top: 14px;
+  width: 100%;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--line);
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: var(--muted);
+  font-size: 13px;
+}

@@ -18,6 +18,9 @@ DATASETS = [
     "acs-ipums",
     "onet",
     "bls-oews",
+    "eloundou-ai-exposure",
+    "felten-ai-exposure",
+    "webb-ai-exposure",
 ]
 WORKSTREAM_READMES = [
     "packages/data-pipelines/README.md",

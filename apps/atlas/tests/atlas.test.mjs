@@ -22,3 +22,18 @@ test("atlas dataset directory source exposes required metadata", () => {
   assert.match(source, /onet/);
   assert.match(source, /bls_oews/);
 });
+
+test("atlas ai exposure gallery exposes side-by-side measures and quartiles", () => {
+  const page = readFileSync(new URL("../app/ai-exposure/page.tsx", import.meta.url), "utf-8");
+  const source = readFileSync(
+    new URL("../lib/ai-exposure/measures.ts", import.meta.url),
+    "utf-8",
+  );
+  assert.match(page, /Eloundou/);
+  assert.match(page, /Felten/);
+  assert.match(page, /Divergence/);
+  assert.match(page, /Exposure quartiles/);
+  assert.match(source, /disagreementLevel/);
+  assert.match(source, /age_18_34/);
+  assert.match(source, /geography/);
+});
