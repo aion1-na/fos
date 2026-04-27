@@ -1,0 +1,8 @@
+{
+  "canonical_dataset_name": "nlsy97",
+  "connector_name": "nlsy97_registration_gated",
+  "access_status": "request_status_stub",
+  "license_status": "not_approved",
+  "registration_required": true,
+  "rows": []
+}

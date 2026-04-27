@@ -46,6 +46,19 @@ test("atlas admin exposes tier2 dua status outside public view", () => {
   assert.doesNotMatch(publicSource, /secureCompartment/);
 });
 
+test("atlas panels page exposes longitudinal availability cards", () => {
+  const page = readFileSync(new URL("../app/panels/page.tsx", import.meta.url), "utf-8");
+  const source = readFileSync(new URL("../lib/panels/us.ts", import.meta.url), "utf-8");
+  assert.match(page, /Longitudinal panel availability/);
+  assert.match(source, /HRS/);
+  assert.match(source, /MIDUS/);
+  assert.match(source, /NLSY79/);
+  assert.match(source, /NLSY97/);
+  assert.match(source, /PSID/);
+  assert.match(source, /depression_wellbeing/);
+  assert.match(source, /pending_access/);
+});
+
 test("atlas search emits citations across cards codebooks and claims", () => {
   const page = readFileSync(new URL("../app/search/page.tsx", import.meta.url), "utf-8");
   const source = readFileSync(new URL("../lib/search/citations.ts", import.meta.url), "utf-8");

@@ -46,6 +46,7 @@ from fos_data_pipelines.quality.gates import (
     run_quality_gate,
     validate_tier1_release_candidate,
 )
+from fos_data_pipelines.us_panels.features import build_us_employment_wellbeing_panels
 
 __all__ = [
     "ConnectorConfig",
@@ -75,6 +76,7 @@ __all__ = [
     "build_health_validation_context",
     "build_policy_regime_context",
     "build_cross_country_dashboard_view",
+    "build_us_employment_wellbeing_panels",
     "run_quality_gate",
     "validate_tier1_release_candidate",
     "load_codebook",
