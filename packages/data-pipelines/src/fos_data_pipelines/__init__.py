@@ -46,6 +46,7 @@ from fos_data_pipelines.international_panels.features import (
     build_cross_country_employment_wellbeing_panels,
     build_safety_net_regime_comparators,
 )
+from fos_data_pipelines.partner_feeds.contracts import build_real_time_labor_signals
 from fos_data_pipelines.quality.gates import (
     run_quality_gate,
     validate_tier1_release_candidate,
@@ -82,6 +83,7 @@ __all__ = [
     "build_cross_country_dashboard_view",
     "build_cross_country_employment_wellbeing_panels",
     "build_safety_net_regime_comparators",
+    "build_real_time_labor_signals",
     "build_us_employment_wellbeing_panels",
     "run_quality_gate",
     "validate_tier1_release_candidate",

@@ -107,6 +107,17 @@ test("atlas ai exposure gallery exposes side-by-side measures and quartiles", ()
   assert.match(source, /geography/);
 });
 
+test("atlas labels real-time labor feeds as deployment signals", () => {
+  const page = readFileSync(new URL("../app/labor-signals/page.tsx", import.meta.url), "utf-8");
+  const source = readFileSync(new URL("../lib/labor/real-time.ts", import.meta.url), "utf-8");
+  assert.match(page, /Real-time labor signals/);
+  assert.match(page, /separately from predicted exposure/);
+  assert.match(source, /deployment signal/);
+  assert.match(source, /commercial\/lightcast/);
+  assert.match(source, /commercial\/linkedin/);
+  assert.match(source, /commercial\/indeed/);
+});
+
 test("atlas gfs view labels wave 1 as cross-sectional research-grade", () => {
   const page = readFileSync(new URL("../app/gfs/page.tsx", import.meta.url), "utf-8");
   const source = readFileSync(new URL("../lib/gfs/wave1.ts", import.meta.url), "utf-8");
