@@ -1,0 +1,7 @@
+{
+  "hrs": {"waves": ["request_status_stub"], "cadence": "biennial", "country": "USA"},
+  "midus": {"waves": ["request_status_stub"], "cadence": "longitudinal waves", "country": "USA"},
+  "nlsy79": {"waves": ["request_status_stub"], "cadence": "annual/biennial", "country": "USA"},
+  "nlsy97": {"waves": ["request_status_stub"], "cadence": "annual/biennial", "country": "USA"},
+  "psid": {"waves": ["request_status_stub"], "cadence": "annual/biennial", "country": "USA"}
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "canonical_dataset_name": "lightcast_job_postings",
+    "connector_name": "lightcast_partner_feed_poc",
+    "connector_version": "0.1.0",
+    "license_compartment": "commercial/lightcast",
+    "access_status": "request_status_stub",
+    "license_status": "not_approved",
+    "partition_grain": "daily",
+    "snapshot_partition": "date=2026-04-01",
+    "signal_family": "job_postings",
+    "rows": []
+  },
+  {
+    "canonical_dataset_name": "linkedin_hiring_signals",
+    "connector_name": "linkedin_partner_feed_poc",
+    "connector_version": "0.1.0",
+    "license_compartment": "commercial/linkedin",
+    "access_status": "request_status_stub",
+    "license_status": "not_approved",
+    "partition_grain": "daily",
+    "snapshot_partition": "date=2026-04-01",
+    "signal_family": "hiring_velocity",
+    "rows": []
+  },
+  {
+    "canonical_dataset_name": "indeed_job_postings",
+    "connector_name": "indeed_partner_feed_poc",
+    "connector_version": "0.1.0",
+    "license_compartment": "commercial/indeed",
+    "access_status": "request_status_stub",
+    "license_status": "not_approved",
+    "partition_grain": "hourly",
+    "snapshot_partition": "date=2026-04-01/hour=00",
+    "signal_family": "job_postings",
+    "rows": []
+  }
+]

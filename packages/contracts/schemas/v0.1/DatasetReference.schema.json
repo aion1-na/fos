@@ -1,0 +1,30 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "canonical_dataset_name": {
+      "minLength": 1,
+      "pattern": "^[a-z0-9_][a-z0-9_.-]*$",
+      "title": "Canonical Dataset Name",
+      "type": "string"
+    },
+    "content_hash": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "version": {
+      "minLength": 1,
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "canonical_dataset_name",
+    "version",
+    "content_hash"
+  ],
+  "title": "DatasetReference",
+  "type": "object"
+}

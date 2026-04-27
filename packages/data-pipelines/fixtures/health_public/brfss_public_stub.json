@@ -1,0 +1,7 @@
+{
+  "canonical_dataset_name": "brfss_public",
+  "access_status": "request_status_stub",
+  "public_table_status": "public where published",
+  "microdata_status": "microdata restricted or governed by source terms",
+  "rows": []
+}

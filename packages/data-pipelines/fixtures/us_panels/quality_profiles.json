@@ -1,0 +1,7 @@
+{
+  "hrs": {"attrition_profile": "pending_access", "missingness_profile": "pending_access", "sampling_weight_profile": "pending_access"},
+  "midus": {"attrition_profile": "pending_access", "missingness_profile": "pending_access", "sampling_weight_profile": "pending_access"},
+  "nlsy79": {"attrition_profile": "pending_access", "missingness_profile": "pending_access", "sampling_weight_profile": "pending_access"},
+  "nlsy97": {"attrition_profile": "pending_access", "missingness_profile": "pending_access", "sampling_weight_profile": "pending_access"},
+  "psid": {"attrition_profile": "pending_access", "missingness_profile": "pending_access", "sampling_weight_profile": "pending_access"}
+}

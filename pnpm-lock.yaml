@@ -18,6 +18,39 @@ importers:
         specifier: 3.3.3
         version: 3.3.3
 
+  apps/atlas:
+    devDependencies:
+      '@types/node':
+        specifier: 20.14.12
+        version: 20.14.12
+      '@types/react':
+        specifier: 18.3.3
+        version: 18.3.3
+      '@types/react-dom':
+        specifier: 18.3.0
+        version: 18.3.0
+      eslint:
+        specifier: 8.57.0
+        version: 8.57.0
+      eslint-config-next:
+        specifier: 14.2.15
+        version: 14.2.15(eslint@8.57.0)(typescript@5.5.4)
+      next:
+        specifier: 14.2.15
+        version: 14.2.15(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      prettier:
+        specifier: 3.3.3
+        version: 3.3.3
+      react:
+        specifier: 18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: 18.3.1
+        version: 18.3.1(react@18.3.1)
+      typescript:
+        specifier: 5.5.4
+        version: 5.5.4
+
   apps/studio:
     dependencies:
       '@fos/render-core':
@@ -59,6 +92,18 @@ importers:
         version: 5.5.4
 
   packages/contracts:
+    devDependencies:
+      prettier:
+        specifier: 3.3.3
+        version: 3.3.3
+
+  packages/data-pipelines:
+    devDependencies:
+      prettier:
+        specifier: 3.3.3
+        version: 3.3.3
+
+  packages/data-service:
     devDependencies:
       prettier:
         specifier: 3.3.3

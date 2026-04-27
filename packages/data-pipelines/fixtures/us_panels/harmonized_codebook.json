@@ -1,0 +1,53 @@
+{
+  "version": "us-panels-v0.1",
+  "canonical_constructs": [
+    "employment_status",
+    "income",
+    "health",
+    "depression_wellbeing",
+    "household",
+    "demographics"
+  ],
+  "panels": {
+    "hrs": {
+      "employment_status": ["RABWORK", "RWORK"],
+      "income": ["HHINC"],
+      "health": ["SHLT"],
+      "depression_wellbeing": ["CESD"],
+      "household": ["HHID"],
+      "demographics": ["RAGEY_E", "RAGENDER"]
+    },
+    "midus": {
+      "employment_status": ["B1PB1"],
+      "income": ["B1SF1"],
+      "health": ["B1SA1"],
+      "depression_wellbeing": ["B1SPWBA"],
+      "household": ["M2FAMID"],
+      "demographics": ["B1PAGE_M2", "B1PRSEX"]
+    },
+    "nlsy79": {
+      "employment_status": ["EMP_STATUS"],
+      "income": ["TNFI_TRUNC"],
+      "health": ["HEALTH_LIMIT"],
+      "depression_wellbeing": ["CESD_SCORE"],
+      "household": ["HOUSEHOLD_ID"],
+      "demographics": ["AGE", "SEX"]
+    },
+    "nlsy97": {
+      "employment_status": ["EMP_STATUS"],
+      "income": ["YINC"],
+      "health": ["HEALTH"],
+      "depression_wellbeing": ["MENTAL_HEALTH"],
+      "household": ["HOUSEHOLD_ID"],
+      "demographics": ["AGE", "SEX"]
+    },
+    "psid": {
+      "employment_status": ["ER_EMPLOYED"],
+      "income": ["ER_INCOME"],
+      "health": ["ER_HEALTH"],
+      "depression_wellbeing": ["ER_WELLBEING"],
+      "household": ["ER_HHID"],
+      "demographics": ["ER_AGE", "ER_SEX"]
+    }
+  }
+}

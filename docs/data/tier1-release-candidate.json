@@ -1,0 +1,14 @@
+{
+  "release_candidate": "tier1-rc0",
+  "scope": "offline fixture and request-status validation only",
+  "datasets": [
+    "acs-ipums",
+    "onet",
+    "bls-oews",
+    "gfs-wave1",
+    "community-pathways"
+  ],
+  "quality_gate": "packages/data-pipelines/src/fos_data_pipelines/quality/gates.py",
+  "expectation_suites": "packages/data-pipelines/fixtures/tier1/expectation_suites.json",
+  "production_ready": false
+}

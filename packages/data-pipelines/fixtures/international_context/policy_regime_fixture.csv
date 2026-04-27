@@ -1,0 +1,7 @@
+source,source_country_code,country_iso3,year,indicator,value
+OECD,USA,USA,2020,safety_net_generosity,0.62
+OECD,JPN,JPN,2020,safety_net_generosity,0.55
+WorldBank,US,USA,2020,gdp_per_capita,63528
+WorldBank,JP,JPN,2020,gdp_per_capita,40193
+Eurostat,DE,DEU,2020,employment_rate,0.77
+ILO,USA,USA,2020,employment_rate,0.71

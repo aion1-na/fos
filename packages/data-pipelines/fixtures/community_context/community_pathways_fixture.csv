@@ -1,0 +1,6 @@
+source,construct,source_geography_id,geography_level,join_allowed,year,measure,value,source_label
+CountyHealthRankings,volunteering,06075,county,true,2021,volunteer_rate,0.29,San Francisco County
+CountyHealthRankings,civic_engagement,06075,county,true,2021,voter_participation,0.81,San Francisco County
+SocialCapitalAtlas,trust,94110,zip,true,2021,neighbor_trust_index,0.64,ZIP 94110
+MobilityTrends,mobility,06075022803,tract,true,2021,mean_daily_trips,3.70,Census tract 06075022803
+ArchiveLimitedReligiousStudy,religious_attendance,private_archive,individual,false,2021,weekly_attendance_share,0.00,Archive-limited restricted microdata

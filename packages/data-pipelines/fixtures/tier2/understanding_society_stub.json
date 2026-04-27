@@ -1,0 +1,7 @@
+{
+  "canonical_dataset_name": "understanding_society",
+  "connector_name": "understanding_society_request_status",
+  "access_status": "request_status_stub",
+  "license_status": "not_approved",
+  "rows": []
+}

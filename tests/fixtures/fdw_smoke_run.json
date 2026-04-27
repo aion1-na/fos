@@ -1,0 +1,11 @@
+{
+  "id": "simulation-run-fdw-smoke",
+  "status": "succeeded",
+  "dataset_references": [
+    {
+      "canonical_dataset_name": "features.community_context",
+      "version": "fixture-0.1",
+      "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  ]
+}

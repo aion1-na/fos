@@ -1,0 +1,19 @@
+version: "0.1"
+canonical_dataset_name: ai_exposure_measures
+fields:
+  - source_field: occupation_code
+    original_label: Occupation code
+    canonical_name: occupation_code
+    data_type: string
+  - source_field: exposure_score
+    original_label: Exposure score
+    canonical_name: exposure_score
+    data_type: number
+  - source_field: measure_name
+    original_label: Exposure measure name
+    canonical_name: measure_name
+    data_type: string
+  - source_field: measure_version
+    original_label: Exposure measure version
+    canonical_name: measure_version
+    data_type: string

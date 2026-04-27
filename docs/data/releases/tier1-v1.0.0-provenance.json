@@ -1,0 +1,15 @@
+{
+  "release": "tier1-v1.0.0",
+  "smoke_run": {
+    "id": "mvp-tier1-smoke",
+    "status": "succeeded",
+    "dataset_references": [
+      ["acs-ipums", "1.0.0", "4b064f72dee92ed13a4dbb7945d29e04184199c6e8da67013a6a0c0cb3de9eb9"],
+      ["onet", "1.0.0", "9e62214c0f58829191797b942a49e691f1065996a1e445ce4c62f8ea9e84a405"],
+      ["bls-oews", "1.0.0", "0d5bd5e75a3367a632677ef51aa22949353c4d1db723716165e5137692e21d95"],
+      ["gfs-wave1", "1.0.0", "8630b7664865a8ea63fa4ebb7bed3224aeb97f7db3cddefd112003ce6bef2545"],
+      ["community-pathways", "1.0.0", "fb28f7b26a0e4047627607aecb9249c45d2a678b34bdda3a34d886810613483a"]
+    ],
+    "provenance_complete": true
+  }
+}

@@ -8,7 +8,7 @@ from pathlib import Path
 from hypothesis import given, settings, strategies as st
 from pydantic import BaseModel
 
-from fw_contracts import CONTRACTS_VERSION, AgentState, DomainPack, Scenario
+from fw_contracts import CONTRACTS_VERSION, AgentState, DatasetReference, DomainPack, Scenario
 from fw_contracts.schema_export import EXPORTED_MODELS
 
 ROOT = Path(__file__).resolve().parents[4]
@@ -50,6 +50,26 @@ def ts_roundtrip(model_name: str, payload: dict) -> dict:
 
 def test_version_export() -> None:
     assert CONTRACTS_VERSION == "0.1.0"
+
+
+def test_dataset_reference_is_content_addressed_tuple() -> None:
+    reference = DatasetReference(
+        canonical_dataset_name="features.community_context",
+        version="fixture-0.1",
+        content_hash="a" * 64,
+    )
+
+    assert reference.as_tuple() == ("features.community_context", "fixture-0.1", "a" * 64)
+
+
+def test_dataset_reference_roundtrips_through_ts() -> None:
+    reference = DatasetReference(
+        canonical_dataset_name="features.community_context",
+        version="fixture-0.1",
+        content_hash="b" * 64,
+    )
+    returned = ts_roundtrip("DatasetReference", reference.model_dump(mode="json"))
+    assert DatasetReference.model_validate(returned) == reference
 
 
 def test_schema_exports_exist() -> None:

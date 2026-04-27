@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from fw_contracts.models import (
     AgentState,
     BranchSpec,
+    DatasetReference,
     DomainPack,
     EvidenceClaim,
     FidelityReport,
@@ -29,6 +30,7 @@ from fw_contracts.models import (
 SCHEMA_VERSION = "v0.1"
 
 EXPORTED_MODELS: dict[str, type[BaseModel]] = {
+    "DatasetReference": DatasetReference,
     "DomainPack": DomainPack,
     "Scenario": Scenario,
     "AgentState": AgentState[BaseModel],

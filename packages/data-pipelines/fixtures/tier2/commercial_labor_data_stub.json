@@ -1,0 +1,7 @@
+{
+  "canonical_dataset_name": "commercial_labor_data",
+  "connector_name": "commercial_labor_data_request_status",
+  "access_status": "request_status_stub",
+  "license_status": "not_approved",
+  "rows": []
+}

@@ -1,0 +1,15 @@
+version: "0.1"
+canonical_dataset_name: acs_ipums
+fields:
+  - source_field: AGE
+    original_label: Age
+    canonical_name: age
+    data_type: integer
+  - source_field: OCC
+    original_label: Occupation
+    canonical_name: occupation_code
+    data_type: string
+  - source_field: EMPSTAT
+    original_label: Employment status
+    canonical_name: employment_status
+    data_type: string

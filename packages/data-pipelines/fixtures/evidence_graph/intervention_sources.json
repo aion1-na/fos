@@ -1,0 +1,26 @@
+[
+  {
+    "source_id": "src_paid_leave_meta_stub",
+    "canonical_dataset_name": "paid_leave_literature",
+    "access_status": "request_status_stub",
+    "dataset_card": "docs/data/datasets/paid-leave-literature.md",
+    "provenance_manifest": "request-status:paid-leave-literature",
+    "citation": "Paid leave meta-analysis source pending approved extraction."
+  },
+  {
+    "source_id": "src_job_training_rct_stub",
+    "canonical_dataset_name": "job_training_literature",
+    "access_status": "request_status_stub",
+    "dataset_card": "docs/data/datasets/job-training-literature.md",
+    "provenance_manifest": "request-status:job-training-literature",
+    "citation": "Job training impact source pending approved extraction."
+  },
+  {
+    "source_id": "src_mentoring_eval_stub",
+    "canonical_dataset_name": "mentoring_literature",
+    "access_status": "request_status_stub",
+    "dataset_card": "docs/data/datasets/mentoring-literature.md",
+    "provenance_manifest": "request-status:mentoring-literature",
+    "citation": "Mentoring evaluation source pending approved extraction."
+  }
+]

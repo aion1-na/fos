@@ -79,6 +79,15 @@ class FidelityReport(ContractModel):
     metrics: JsonObject = Field(default_factory=dict)
 
 
+class DatasetReference(ContractModel):
+    canonical_dataset_name: str = Field(min_length=1, pattern=r"^[a-z0-9_][a-z0-9_.-]*$")
+    version: str = Field(min_length=1)
+    content_hash: str = Field(min_length=64, max_length=64, pattern=r"^[a-f0-9]{64}$")
+
+    def as_tuple(self) -> tuple[str, str, str]:
+        return (self.canonical_dataset_name, self.version, self.content_hash)
+
+
 class DomainPack(ContractModel):
     id: str
     name: str

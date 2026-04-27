@@ -1,0 +1,7 @@
+{
+  "canonical_dataset_name": "religious-attendance-context",
+  "access_status": "request_status_stub",
+  "reason": "religious attendance microdata is archive-limited or governed by source-specific terms",
+  "rows": [],
+  "allowed_output": "request-status metadata only"
+}
