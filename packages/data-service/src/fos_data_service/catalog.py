@@ -6,6 +6,7 @@ from typing import Literal
 from fw_contracts import DatasetReference
 from fos_data_pipelines.models import RawArtifact
 from fos_data_pipelines.quality.cards import REQUIRED_CARD_FIELDS
+from fos_data_service.restricted_health import RestrictedMortalityAggregateRecord
 from fos_data_service.secure_analysis import RestrictedAggregateRecord
 
 
@@ -109,6 +110,9 @@ class Catalog:
         self.atlas_access_policies: dict[str, AtlasAccessPolicy] = {}
         self.tier2_access_requests: dict[str, Tier2AccessRequest] = {}
         self.restricted_aggregates: dict[tuple[str, str, str], RestrictedAggregateRecord] = {}
+        self.restricted_mortality_aggregates: dict[
+            tuple[str, str, str], RestrictedMortalityAggregateRecord
+        ] = {}
 
     def register_connector_version(self, connector_name: str, connector_version: str) -> None:
         self.connector_versions.add((connector_name, connector_version))
@@ -218,4 +222,15 @@ class Catalog:
         if not record.disclosure_review.approved_for_fdw:
             raise AccessDeniedError("aggregate output lacks approved disclosure review")
         self.restricted_aggregates[record.dataset_reference.as_tuple()] = record
+        return record
+
+    def register_restricted_mortality_aggregate(
+        self,
+        record: RestrictedMortalityAggregateRecord,
+    ) -> RestrictedMortalityAggregateRecord:
+        if record.stored_raw_restricted_data:
+            raise AccessDeniedError("restricted mortality raw data cannot be registered in FDW")
+        if record.approval_status != "approved":
+            raise AccessDeniedError("restricted mortality aggregate lacks approved status")
+        self.restricted_mortality_aggregates[record.dataset_reference.as_tuple()] = record
         return record
