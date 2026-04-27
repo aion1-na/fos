@@ -31,6 +31,12 @@ DATASETS = [
     "paid-leave-literature",
     "job-training-literature",
     "mentoring-literature",
+    "cdc-public-health",
+    "brfss-public",
+    "nhis-public",
+    "nhanes-public",
+    "meps-public",
+    "international-policy-context",
 ]
 WORKSTREAM_READMES = [
     "packages/data-pipelines/README.md",

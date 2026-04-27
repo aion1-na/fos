@@ -32,6 +32,11 @@ from fos_data_pipelines.evidence_graph.claims import (
     load_evidence_sources,
     trace_claim,
 )
+from fos_data_pipelines.health_public.context import build_health_validation_context
+from fos_data_pipelines.international.context import (
+    build_cross_country_dashboard_view,
+    build_policy_regime_context,
+)
 
 __all__ = [
     "ConnectorConfig",
@@ -55,6 +60,9 @@ __all__ = [
     "build_pntr_mortality_backtest",
     "build_robot_exposure_table",
     "build_intervention_effect_size_priors",
+    "build_health_validation_context",
+    "build_policy_regime_context",
+    "build_cross_country_dashboard_view",
     "load_codebook",
     "load_evidence_claims",
     "load_evidence_sources",

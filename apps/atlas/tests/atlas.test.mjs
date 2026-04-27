@@ -69,3 +69,14 @@ test("atlas evidence viewer traces claim to provenance", () => {
   assert.match(source, /datasetCard/);
   assert.match(source, /provenanceManifest/);
 });
+
+test("atlas international context exposes source and iso3 country identifiers", () => {
+  const page = readFileSync(new URL("../app/international/page.tsx", import.meta.url), "utf-8");
+  const source = readFileSync(new URL("../lib/international/context.ts", import.meta.url), "utf-8");
+  assert.match(page, /International policy context/);
+  assert.match(page, /Source country/);
+  assert.match(page, /ISO3/);
+  assert.match(source, /safety_net_generosity/);
+  assert.match(source, /employment_rate/);
+  assert.match(source, /atlas.cross_country_policy_dashboard/);
+});
