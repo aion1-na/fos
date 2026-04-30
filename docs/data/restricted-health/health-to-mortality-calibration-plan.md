@@ -22,6 +22,6 @@ Prepare a restricted-use validation path for high-confidence deaths-of-despair a
 - `restricted_deaths_of_despair_rate_by_state_age_band`
 - `restricted_health_to_mortality_calibration_by_cause_group`
 
-## FDW Boundary
+## FOS Boundary
 
-Raw restricted data does not enter FDW. Only disclosure-approved aggregate results with source environment metadata may be registered.
+Raw restricted data does not enter FOS. Only disclosure-approved aggregate results with source environment metadata may be registered.

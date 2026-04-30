@@ -1,0 +1,93 @@
+{
+  "$defs": {
+    "DatasetReference": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_dataset_name": {
+          "minLength": 1,
+          "pattern": "^[a-z0-9_][a-z0-9_.-]*$",
+          "title": "Canonical Dataset Name",
+          "type": "string"
+        },
+        "content_hash": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "version": {
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "canonical_dataset_name",
+        "version",
+        "content_hash"
+      ],
+      "title": "DatasetReference",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "adapter_id": {
+      "title": "Adapter Id",
+      "type": "string"
+    },
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_type": {
+      "enum": [
+        "tool",
+        "graph",
+        "qualitative"
+      ],
+      "title": "Artifact Type",
+      "type": "string"
+    },
+    "content_hash": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "dataset_references": {
+      "items": {
+        "$ref": "#/$defs/DatasetReference"
+      },
+      "minItems": 1,
+      "title": "Dataset References",
+      "type": "array"
+    },
+    "notes": {
+      "default": "",
+      "title": "Notes",
+      "type": "string"
+    },
+    "uri": {
+      "title": "Uri",
+      "type": "string"
+    },
+    "validated_for_causal_effects": {
+      "default": false,
+      "title": "Validated For Causal Effects",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "adapter_id",
+    "artifact_type",
+    "uri",
+    "content_hash",
+    "dataset_references"
+  ],
+  "title": "ToolArtifactReference",
+  "type": "object"
+}

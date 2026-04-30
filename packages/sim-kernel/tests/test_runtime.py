@@ -94,7 +94,7 @@ def test_runtime_emits_run_data_manifest_for_all_simulation_components(tmp_path:
         "population_synthesis",
         "transition_models",
         "validation",
-        "mirofish_adapter",
+        "adapter_artifacts",
     }
     assert run.outputs["branch_data_manifests"][0]["branch_id"] == "treatment"
     assert artifact["manifest"]["run_data_manifest"]["dataset_references"] == [reference]

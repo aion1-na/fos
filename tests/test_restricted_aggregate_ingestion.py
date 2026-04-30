@@ -23,7 +23,7 @@ def _manifest() -> SecureAnalysisManifest:
         environment="census_rdc",
         restricted_dataset_name="lehd",
         access_status="request_status_stub",
-        raw_restricted_data_in_fdw_allowed=False,
+        raw_restricted_data_in_fos_allowed=False,
         code_ref="git:analysis-pack@abc123",
         code_hash="a" * 64,
         environment_ref="container:sha256-bbb",
@@ -65,11 +65,11 @@ def _submission() -> AggregateResultSubmission:
 def test_secure_manifest_rejects_raw_restricted_data_uri_without_terms() -> None:
     with pytest.raises(ValidationError, match="Tier 3 raw restricted data cannot be stored"):
         _manifest().model_copy(
-            update={"raw_restricted_data_uri": "s3://fdw/restricted/lehd/raw.parquet"}
+            update={"raw_restricted_data_uri": "s3://fos/restricted/lehd/raw.parquet"}
         ).model_validate(
             {
                 **_manifest().model_dump(),
-                "raw_restricted_data_uri": "s3://fdw/restricted/lehd/raw.parquet",
+                "raw_restricted_data_uri": "s3://fos/restricted/lehd/raw.parquet",
             }
         )
 
@@ -93,7 +93,7 @@ def test_restricted_aggregate_ingestion_creates_pinned_dataset_reference() -> No
     assert first.dataset_reference.version == "request-status-v0.1"
     assert len(first.dataset_reference.content_hash) == 64
     assert first.stored_raw_restricted_data is False
-    assert first.disclosure_review.approved_for_fdw is True
+    assert first.disclosure_review.approved_for_fos is True
 
 
 def test_catalog_rejects_restricted_aggregate_without_approved_disclosure() -> None:
@@ -140,12 +140,12 @@ def test_tier3_docs_and_dataset_card_encode_required_boundaries() -> None:
         encoding="utf-8"
     )
 
-    assert "Tier 3 raw restricted data is never stored in FDW" in tracker
+    assert "Tier 3 raw restricted data is never stored in FOS" in tracker
     assert "code_hash" in template
     assert "environment_hash" in template
     assert "intended_outputs" in template
     assert "Only aggregate outputs with approved disclosure-review metadata" in checklist
-    assert "Raw LEHD restricted data must not enter FDW" in plan
+    assert "Raw LEHD restricted data must not enter FOS" in plan
     for required in [
         "License metadata:",
         "Codebook mapping:",

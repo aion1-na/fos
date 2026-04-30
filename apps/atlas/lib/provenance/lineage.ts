@@ -35,8 +35,8 @@ export const provenanceNodes: ProvenanceNode[] = [
     kind: "dataset",
   },
   {
-    id: "run-fdw-smoke",
-    label: "simulation-run-fdw-smoke",
+    id: "run-fos-smoke",
+    label: "simulation-run-fos-smoke",
     kind: "simulation_run",
   },
 ];
@@ -51,7 +51,7 @@ export const provenanceEdges: ProvenanceEdge[] = [
   {
     id: "dataset-consumed-by-run",
     source: "dataset-community-context",
-    target: "run-fdw-smoke",
+    target: "run-fos-smoke",
     label: "consumed by simulation run",
   },
 ];

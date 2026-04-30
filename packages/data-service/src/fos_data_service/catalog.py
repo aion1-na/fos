@@ -223,8 +223,8 @@ class Catalog:
         record: RestrictedAggregateRecord,
     ) -> RestrictedAggregateRecord:
         if record.stored_raw_restricted_data:
-            raise AccessDeniedError("Tier 3 raw restricted data cannot be registered in FDW")
-        if not record.disclosure_review.approved_for_fdw:
+            raise AccessDeniedError("Tier 3 raw restricted data cannot be registered in FOS")
+        if not record.disclosure_review.approved_for_fos:
             raise AccessDeniedError("aggregate output lacks approved disclosure review")
         self.restricted_aggregates[record.dataset_reference.as_tuple()] = record
         return record
@@ -234,7 +234,7 @@ class Catalog:
         record: AdministrativeAggregateRecord,
     ) -> AdministrativeAggregateRecord:
         if record.stored_row_level_data:
-            raise AccessDeniedError("administrative row-level data cannot be registered in FDW")
+            raise AccessDeniedError("administrative row-level data cannot be registered in FOS")
         if record.disclosure_approval_status != "approved":
             raise AccessDeniedError("administrative aggregate lacks approved disclosure status")
         self.administrative_aggregates[record.dataset_reference.as_tuple()] = record
@@ -245,7 +245,7 @@ class Catalog:
         record: RestrictedMortalityAggregateRecord,
     ) -> RestrictedMortalityAggregateRecord:
         if record.stored_raw_restricted_data:
-            raise AccessDeniedError("restricted mortality raw data cannot be registered in FDW")
+            raise AccessDeniedError("restricted mortality raw data cannot be registered in FOS")
         if record.approval_status != "approved":
             raise AccessDeniedError("restricted mortality aggregate lacks approved status")
         self.restricted_mortality_aggregates[record.dataset_reference.as_tuple()] = record

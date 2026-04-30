@@ -88,6 +88,45 @@ def interface_for(name: str, schema: dict[str, Any]) -> str:
 
 def parser_for(name: str, schema: dict[str, Any]) -> str:
     required = sorted(schema.get("required", []))
+    if name == "DatasetReference":
+        return f"""export function parse{name}(input) {{
+  const value = cloneObject(input, "{name}");
+  requireFields(value, {json.dumps(required)}, "{name}");
+  if (!/^[a-z0-9_][a-z0-9_.-]*$/.test(value.canonical_dataset_name)) {{
+    throw new TypeError("{name}.canonical_dataset_name is invalid");
+  }}
+  if (!/^[a-f0-9]{{64}}$/.test(value.content_hash)) {{
+    throw new TypeError("{name}.content_hash is invalid");
+  }}
+  return value;
+}}"""
+    if name == "ToolArtifactReference":
+        return f"""export function parse{name}(input) {{
+  const value = cloneObject(input, "{name}");
+  requireFields(value, {json.dumps(required)}, "{name}");
+  if (!/^[a-f0-9]{{64}}$/.test(value.content_hash)) {{
+    throw new TypeError("{name}.content_hash is invalid");
+  }}
+  if (!Array.isArray(value.dataset_references) || value.dataset_references.length === 0) {{
+    throw new TypeError("{name}.dataset_references must be nonempty");
+  }}
+  value.dataset_references = value.dataset_references.map(parseDatasetReference);
+  return value;
+}}"""
+    if name == "RunDataManifest":
+        return f"""export function parse{name}(input) {{
+  const value = cloneObject(input, "{name}");
+  requireFields(value, {json.dumps(required)}, "{name}");
+  if (Array.isArray(value.dataset_references)) {{
+    value.dataset_references = value.dataset_references.map(parseDatasetReference);
+  }}
+  for (const field of ["tool_artifacts", "graph_artifacts", "qualitative_artifacts"]) {{
+    if (Array.isArray(value[field])) {{
+      value[field] = value[field].map(parseToolArtifactReference);
+    }}
+  }}
+  return value;
+}}"""
     return f"""export function parse{name}(input) {{
   const value = cloneObject(input, "{name}");
   requireFields(value, {json.dumps(required)}, "{name}");

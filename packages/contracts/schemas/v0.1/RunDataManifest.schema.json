@@ -29,10 +29,78 @@
       ],
       "title": "DatasetReference",
       "type": "object"
+    },
+    "ToolArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "adapter_id": {
+          "title": "Adapter Id",
+          "type": "string"
+        },
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_type": {
+          "enum": [
+            "tool",
+            "graph",
+            "qualitative"
+          ],
+          "title": "Artifact Type",
+          "type": "string"
+        },
+        "content_hash": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "dataset_references": {
+          "items": {
+            "$ref": "#/$defs/DatasetReference"
+          },
+          "minItems": 1,
+          "title": "Dataset References",
+          "type": "array"
+        },
+        "notes": {
+          "default": "",
+          "title": "Notes",
+          "type": "string"
+        },
+        "uri": {
+          "title": "Uri",
+          "type": "string"
+        },
+        "validated_for_causal_effects": {
+          "default": false,
+          "title": "Validated For Causal Effects",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "adapter_id",
+        "artifact_type",
+        "uri",
+        "content_hash",
+        "dataset_references"
+      ],
+      "title": "ToolArtifactReference",
+      "type": "object"
     }
   },
   "additionalProperties": false,
   "properties": {
+    "adapter_versions": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Adapter Versions",
+      "type": "object"
+    },
     "branch_id": {
       "anyOf": [
         {
@@ -50,6 +118,13 @@
         "$ref": "#/$defs/DatasetReference"
       },
       "title": "Dataset References",
+      "type": "array"
+    },
+    "graph_artifacts": {
+      "items": {
+        "$ref": "#/$defs/ToolArtifactReference"
+      },
+      "title": "Graph Artifacts",
       "type": "array"
     },
     "manifest_hash": {
@@ -81,6 +156,13 @@
       "title": "Population Id",
       "type": "string"
     },
+    "qualitative_artifacts": {
+      "items": {
+        "$ref": "#/$defs/ToolArtifactReference"
+      },
+      "title": "Qualitative Artifacts",
+      "type": "array"
+    },
     "run_id": {
       "title": "Run Id",
       "type": "string"
@@ -89,13 +171,20 @@
       "title": "Scenario Id",
       "type": "string"
     },
+    "tool_artifacts": {
+      "items": {
+        "$ref": "#/$defs/ToolArtifactReference"
+      },
+      "title": "Tool Artifacts",
+      "type": "array"
+    },
     "touched_components": {
       "items": {
         "enum": [
           "population_synthesis",
           "transition_models",
           "validation",
-          "mirofish_adapter"
+          "adapter_artifacts"
         ],
         "type": "string"
       },

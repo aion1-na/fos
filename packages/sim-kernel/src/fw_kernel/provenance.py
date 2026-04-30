@@ -34,7 +34,7 @@ RUN_DATA_COMPONENTS = (
     "population_synthesis",
     "transition_models",
     "validation",
-    "mirofish_adapter",
+    "adapter_artifacts",
 )
 
 

@@ -15,6 +15,7 @@ from fw_contracts import (
     DomainPack,
     RunDataManifest,
     Scenario,
+    ToolArtifactReference,
 )
 from fw_contracts.schema_export import EXPORTED_MODELS
 
@@ -80,6 +81,20 @@ def test_dataset_reference_roundtrips_through_ts() -> None:
 
 
 def test_run_data_manifest_roundtrips_through_ts() -> None:
+    tool_artifact = ToolArtifactReference(
+        artifact_id="graph-1",
+        adapter_id="cosmos_gl",
+        artifact_type="graph",
+        uri="artifact://graph-1",
+        content_hash="e" * 64,
+        dataset_references=[
+            DatasetReference(
+                canonical_dataset_name="features.community_context",
+                version="fixture-0.1",
+                content_hash="c" * 64,
+            )
+        ],
+    )
     manifest = RunDataManifest(
         run_id="run-1",
         scenario_id="scenario-1",
@@ -95,8 +110,10 @@ def test_run_data_manifest_roundtrips_through_ts() -> None:
             "population_synthesis",
             "transition_models",
             "validation",
-            "mirofish_adapter",
+            "adapter_artifacts",
         ],
+        graph_artifacts=[tool_artifact],
+        adapter_versions={"cosmos_gl": "not-installed"},
         branch_id="baseline",
         manifest_hash="d" * 64,
     )

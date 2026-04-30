@@ -1,0 +1,73 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "adapter_id": {
+      "minLength": 1,
+      "pattern": "^[a-z0-9_][a-z0-9_.-]*$",
+      "title": "Adapter Id",
+      "type": "string"
+    },
+    "capabilities": {
+      "items": {
+        "enum": [
+          "qualitative_interaction",
+          "cognition_trace",
+          "graph_layout",
+          "graph_render",
+          "network_analysis",
+          "causal_estimation"
+        ],
+        "type": "string"
+      },
+      "title": "Capabilities",
+      "type": "array"
+    },
+    "display_name": {
+      "minLength": 1,
+      "title": "Display Name",
+      "type": "string"
+    },
+    "import_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Import Path"
+    },
+    "notes": {
+      "default": "",
+      "maxLength": 2000,
+      "title": "Notes",
+      "type": "string"
+    },
+    "trust_policy": {
+      "enum": [
+        "allowed",
+        "quarantined",
+        "blocked",
+        "research_only"
+      ],
+      "title": "Trust Policy",
+      "type": "string"
+    },
+    "version": {
+      "minLength": 1,
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "adapter_id",
+    "display_name",
+    "version",
+    "trust_policy",
+    "capabilities"
+  ],
+  "title": "AdapterRegistration",
+  "type": "object"
+}

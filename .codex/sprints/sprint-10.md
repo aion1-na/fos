@@ -7,7 +7,7 @@ Deliverables:
 - FastAPI endpoints for resolve, card, manifest, lineage, and claim lookup.
 - Structured errors for missing datasets and schema breaks.
 - Atlas lineage graph: upstream/downstream and simulation runs.
-- Platform smoke-test fixture showing an end-to-end run consuming FDW data.
+- Platform smoke-test fixture showing an end-to-end run consuming FOS data.
 
 Acceptance gates:
 - No unversioned reads are possible through the data-service.

@@ -1,0 +1,10 @@
+{
+  "enum": [
+    "allowed",
+    "quarantined",
+    "blocked",
+    "research_only"
+  ],
+  "title": "ToolTrustPolicy",
+  "type": "string"
+}

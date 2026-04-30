@@ -89,7 +89,7 @@ test("atlas provenance view answers upstream and downstream lineage", () => {
   assert.match(source, /features.community_context/);
   assert.match(source, /fed this dataset/);
   assert.match(source, /consumed by simulation run/);
-  assert.match(source, /simulation-run-fdw-smoke/);
+  assert.match(source, /simulation-run-fos-smoke/);
 });
 
 test("atlas ai exposure gallery exposes side-by-side measures and quartiles", () => {

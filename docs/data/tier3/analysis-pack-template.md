@@ -8,7 +8,7 @@ Use this template for every external secure-environment repository.
 - `environment`
 - `restricted_dataset_name`
 - `access_status`
-- `raw_restricted_data_in_fdw_allowed`
+- `raw_restricted_data_in_fos_allowed`
 - `code_ref`
 - `code_hash`
 - `environment_ref`
@@ -30,4 +30,4 @@ Use this template for every external secure-environment repository.
 - Pin code and environment hashes before any secure run.
 - Declare intended outputs before running the analysis.
 - Do not commit credentials, extracts, row-level restricted data, or screenshots containing restricted data.
-- Only aggregate outputs with approved disclosure-review metadata may enter FDW.
+- Only aggregate outputs with approved disclosure-review metadata may enter FOS.

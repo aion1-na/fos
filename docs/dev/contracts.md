@@ -1,6 +1,6 @@
 # Contracts v0.1
 
-Contracts are the typed seam between the kernel and packs. The kernel depends on `fw_contracts` and must not import from `packs/`.
+Contracts are the typed seam between the kernel and packs. The kernel depends on the FOS contracts package and must not import from `packs/`.
 
 ## Version
 
@@ -15,7 +15,7 @@ JSON Schema files are generated under `packages/contracts/schemas/v0.1/`. TypeSc
 The FastAPI OpenAPI schema is generated into `packages/contracts/dist/api/openapi.json`. The published client export is:
 
 ```ts
-import { getHealth } from "@fw/contracts/api";
+import { getHealth } from "@fos/contracts/api";
 ```
 
 Regenerate with:

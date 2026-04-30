@@ -16,4 +16,4 @@ Population scope: United States young adults ages 18-29.
 | Flourishing current context | pack state fields | GFS | Non-sensitive GFS distributions fill current context where available. |
 | Childhood predictors | `childhood_*` pack state fields | GFS or documented prior | Missing childhood distributions must be marked imputed in the snapshot manifest. |
 
-The calibration output `features.synthetic_population_calibration_diagnostics` reports max absolute standardized difference, KL divergence, marginal coverage, and per-dimension target/observed shares. MiroFish narrative artifacts are not accepted as causal effect-size inputs for this crosswalk.
+The calibration output `features.synthetic_population_calibration_diagnostics` reports max absolute standardized difference, KL divergence, marginal coverage, and per-dimension target/observed shares. External adapter narrative artifacts are not accepted as causal effect-size inputs for this crosswalk.

@@ -75,17 +75,34 @@ export interface SpawnSpec {
 export declare function parseSpawnSpec(input: unknown): SpawnSpec;
 
 export interface RunDataManifest {
+  adapter_versions?: Record<string, string>;
   branch_id?: string | unknown;
   dataset_references?: DatasetReference[];
+  graph_artifacts?: ToolArtifactReference[];
   manifest_hash?: string | unknown;
   parent_branch_id?: string | unknown;
   population_id: string;
+  qualitative_artifacts?: ToolArtifactReference[];
   run_id: string;
   scenario_id: string;
-  touched_components?: ("population_synthesis" | "transition_models" | "validation" | "mirofish_adapter")[];
+  tool_artifacts?: ToolArtifactReference[];
+  touched_components?: ("population_synthesis" | "transition_models" | "validation" | "adapter_artifacts")[];
 }
 
 export declare function parseRunDataManifest(input: unknown): RunDataManifest;
+
+export interface ToolArtifactReference {
+  adapter_id: string;
+  artifact_id: string;
+  artifact_type: "tool" | "graph" | "qualitative";
+  content_hash: string;
+  dataset_references: DatasetReference[];
+  notes?: string;
+  uri: string;
+  validated_for_causal_effects?: boolean;
+}
+
+export declare function parseToolArtifactReference(input: unknown): ToolArtifactReference;
 
 export interface SimulationRun {
   completed_at?: string | unknown;

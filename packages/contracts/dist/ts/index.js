@@ -18,6 +18,12 @@ function requireFields(value, fields, modelName) {
 export function parseDatasetReference(input) {
   const value = cloneObject(input, "DatasetReference");
   requireFields(value, ["canonical_dataset_name", "content_hash", "version"], "DatasetReference");
+  if (!/^[a-z0-9_][a-z0-9_.-]*$/.test(value.canonical_dataset_name)) {
+    throw new TypeError("DatasetReference.canonical_dataset_name is invalid");
+  }
+  if (!/^[a-f0-9]{64}$/.test(value.content_hash)) {
+    throw new TypeError("DatasetReference.content_hash is invalid");
+  }
   return value;
 }
 
@@ -60,6 +66,27 @@ export function parseSpawnSpec(input) {
 export function parseRunDataManifest(input) {
   const value = cloneObject(input, "RunDataManifest");
   requireFields(value, ["population_id", "run_id", "scenario_id"], "RunDataManifest");
+  if (Array.isArray(value.dataset_references)) {
+    value.dataset_references = value.dataset_references.map(parseDatasetReference);
+  }
+  for (const field of ["tool_artifacts", "graph_artifacts", "qualitative_artifacts"]) {
+    if (Array.isArray(value[field])) {
+      value[field] = value[field].map(parseToolArtifactReference);
+    }
+  }
+  return value;
+}
+
+export function parseToolArtifactReference(input) {
+  const value = cloneObject(input, "ToolArtifactReference");
+  requireFields(value, ["adapter_id", "artifact_id", "artifact_type", "content_hash", "dataset_references", "uri"], "ToolArtifactReference");
+  if (!/^[a-f0-9]{64}$/.test(value.content_hash)) {
+    throw new TypeError("ToolArtifactReference.content_hash is invalid");
+  }
+  if (!Array.isArray(value.dataset_references) || value.dataset_references.length === 0) {
+    throw new TypeError("ToolArtifactReference.dataset_references must be nonempty");
+  }
+  value.dataset_references = value.dataset_references.map(parseDatasetReference);
   return value;
 }
 

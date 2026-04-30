@@ -2,7 +2,7 @@
 
 Owner: Product Engineering
 
-Test command: `pnpm --filter @fw/studio test`
+Test command: `pnpm --filter @fos/studio test`
 
 Definition of done:
 

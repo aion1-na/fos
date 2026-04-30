@@ -21,6 +21,6 @@ The displacement transition currently relies on literature priors and public agg
 - Owner: Secure data lead.
 - Timeline: 2026 Q3 proposal, 2026 Q4 disclosure-reviewed aggregates if approved.
 
-## FDW Boundary
+## FOS Boundary
 
-Raw LEHD restricted data must not enter FDW. Only approved aggregate outputs with disclosure-review metadata may be ingested.
+Raw LEHD restricted data must not enter FOS. Only approved aggregate outputs with disclosure-review metadata may be ingested.

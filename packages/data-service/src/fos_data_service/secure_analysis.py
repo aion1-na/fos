@@ -20,7 +20,7 @@ class SecureAnalysisManifest(BaseModel):
     environment: SecureEnvironment
     restricted_dataset_name: str = Field(min_length=1)
     access_status: AccessStatus
-    raw_restricted_data_in_fdw_allowed: bool = False
+    raw_restricted_data_in_fos_allowed: bool = False
     raw_restricted_data_uri: str | None = None
     code_ref: str = Field(min_length=1)
     code_hash: str = Field(min_length=64, max_length=64)
@@ -31,9 +31,9 @@ class SecureAnalysisManifest(BaseModel):
     timeline: str = Field(min_length=1)
 
     @model_validator(mode="after")
-    def restricted_raw_data_cannot_enter_fdw(self) -> "SecureAnalysisManifest":
-        if self.raw_restricted_data_uri and not self.raw_restricted_data_in_fdw_allowed:
-            raise ValueError("Tier 3 raw restricted data cannot be stored in FDW")
+    def restricted_raw_data_cannot_enter_fos(self) -> "SecureAnalysisManifest":
+        if self.raw_restricted_data_uri and not self.raw_restricted_data_in_fos_allowed:
+            raise ValueError("Tier 3 raw restricted data cannot be stored in FOS")
         if not self.intended_outputs:
             raise ValueError("RDC analysis packs must declare intended outputs")
         return self
@@ -51,7 +51,7 @@ class DisclosureReview(BaseModel):
     notes: str = Field(min_length=1)
 
     @property
-    def approved_for_fdw(self) -> bool:
+    def approved_for_fos(self) -> bool:
         return (
             self.status == "approved"
             and self.cell_suppression_checked
@@ -72,12 +72,12 @@ class AggregateResultSubmission(BaseModel):
     version: str = Field(min_length=1)
 
     @model_validator(mode="after")
-    def only_approved_aggregates_enter_fdw(self) -> "AggregateResultSubmission":
+    def only_approved_aggregates_enter_fos(self) -> "AggregateResultSubmission":
         if self.output_name not in self.manifest.intended_outputs:
             raise ValueError("aggregate output was not declared in the analysis manifest")
         if self.output_level != "aggregate":
-            raise ValueError("only aggregate outputs may be submitted to FDW")
-        if not self.disclosure_review.approved_for_fdw:
+            raise ValueError("only aggregate outputs may be submitted to FOS")
+        if not self.disclosure_review.approved_for_fos:
             raise ValueError("aggregate output lacks approved disclosure review")
         return self
 

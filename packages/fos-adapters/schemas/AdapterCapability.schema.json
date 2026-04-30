@@ -1,0 +1,12 @@
+{
+  "enum": [
+    "qualitative_interaction",
+    "cognition_trace",
+    "graph_layout",
+    "graph_render",
+    "network_analysis",
+    "causal_estimation"
+  ],
+  "title": "AdapterCapability",
+  "type": "string"
+}

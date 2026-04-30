@@ -4,6 +4,7 @@ from datetime import datetime
 from typing import Any, Generic, Literal, TypeVar
 
 from pydantic import BaseModel, ConfigDict, Field
+from pydantic import model_validator
 
 CONTRACTS_VERSION = "0.1.0"
 
@@ -88,6 +89,23 @@ class DatasetReference(ContractModel):
         return (self.canonical_dataset_name, self.version, self.content_hash)
 
 
+class ToolArtifactReference(ContractModel):
+    artifact_id: str
+    adapter_id: str
+    artifact_type: Literal["tool", "graph", "qualitative"]
+    uri: str
+    content_hash: str = Field(min_length=64, max_length=64, pattern=r"^[a-f0-9]{64}$")
+    dataset_references: list[DatasetReference] = Field(min_length=1)
+    validated_for_causal_effects: bool = False
+    notes: str = ""
+
+    @model_validator(mode="after")
+    def visual_and_qualitative_artifacts_are_not_effect_sizes(self) -> "ToolArtifactReference":
+        if self.validated_for_causal_effects and self.artifact_type in {"graph", "qualitative"}:
+            raise ValueError("graph and qualitative tool artifacts cannot create causal effect sizes")
+        return self
+
+
 class RunDataManifest(ContractModel):
     run_id: str
     scenario_id: str
@@ -98,9 +116,13 @@ class RunDataManifest(ContractModel):
             "population_synthesis",
             "transition_models",
             "validation",
-            "mirofish_adapter",
+            "adapter_artifacts",
         ]
     ] = Field(default_factory=list)
+    tool_artifacts: list[ToolArtifactReference] = Field(default_factory=list)
+    graph_artifacts: list[ToolArtifactReference] = Field(default_factory=list)
+    qualitative_artifacts: list[ToolArtifactReference] = Field(default_factory=list)
+    adapter_versions: dict[str, str] = Field(default_factory=dict)
     branch_id: str | None = None
     parent_branch_id: str | None = None
     manifest_hash: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")

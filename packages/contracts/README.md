@@ -2,7 +2,7 @@
 
 Owner: Platform Contracts
 
-Test command: `uv run pytest packages/contracts -v && pnpm --filter @fw/contracts test`
+Test command: `uv run pytest packages/contracts -v && pnpm --filter @fos/contracts test`
 
 Definition of done:
 

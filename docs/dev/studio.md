@@ -16,5 +16,5 @@ Run:
 
 ```sh
 uv run pytest tests/test_studio_accessibility.py -v
-pnpm --filter @fw/studio test
+pnpm --filter @fos/studio test
 ```

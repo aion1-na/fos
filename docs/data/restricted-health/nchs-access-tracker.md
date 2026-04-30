@@ -9,5 +9,5 @@ Restricted-use NCHS mortality work is request-status only until access, IRB, DUA
 ## Boundaries
 
 - Restricted mortality outputs are not CDC WONDER public table outputs.
-- Raw restricted records do not enter FDW.
+- Raw restricted records do not enter FOS.
 - Every future aggregate must carry approval status and source environment metadata.

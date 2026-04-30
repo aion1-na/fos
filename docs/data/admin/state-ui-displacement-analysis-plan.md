@@ -17,6 +17,6 @@ Prepare state unemployment insurance administrative aggregates for job-loss, ree
 - Legal approval for data handling and publication.
 - Disclosure approval for aggregate calibration tables.
 
-## FDW Boundary
+## FOS Boundary
 
-No row-level administrative data enters FDW. Administrative-data findings can return only as approved aggregate calibration tables with pinned dataset references.
+No row-level administrative data enters FOS. Administrative-data findings can return only as approved aggregate calibration tables with pinned dataset references.

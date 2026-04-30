@@ -69,7 +69,7 @@ def _cmd_fidelity(args: argparse.Namespace) -> int:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(prog="fw_synth")
+    parser = argparse.ArgumentParser(prog="fos_synth")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     synthesize = subparsers.add_parser("synthesize")

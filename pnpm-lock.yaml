@@ -109,6 +109,8 @@ importers:
         specifier: 3.3.3
         version: 3.3.3
 
+  packages/fos-adapters: {}
+
   packages/population-synth:
     devDependencies:
       prettier:

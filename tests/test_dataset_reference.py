@@ -26,7 +26,7 @@ def test_dataset_reference_contract_resolves_full_content_address() -> None:
 
 def test_platform_smoke_fixture_records_every_dataset_reference_touched() -> None:
     smoke_run = json.loads(
-        (ROOT / "tests" / "fixtures" / "fdw_smoke_run.json").read_text(encoding="utf-8")
+        (ROOT / "tests" / "fixtures" / "fos_smoke_run.json").read_text(encoding="utf-8")
     )
     touched_references = [
         DatasetReference.model_validate(item) for item in smoke_run["dataset_references"]
@@ -40,7 +40,7 @@ def test_platform_smoke_fixture_records_every_dataset_reference_touched() -> Non
 def test_api_run_manifest_records_all_simulation_data_components() -> None:
     from fos_api.main import _simulation_run_artifact
 
-    artifact = _simulation_run_artifact("simulation-run-fdw-smoke")
+    artifact = _simulation_run_artifact("simulation-run-fos-smoke")
     manifest = artifact["manifest"]["run_data_manifest"]
 
     assert artifact["manifest"]["dataset_references"] == manifest["dataset_references"]
@@ -48,7 +48,7 @@ def test_api_run_manifest_records_all_simulation_data_components() -> None:
         "population_synthesis",
         "transition_models",
         "validation",
-        "mirofish_adapter",
+        "adapter_artifacts",
     }
     assert artifact["manifest"]["branch_data_manifests"]
 

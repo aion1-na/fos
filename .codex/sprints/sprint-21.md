@@ -14,8 +14,8 @@ Prepare for Tier 3 secure-environment analyses without contaminating the central
 
 ## Acceptance Gates
 
-- Tier 3 raw restricted data is never stored in FDW unless allowed by terms.
-- Only approved aggregate outputs enter the FDW with disclosure-review metadata.
+- Tier 3 raw restricted data is never stored in FOS unless allowed by terms.
+- Only approved aggregate outputs enter the FOS with disclosure-review metadata.
 - RDC analysis packs pin code, environment, and intended outputs.
 - Census RDC timeline and owners are visible to leadership.
 

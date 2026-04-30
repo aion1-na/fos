@@ -131,7 +131,7 @@ def test_card_manifest_lineage_and_claim_lookup_endpoints() -> None:
     assert card["card_path"] == "docs/data/datasets/community-pathways.md"
     assert manifest["dataset_reference"]["content_hash"] == "a" * 64
     assert feature_table["feature_table"] == "features.community_context"
-    assert lineage["downstream"] == ["simulation-run-fdw-smoke"]
+    assert lineage["downstream"] == ["simulation-run-fos-smoke"]
     assert claim["dataset_references"][0]["canonical_dataset_name"] == "features.community_context"
     assert evidence_claim["causal_effect_size_validated"] is False
 

@@ -98,7 +98,7 @@ for reference in [OLD_FIXTURE_REFERENCE, FIXTURE_REFERENCE, *TIER1_V1_REFERENCES
             consumed_by_runs=(
                 ("mvp-tier1-smoke",)
                 if reference.version == "1.0.0"
-                else ("simulation-run-fdw-smoke",)
+                else ("simulation-run-fos-smoke",)
             ),
             claim_ids=("claim_mentoring_meaning_v0",),
             feature_table=(
@@ -375,7 +375,7 @@ def validate_secure_analysis_manifest(manifest: SecureAnalysisManifest) -> dict[
     return {
         "project_id": manifest.project_id,
         "environment": manifest.environment,
-        "raw_restricted_data_in_fdw_allowed": manifest.raw_restricted_data_in_fdw_allowed,
+        "raw_restricted_data_in_fos_allowed": manifest.raw_restricted_data_in_fos_allowed,
         "intended_outputs": list(manifest.intended_outputs),
         "code_ref": manifest.code_ref,
         "environment_ref": manifest.environment_ref,
@@ -582,8 +582,8 @@ def evidence_claim_lookup(claim_id: str) -> dict[str, object]:
         "evidence_claim_id": claim_id,
         "dataset_references": payload["dataset_references"],
         "causal_effect_size_validated": False,
-        "mirofish_boundary": (
-            "MiroFish outputs are interaction/narrative artifacts unless explicitly validated"
+        "adapter_boundary": (
+            "External adapter outputs are interaction/narrative artifacts unless explicitly validated"
         ),
     }
 
