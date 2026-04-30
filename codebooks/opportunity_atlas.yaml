@@ -1,0 +1,19 @@
+version: "0.1"
+canonical_dataset_name: opportunity_atlas
+fields:
+  - source_field: geography_level
+    original_label: Geography level
+    canonical_name: geography_level
+    data_type: string
+  - source_field: cohort
+    original_label: Cohort
+    canonical_name: cohort
+    data_type: string
+  - source_field: outcome
+    original_label: Mobility outcome
+    canonical_name: outcome
+    data_type: string
+  - source_field: value
+    original_label: Public aggregate value
+    canonical_name: value
+    data_type: number

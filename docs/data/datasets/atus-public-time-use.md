@@ -6,7 +6,7 @@ Access status: fixture plus public-table placeholder
 
 License metadata: public-use table metadata must be checked before production ingestion.
 
-Codebook mapping: maps time-use measures such as caregiving and social time into `features.time_use_context`.
+Codebook mapping: `codebooks/time_use_context_features.yaml`; maps time-use measures such as caregiving and social time into `features.time_use_context`.
 
 Quality profile: fixture rows validate schema, units, and dataset references only. Production profiles must document survey design, weights, table vintage, and missing categories.
 

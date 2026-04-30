@@ -1,0 +1,7 @@
+{
+  "canonical_dataset_name": "opportunity_atlas",
+  "access_status": "request_status_stub",
+  "public_table_status": "public where published",
+  "rows": [],
+  "allowed_output": "request-status metadata only"
+}

@@ -1,0 +1,113 @@
+{
+  "$defs": {
+    "DatasetReference": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_dataset_name": {
+          "minLength": 1,
+          "pattern": "^[a-z0-9_][a-z0-9_.-]*$",
+          "title": "Canonical Dataset Name",
+          "type": "string"
+        },
+        "content_hash": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "version": {
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "canonical_dataset_name",
+        "version",
+        "content_hash"
+      ],
+      "title": "DatasetReference",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "branch_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Branch Id"
+    },
+    "dataset_references": {
+      "items": {
+        "$ref": "#/$defs/DatasetReference"
+      },
+      "title": "Dataset References",
+      "type": "array"
+    },
+    "manifest_hash": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Manifest Hash"
+    },
+    "parent_branch_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Parent Branch Id"
+    },
+    "population_id": {
+      "title": "Population Id",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "scenario_id": {
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "touched_components": {
+      "items": {
+        "enum": [
+          "population_synthesis",
+          "transition_models",
+          "validation",
+          "mirofish_adapter"
+        ],
+        "type": "string"
+      },
+      "title": "Touched Components",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run_id",
+    "scenario_id",
+    "population_id"
+  ],
+  "title": "RunDataManifest",
+  "type": "object"
+}

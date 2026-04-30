@@ -1,0 +1,17 @@
+{
+  "canonical_dataset_name": "gfs_wave3",
+  "dataset_version": "request-status-v0.1",
+  "access_status": "request_status_stub",
+  "license_status": "not_approved",
+  "registration_required": true,
+  "source_system": "GFS COS/OSF approved portal",
+  "request_scope": "Wave 3 non-sensitive and longitudinal refresh",
+  "sensitive_data_access": false,
+  "content_hash": "8c8b3221117a3c0127e6e7b364671a74f249477968e441fd7c36cf18969c6468",
+  "dataset_reference": {
+    "canonical_dataset_name": "gfs_wave3",
+    "version": "request-status-v0.1",
+    "content_hash": "8c8b3221117a3c0127e6e7b364671a74f249477968e441fd7c36cf18969c6468"
+  },
+  "rows": []
+}

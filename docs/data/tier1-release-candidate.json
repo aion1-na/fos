@@ -1,11 +1,12 @@
 {
   "release_candidate": "tier1-rc0",
-  "scope": "offline fixture and request-status validation only",
+  "scope": "offline fixture and request-status validation only; GFS Wave 1/2 are real-data registration-gated request-status records until approved bytes are registered",
   "datasets": [
     "acs-ipums",
     "onet",
     "bls-oews",
     "gfs-wave1",
+    "gfs-wave2",
     "community-pathways"
   ],
   "quality_gate": "packages/data-pipelines/src/fos_data_pipelines/quality/gates.py",

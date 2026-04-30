@@ -1,0 +1,17 @@
+{
+  "canonical_dataset_name": "gfs_sensitive",
+  "dataset_version": "request-status-v0.1",
+  "access_status": "request_status_stub",
+  "license_status": "not_approved",
+  "registration_required": true,
+  "source_system": "GFS COS/OSF approved portal",
+  "request_scope": "Sensitive variables across approved GFS waves",
+  "sensitive_data_access": false,
+  "content_hash": "1eff319afb77f039dfa48691f50d29a00b16411697e6a1dbd8238eb1c79ad90e",
+  "dataset_reference": {
+    "canonical_dataset_name": "gfs_sensitive",
+    "version": "request-status-v0.1",
+    "content_hash": "1eff319afb77f039dfa48691f50d29a00b16411697e6a1dbd8238eb1c79ad90e"
+  },
+  "rows": []
+}

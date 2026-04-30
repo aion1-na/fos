@@ -23,6 +23,12 @@
     "pii_candidates": [],
     "distribution_columns": ["happiness", "health", "meaning"]
   },
+  "gfs-wave2": {
+    "required_columns": ["country", "weight", "happiness_1", "health_1", "meaning_1"],
+    "sampling_metadata": ["source_system", "sampling_design", "weight_column"],
+    "pii_candidates": [],
+    "distribution_columns": ["happiness_1", "health_1", "meaning_1"]
+  },
   "community-pathways": {
     "required_columns": ["source", "construct", "source_geography_id", "geography_level", "join_allowed"],
     "sampling_metadata": ["fixture_source", "source_year"],

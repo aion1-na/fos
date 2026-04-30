@@ -39,14 +39,25 @@
     },
     {
       "canonical_dataset_name": "gfs-wave1",
-      "version": "1.0.0",
-      "content_hash": "8630b7664865a8ea63fa4ebb7bed3224aeb97f7db3cddefd112003ce6bef2545",
-      "connector_name": "gfs_wave1_fixture",
-      "connector_version": "0.1.0",
+      "version": "request-status-v0.1",
+      "content_hash": "6215adab47ff0095445ffb257c509f180ecce3ecf1abfad9d686c0c7d0ef39b1",
+      "connector_name": "gfs_cos_osf_connector",
+      "connector_version": "0.2.0",
       "codebook_version": "gfs-wave1-v0.1",
-      "license_class": "fixture-request-status",
+      "license_class": "real-data-registration-gated-request-status",
       "card_url": "docs/data/datasets/gfs-wave1.md",
-      "artifact_uri": "packages/data-pipelines/fixtures/gfs/wave1_fixture.csv"
+      "artifact_uri": "request-status://gfs-wave1/non-sensitive"
+    },
+    {
+      "canonical_dataset_name": "gfs-wave2",
+      "version": "request-status-v0.1",
+      "content_hash": "27d0561e955d5b8a72608e904ac0c35ae81aa98f403a47185fc8290106dc6135",
+      "connector_name": "gfs_cos_osf_connector",
+      "connector_version": "0.2.0",
+      "codebook_version": "gfs-wave2-v0.1",
+      "license_class": "real-data-registration-gated-request-status",
+      "card_url": "docs/data/datasets/gfs-wave2.md",
+      "artifact_uri": "request-status://gfs-wave2/non-sensitive"
     },
     {
       "canonical_dataset_name": "community-pathways",

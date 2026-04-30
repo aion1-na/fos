@@ -37,6 +37,17 @@ def parse_felten_fixture(fixture_path: Path, codebook_path: Path, output_dir: Pa
     return _parse_exposure_csv(fixture_path, codebook_path, output_dir, "felten_fixture")
 
 
+def parse_acemoglu_restrepo_robot_fixture_only(
+    fixture_path: Path, codebook_path: Path, output_dir: Path
+) -> StagedArtifact:
+    return _parse_exposure_csv(
+        fixture_path,
+        codebook_path,
+        output_dir,
+        "acemoglu_restrepo_robot_fixture_only",
+    )
+
+
 def parse_webb_request_status_stub(fixture_path: Path) -> dict[str, object]:
     return json.loads(fixture_path.read_text(encoding="utf-8"))
 

@@ -82,6 +82,19 @@ STREAM_FRAMES: dict[str, list[dict[str, object]]] = {}
 FINDINGS: dict[str, list[dict[str, object]]] = {}
 OVERRIDES: dict[str, list[dict[str, object]]] = {}
 BRIEFS: dict[str, list[dict[str, object]]] = {}
+SMOKE_DATASET_REFERENCES = [
+    {
+        "canonical_dataset_name": "features.community_context",
+        "version": "fixture-0.1",
+        "content_hash": "a" * 64,
+    }
+]
+RUN_DATA_COMPONENTS = [
+    "population_synthesis",
+    "transition_models",
+    "validation",
+    "mirofish_adapter",
+]
 
 
 @app.get("/health")
@@ -171,9 +184,38 @@ def _stream_frames(simulation_id: str) -> list[dict[str, object]]:
     return frames
 
 
+def _manifest_hash(payload: dict[str, object]) -> str:
+    return hashlib.sha256(
+        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+
+
+def _run_data_manifest(
+    run_id: str,
+    branch_id: str | None = None,
+    parent_branch_id: str | None = None,
+) -> dict[str, object]:
+    payload: dict[str, object] = {
+        "run_id": run_id,
+        "scenario_id": "scenario-default",
+        "population_id": "pop_young_adult_5000",
+        "dataset_references": SMOKE_DATASET_REFERENCES,
+        "touched_components": RUN_DATA_COMPONENTS,
+        "branch_id": branch_id,
+        "parent_branch_id": parent_branch_id,
+    }
+    return {**payload, "manifest_hash": _manifest_hash(payload)}
+
+
 def _simulation_run_artifact(run_id: str) -> dict[str, object]:
     frames = _stream_frames(run_id)
     kpis = [frame for frame in frames if frame["type"] == "kpi_tick"]
+    run_manifest = _run_data_manifest(run_id)
+    branch_manifests = [
+        _run_data_manifest(run_id, branch_id="baseline"),
+        _run_data_manifest(run_id, branch_id="treatment", parent_branch_id="baseline"),
+        _run_data_manifest(run_id, branch_id="control", parent_branch_id="baseline"),
+    ]
     return {
         "run_id": run_id,
         "scenario_id": "scenario-default",
@@ -195,6 +237,9 @@ def _simulation_run_artifact(run_id: str) -> dict[str, object]:
             "seed": 321,
             "ticks": 12,
             "kpi_outputs": kpis,
+            "dataset_references": SMOKE_DATASET_REFERENCES,
+            "run_data_manifest": run_manifest,
+            "branch_data_manifests": branch_manifests,
         },
     }
 

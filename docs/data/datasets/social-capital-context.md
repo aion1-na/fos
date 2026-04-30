@@ -6,7 +6,7 @@ Access status: fixture plus request-status stub
 
 License metadata: source-specific public table and archive terms must be recorded before production ingestion.
 
-Codebook mapping: maps trust, volunteering, civic engagement, and related social-capital measures into `features.social_capital_context`.
+Codebook mapping: `codebooks/social_capital_context_features.yaml`; maps trust, volunteering, civic engagement, and related social-capital measures into `features.social_capital_context`.
 
 Quality profile: fixture rows test reversible construct mapping and valid geography joins. Production profiles must document coverage, time period, sampling error, and comparability limits.
 
@@ -16,4 +16,4 @@ Access policy: public aggregate rows can be used where terms permit. Archive-lim
 
 Public table versus microdata limitations: public aggregates support geography context only. Archive-limited microdata is not represented as fake tables.
 
-Inappropriate uses: do not rank individuals or small groups by trust, civic engagement, volunteering, or social capital from aggregate indicators.
+Inappropriate uses: do not rank individuals or small groups by trust, civic engagement, volunteering, or social capital from aggregate indicators. Community participation variables are voluntary social pathways, not prescriptive recommendations.

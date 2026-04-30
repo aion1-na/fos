@@ -7,6 +7,7 @@ from typing import Any
 
 import pyarrow as pa
 import pyarrow.parquet as pq
+from fw_contracts import RunDataManifest
 
 from fw_kernel.state import state_to_jsonable
 from fw_kernel.types import TickRecord
@@ -26,6 +27,7 @@ def write_artifact(
     scenario_id: str,
     population_id: str,
     records: list[TickRecord],
+    run_data_manifest: RunDataManifest | None = None,
 ) -> RunArtifact:
     output_dir.mkdir(parents=True, exist_ok=True)
     ticks_path = output_dir / "ticks.parquet"
@@ -63,6 +65,9 @@ def write_artifact(
         "population_id": population_id,
         "tick_count": len(records),
         "tick_hash_sequence": [record.tick_hash for record in records],
+        "run_data_manifest": (
+            run_data_manifest.model_dump(mode="json") if run_data_manifest is not None else None
+        ),
         "files": {
             "ticks": ticks_path.name,
             "kpis": kpis_path.name,

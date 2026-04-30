@@ -18,9 +18,17 @@ from fw_synth.networks.small_world import watts_strogatz
 from fw_synth.pipeline import synthesize_snapshot
 from fw_synth.snapshot import read_bytes
 from fw_synth.store import SynthStore
+from fw_synth.young_adult import (
+    load_marginal_bundle,
+    synthesize_young_adult_snapshot,
+    synthesize_young_adult_state,
+)
 
 ROOT = Path(__file__).resolve().parents[3]
 FIXTURE = ROOT / "fixtures" / "gfs_us_18_24.parquet"
+YA_MARGINALS = (
+    Path(__file__).resolve().parent / "fixtures" / "young_adult_marginals_fixture_only.json"
+)
 
 
 def test_ipf_matches_marginals() -> None:
@@ -122,6 +130,75 @@ def test_fixture_young_adult_population_green(tmp_path: Path) -> None:
     }
     fidelity_data = (Path(artifact.path) / "fidelity.json").read_text(encoding="utf-8")
     assert '"status":"green"' in fidelity_data
+
+
+def test_calibrated_young_adult_population_requires_references_without_demo() -> None:
+    with pytest.raises(PopulationSynthError, match="requires ACS, CPS, and GFS"):
+        load_marginal_bundle(YA_MARGINALS)
+
+
+def test_calibrated_young_adult_population_generates_5k_manifest(tmp_path: Path) -> None:
+    spec = SpawnSpec(
+        population_id="young-adult-calibrated",
+        count=5000,
+        state_seed={"seed": 11},
+    )
+    artifact = synthesize_young_adult_snapshot(
+        spec=spec,
+        pack_version="0.1.0",
+        seed=11,
+        output_url=str(tmp_path),
+        marginal_path=YA_MARGINALS,
+        demo_mode=True,
+    )
+
+    table = pq.read_table(f"{artifact.path}/agents.parquet")
+    manifest = artifact.manifest
+    diagnostics = manifest["calibration_diagnostics"]
+
+    assert table.num_rows == 5000
+    assert set(table.column_names) >= {
+        "age",
+        "age_band",
+        "education_years",
+        "employment_status",
+        "household_size",
+        "income_percentile",
+        "geography",
+        "occupation_group",
+        "childhood_household_income",
+        "childhood_parent_education",
+    }
+    assert manifest["dataset_references"][0]["canonical_dataset_name"] == (
+        "features.us_young_adult_population_marginals"
+    )
+    assert len(manifest["dataset_references"][0]["content_hash"]) == 64
+    assert diagnostics["feature_table"] == (
+        "features.synthetic_population_calibration_diagnostics"
+    )
+    assert diagnostics["max_absolute_standardized_difference"] < 4.0
+    assert diagnostics["kl_divergence"] < 0.02
+    assert diagnostics["marginal_coverage"] == 1.0
+    assert manifest["provenance_manifest"]["demo_mode"] is True
+    assert manifest["imputation"]["status"] == "documented_priors"
+
+
+def test_calibrated_young_adult_state_matches_flourishing_pack_shape() -> None:
+    spec = SpawnSpec(population_id="young-adult-calibrated", count=32)
+    state, diagnostics, _bundle, _categories = synthesize_young_adult_state(
+        spec=spec,
+        seed=17,
+        marginal_path=YA_MARGINALS,
+        demo_mode=True,
+    )
+
+    assert len(state) == 70
+    assert all(len(values) == 32 for values in state.values())
+    assert set(diagnostics) >= {
+        "max_absolute_standardized_difference",
+        "kl_divergence",
+        "marginal_coverage",
+    }
 
 
 def test_snapshot_id_and_parquet_are_byte_identical_across_processes(tmp_path: Path) -> None:

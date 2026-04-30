@@ -26,9 +26,18 @@
     {
       "canonical_dataset_name": "gfs-wave1",
       "tier": "Tier 1",
-      "status": "fixture",
+      "status": "request_status_stub",
+      "source_class": "real_data_registration_gated",
       "production_ready": false,
       "card_path": "docs/data/datasets/gfs-wave1.md"
+    },
+    {
+      "canonical_dataset_name": "gfs-wave2",
+      "tier": "Tier 1",
+      "status": "request_status_stub",
+      "source_class": "real_data_registration_gated",
+      "production_ready": false,
+      "card_path": "docs/data/datasets/gfs-wave2.md"
     },
     {
       "canonical_dataset_name": "community-pathways",

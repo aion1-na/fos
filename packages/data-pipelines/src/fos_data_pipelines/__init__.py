@@ -18,8 +18,14 @@ from fos_data_pipelines.features.ai_exposure import (
     build_ai_exposure_ensemble,
     build_occupation_ai_demographic_distributions,
 )
+from fos_data_pipelines.features.young_adult_population import (
+    build_us_young_adult_population_marginals,
+)
 from fos_data_pipelines.scoring.flourishing import (
+    build_gfs_wave12_marginals_country,
+    build_gfs_wave12_panel_non_sensitive,
     build_gfs_wave1_marginals,
+    score_flourishing_row,
     score_six_domain_country_marginals,
 )
 from fos_data_pipelines.backtests.replication import (
@@ -73,7 +79,10 @@ __all__ = [
     "build_time_use_context",
     "build_ai_exposure_ensemble",
     "build_occupation_ai_demographic_distributions",
+    "build_us_young_adult_population_marginals",
     "build_gfs_wave1_marginals",
+    "build_gfs_wave12_marginals_country",
+    "build_gfs_wave12_panel_non_sensitive",
     "build_adh_china_shock_panel",
     "build_pntr_mortality_backtest",
     "build_robot_exposure_table",
@@ -92,6 +101,7 @@ __all__ = [
     "load_evidence_sources",
     "load_replication_archive",
     "score_six_domain_country_marginals",
+    "score_flourishing_row",
     "validate_china_shock_gate",
     "trace_claim",
 ]

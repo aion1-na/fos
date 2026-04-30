@@ -1,0 +1,19 @@
+version: "0.1"
+canonical_dataset_name: atus_public_time_use
+fields:
+  - source_field: year
+    original_label: Survey year
+    canonical_name: year
+    data_type: integer
+  - source_field: measure
+    original_label: Time-use measure
+    canonical_name: measure
+    data_type: string
+  - source_field: value
+    original_label: Aggregate duration
+    canonical_name: value
+    data_type: number
+  - source_field: unit
+    original_label: Duration unit
+    canonical_name: unit
+    data_type: string

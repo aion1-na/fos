@@ -6,8 +6,26 @@ import pyarrow.parquet as pq
 import yaml
 
 from fos_data_pipelines.codebooks import load_codebook
-from fos_data_pipelines.connectors.acs_ipums import parse_acs_fixture
-from fos_data_pipelines.connectors.bls_oews import parse_bls_oews_fixture
+from fos_data_pipelines.connectors.acs_ipums import (
+    acs_pums_young_adult_connector_config,
+    parse_acs_fixture,
+)
+from fos_data_pipelines.connectors.cps import (
+    cps_labor_context_connector_config,
+    cps_young_adult_connector_config,
+    parse_cps_labor_context_fixture_only,
+    parse_cps_fixture_only,
+)
+from fos_data_pipelines.connectors.bls_oews import (
+    bls_employment_projections_connector_config,
+    bls_laus_connector_config,
+    bls_oews_connector_config,
+    bls_qcew_connector_config,
+    parse_bls_employment_projections_fixture_only,
+    parse_bls_laus_fixture_only,
+    parse_bls_oews_fixture,
+    parse_bls_qcew_fixture_only,
+)
 from fos_data_pipelines.connectors.onet import parse_onet_fixture
 from fos_data_pipelines.dataset_cards import render_dataset_card
 
@@ -68,6 +86,67 @@ def test_acs_onet_and_bls_fixtures_parse_to_staged_parquet(tmp_path: Path) -> No
     assert "age" in pq.read_table(Path(acs.stage_uri.removeprefix("file://"))).column_names
     assert "skill_name" in pq.read_table(Path(onet.stage_uri.removeprefix("file://"))).column_names
     assert "hourly_wage" in pq.read_table(Path(bls.stage_uri.removeprefix("file://"))).column_names
+
+
+def test_bls_labor_connectors_and_cps_context_have_request_metadata_and_fixture_parsers(
+    tmp_path: Path,
+) -> None:
+    configs = [
+        bls_oews_connector_config("request-status://bls/oews"),
+        bls_laus_connector_config("request-status://bls/laus"),
+        bls_qcew_connector_config("request-status://bls/qcew"),
+        bls_employment_projections_connector_config("request-status://bls/ep"),
+        cps_labor_context_connector_config("request-status://cps/labor-context"),
+    ]
+    artifacts = [
+        parse_bls_laus_fixture_only(
+            FIXTURES / "bls" / "laus_fixture_only.csv",
+            CODEBOOKS / "bls_laus.yaml",
+            tmp_path / "laus",
+        ),
+        parse_bls_qcew_fixture_only(
+            FIXTURES / "bls" / "qcew_fixture_only.csv",
+            CODEBOOKS / "bls_qcew.yaml",
+            tmp_path / "qcew",
+        ),
+        parse_bls_employment_projections_fixture_only(
+            FIXTURES / "bls" / "employment_projections_fixture_only.csv",
+            CODEBOOKS / "bls_employment_projections.yaml",
+            tmp_path / "ep",
+        ),
+        parse_cps_labor_context_fixture_only(
+            FIXTURES / "cps" / "labor_context_fixture_only.csv",
+            CODEBOOKS / "cps_labor_context.yaml",
+            tmp_path / "cps-context",
+        ),
+    ]
+
+    assert {config.canonical_dataset_name for config in configs} == {
+        "bls_oews",
+        "bls_laus",
+        "bls_qcew",
+        "bls_employment_projections",
+        "cps_labor_context",
+    }
+    for artifact in artifacts:
+        path = Path(artifact.stage_uri.removeprefix("file://"))
+        assert artifact.row_count >= 3
+        assert pq.read_table(path).num_rows == artifact.row_count
+
+
+def test_acs_and_cps_young_adult_connector_hooks_have_metadata(tmp_path: Path) -> None:
+    acs_config = acs_pums_young_adult_connector_config("request-status://acs-pums")
+    cps_config = cps_young_adult_connector_config("request-status://cps")
+    cps = parse_cps_fixture_only(
+        FIXTURES / "cps" / "young_adult_fixture_only.csv",
+        CODEBOOKS / "cps_person.yaml",
+        tmp_path / "cps",
+    )
+
+    assert acs_config.canonical_dataset_name == "acs_pums_young_adults"
+    assert cps_config.canonical_dataset_name == "cps_young_adults"
+    assert cps.transform_ref == "cps_young_adults_fixture_only@0.1.0"
+    assert "education" in pq.read_table(Path(cps.stage_uri.removeprefix("file://"))).column_names
 
 
 def test_dataset_card_template_renderer_includes_metadata() -> None:

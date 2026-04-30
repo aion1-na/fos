@@ -121,3 +121,84 @@ th {
   color: var(--muted);
   font-size: 13px;
 }
+
+.forest-plot {
+  margin-top: 24px;
+}
+
+.forest-axis,
+.forest-row {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 260px minmax(220px, 1fr) 56px;
+}
+
+.forest-axis {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 8px 0;
+}
+
+.forest-axis span:nth-child(2) {
+  text-align: center;
+}
+
+.forest-axis span:nth-child(3) {
+  text-align: right;
+}
+
+.forest-row {
+  align-items: center;
+  border-top: 1px solid var(--line);
+  min-height: 46px;
+  padding: 8px 0;
+}
+
+.forest-row strong,
+.forest-row span {
+  display: block;
+}
+
+.forest-row div:first-child span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.forest-line {
+  background: linear-gradient(90deg, transparent 24.5%, var(--line) 24.5%, var(--line) 25.5%, transparent 25.5%);
+  height: 18px;
+  position: relative;
+}
+
+.forest-ci {
+  background: #7d948b;
+  height: 3px;
+  position: absolute;
+  top: 8px;
+}
+
+.forest-point {
+  background: var(--accent);
+  border: 2px solid var(--panel);
+  border-radius: 50%;
+  height: 13px;
+  position: absolute;
+  top: 3px;
+  transform: translateX(-50%);
+  width: 13px;
+}
+
+.forest-point[data-status="draft"] {
+  background: #8a6f2a;
+}
+
+.forest-point[data-status="superseded"] {
+  background: #746f7a;
+}
+
+@media (max-width: 760px) {
+  .forest-axis,
+  .forest-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

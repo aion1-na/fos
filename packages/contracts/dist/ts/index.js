@@ -57,6 +57,12 @@ export function parseSpawnSpec(input) {
   return value;
 }
 
+export function parseRunDataManifest(input) {
+  const value = cloneObject(input, "RunDataManifest");
+  requireFields(value, ["population_id", "run_id", "scenario_id"], "RunDataManifest");
+  return value;
+}
+
 export function parseSimulationRun(input) {
   const value = cloneObject(input, "SimulationRun");
   requireFields(value, ["id", "population_id", "scenario_id", "status"], "SimulationRun");

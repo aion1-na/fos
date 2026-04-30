@@ -7,7 +7,7 @@ from pathlib import Path
 
 import numpy as np
 import pytest
-from fw_contracts import DomainPack, Population, Scenario, TransitionModel
+from fw_contracts import BranchSpec, DomainPack, Population, Scenario, TransitionModel
 from fw_kernel.artifact import load_artifact
 from fw_kernel.resolve import resolve_composition
 from fw_kernel.runtime import run_simulation
@@ -66,6 +66,48 @@ def test_runtime_artifact_reloads_identically(tmp_path: Path) -> None:
     assert first.outputs["kpis"] == second.outputs["kpis"]
     assert first_artifact["ticks_bytes"] == second_artifact["ticks_bytes"]
     assert first_artifact["kpis_bytes"] == second_artifact["kpis_bytes"]
+
+
+def test_runtime_emits_run_data_manifest_for_all_simulation_components(tmp_path: Path) -> None:
+    scenario, population, pack = _inputs(tmp_path)
+    reference = {
+        "canonical_dataset_name": "features.community_context",
+        "version": "fixture-0.1",
+        "content_hash": "a" * 64,
+    }
+    scenario = scenario.model_copy(
+        update={
+            "branches": [BranchSpec(id="treatment", label="Treatment")],
+            "parameters": {
+                **scenario.parameters,
+                "dataset_references": [reference],
+            },
+        }
+    )
+
+    run = run_simulation(scenario, population, pack)
+    manifest = run.outputs["run_data_manifest"]
+    artifact = load_artifact(tmp_path / "artifact")
+
+    assert manifest["dataset_references"] == [reference]
+    assert set(manifest["touched_components"]) == {
+        "population_synthesis",
+        "transition_models",
+        "validation",
+        "mirofish_adapter",
+    }
+    assert run.outputs["branch_data_manifests"][0]["branch_id"] == "treatment"
+    assert artifact["manifest"]["run_data_manifest"]["dataset_references"] == [reference]
+
+
+def test_runtime_rejects_raw_dataset_path_reads(tmp_path: Path) -> None:
+    scenario, population, pack = _inputs(tmp_path)
+    scenario = scenario.model_copy(
+        update={"parameters": {**scenario.parameters, "reference_path": "fixtures/raw.parquet"}}
+    )
+
+    with pytest.raises(ValueError, match="unversioned dataset read"):
+        run_simulation(scenario, population, pack)
 
 
 def test_determinism_across_processes(tmp_path: Path) -> None:

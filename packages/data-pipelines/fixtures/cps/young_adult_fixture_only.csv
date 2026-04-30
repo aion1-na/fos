@@ -1,0 +1,4 @@
+AGE,EDUC,EMPSTAT,FTOTVAL,STATEFIP
+22,some_college,employed,42000,17
+28,bachelor_plus,employed,82000,06
+19,high_school,student,18000,48

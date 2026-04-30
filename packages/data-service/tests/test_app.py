@@ -7,9 +7,11 @@ from fos_data_pipelines.models import RawArtifact
 from fos_data_service.app import (
     claim_lookup,
     dataset_card,
+    dataset_feature_table,
     dataset_lineage,
     dataset_manifest,
     dataset_policy,
+    evidence_claim_lookup,
     health,
     list_datasets,
     resolve_dataset,
@@ -122,12 +124,16 @@ def test_old_versions_remain_resolvable_after_new_version_is_registered() -> Non
 def test_card_manifest_lineage_and_claim_lookup_endpoints() -> None:
     card = dataset_card("features.community_context", "fixture-0.1", "a" * 64)
     manifest = dataset_manifest("features.community_context", "fixture-0.1", "a" * 64)
+    feature_table = dataset_feature_table("features.community_context", "fixture-0.1", "a" * 64)
     lineage = dataset_lineage("features.community_context", "fixture-0.1", "a" * 64)
     claim = claim_lookup("claim_mentoring_meaning_v0")
+    evidence_claim = evidence_claim_lookup("claim_mentoring_meaning_v0")
     assert card["card_path"] == "docs/data/datasets/community-pathways.md"
     assert manifest["dataset_reference"]["content_hash"] == "a" * 64
+    assert feature_table["feature_table"] == "features.community_context"
     assert lineage["downstream"] == ["simulation-run-fdw-smoke"]
     assert claim["dataset_references"][0]["canonical_dataset_name"] == "features.community_context"
+    assert evidence_claim["causal_effect_size_validated"] is False
 
 
 def test_catalog_resolves_registered_dataset_reference_records() -> None:

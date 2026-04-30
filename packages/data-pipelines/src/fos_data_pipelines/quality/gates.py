@@ -9,7 +9,10 @@ import pyarrow as pa
 import pyarrow.compute as pc
 from pydantic import BaseModel, ConfigDict, Field
 
-from fos_data_pipelines.quality.cards import lint_dataset_card
+from fos_data_pipelines.quality.cards import (
+    detect_fixture_only_production_artifacts,
+    lint_dataset_card,
+)
 
 
 class QualityGateReport(BaseModel):
@@ -96,4 +99,15 @@ def validate_tier1_release_candidate(
             defects.append(f"{name}: production-ready without complete metadata")
         if dataset.get("production_ready") is True and dataset.get("status") != "approved_production":
             defects.append(f"{name}: production-ready requires approved_production status")
+        if dataset.get("fixture_only") is True and dataset.get("production_ready") is True:
+            defects.append(f"{name}: fixture_only cannot be production-ready")
+    defects.extend(
+        detect_fixture_only_production_artifacts(
+            [
+                repo_root / dataset["card_path"]
+                for dataset in manifest["datasets"]
+                if (repo_root / dataset["card_path"]).exists()
+            ]
+        )
+    )
     return defects

@@ -1,6 +1,62 @@
 {
+  "$defs": {
+    "DatasetReference": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_dataset_name": {
+          "minLength": 1,
+          "pattern": "^[a-z0-9_][a-z0-9_.-]*$",
+          "title": "Canonical Dataset Name",
+          "type": "string"
+        },
+        "content_hash": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "version": {
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "canonical_dataset_name",
+        "version",
+        "content_hash"
+      ],
+      "title": "DatasetReference",
+      "type": "object"
+    }
+  },
   "additionalProperties": false,
   "properties": {
+    "citation": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Citation"
+    },
+    "comparator": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Comparator"
+    },
     "confidence": {
       "anyOf": [
         {
@@ -15,6 +71,29 @@
       "default": null,
       "title": "Confidence"
     },
+    "dataset_reference": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/DatasetReference"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "effect_size": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Effect Size"
+    },
     "id": {
       "title": "Id",
       "type": "string"
@@ -23,6 +102,53 @@
       "additionalProperties": true,
       "title": "Metadata",
       "type": "object"
+    },
+    "outcome_domain": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Outcome Domain"
+    },
+    "review_status": {
+      "anyOf": [
+        {
+          "enum": [
+            "draft",
+            "advisor_reviewed",
+            "rejected",
+            "superseded"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Review Status"
+    },
+    "risk_of_bias": {
+      "anyOf": [
+        {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Risk Of Bias"
     },
     "scenario_id": {
       "anyOf": [
@@ -35,6 +161,18 @@
       ],
       "default": null,
       "title": "Scenario Id"
+    },
+    "source_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Id"
     },
     "source_uri": {
       "anyOf": [
@@ -51,6 +189,72 @@
     "statement": {
       "title": "Statement",
       "type": "string"
+    },
+    "target_population": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Target Population"
+    },
+    "transition_model_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Transition Model Id"
+    },
+    "transportability": {
+      "anyOf": [
+        {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Transportability"
+    },
+    "treatment": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Treatment"
+    },
+    "uncertainty": {
+      "anyOf": [
+        {
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Uncertainty"
     }
   },
   "required": [

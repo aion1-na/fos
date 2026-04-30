@@ -1,0 +1,27 @@
+version: "0.1"
+canonical_dataset_name: features.health_validation_context
+fields:
+  - source_field: source
+    original_label: Source table
+    canonical_name: source
+    data_type: string
+  - source_field: country_code
+    original_label: Source country code
+    canonical_name: source_country_code
+    data_type: string
+  - source_field: country_iso3
+    original_label: ISO3 country code
+    canonical_name: country_iso3
+    data_type: string
+  - source_field: deaths
+    original_label: Death count
+    canonical_name: deaths
+    data_type: integer
+  - source_field: mortality_rate
+    original_label: Mortality rate
+    canonical_name: mortality_rate
+    data_type: number
+  - source_field: suppressed
+    original_label: Suppression flag
+    canonical_name: suppressed
+    data_type: boolean

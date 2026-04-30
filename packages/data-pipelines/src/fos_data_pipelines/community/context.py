@@ -12,6 +12,7 @@ import pyarrow.parquet as pq
 from fos_data_pipelines.models import DatasetReferenceModel
 
 VALID_JOIN_LEVELS = {"county", "zip", "tract", "national"}
+FEATURE_CODEBOOK_VERSION = "0.1"
 
 
 def _hash_file(path: Path) -> str:
@@ -31,6 +32,14 @@ def _write_feature(
     )
     table = table.filter(valid_join)
     content_hash = _hash_file(source_path)
+    table = table.append_column(
+        "content_hash",
+        pa.array([content_hash for _ in range(table.num_rows)]),
+    )
+    table = table.append_column(
+        "codebook_version",
+        pa.array([FEATURE_CODEBOOK_VERSION for _ in range(table.num_rows)]),
+    )
     table = table.append_column(
         "dataset_reference",
         pa.array(

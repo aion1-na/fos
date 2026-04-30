@@ -1,0 +1,5 @@
+respondent_id,wave,country,weight,happiness_1,happiness_2,health_1,health_2,meaning_1,meaning_2,character_1,character_2,relationships_1,relationships_2,financial_1,financial_2
+gfs-001,2,US,1.2,8,8,8,8,7,7,8,8,7,7,6,6
+gfs-002,2,US,0.8,7,7,7,7,7,7,8,8,7,7,6,6
+gfs-003,2,JP,1.1,6,6,7,7,7,7,8,8,7,7,7,7
+gfs-004,2,JP,0.9,6,6,7,7,8,8,7,7,7,7,7,7

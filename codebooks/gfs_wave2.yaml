@@ -1,0 +1,67 @@
+version: "0.1"
+canonical_dataset_name: gfs_wave2
+fields:
+  - source_field: respondent_id
+    original_label: Respondent identifier
+    canonical_name: respondent_id
+    data_type: string
+  - source_field: wave
+    original_label: GFS survey wave
+    canonical_name: wave
+    data_type: integer
+  - source_field: country
+    original_label: Country
+    canonical_name: country
+    data_type: string
+  - source_field: weight
+    original_label: Sampling weight
+    canonical_name: sampling_weight
+    data_type: number
+  - source_field: happiness_1
+    original_label: Overall life satisfaction
+    canonical_name: happiness_1
+    data_type: number
+  - source_field: happiness_2
+    original_label: Happiness yesterday
+    canonical_name: happiness_2
+    data_type: number
+  - source_field: health_1
+    original_label: Physical health status
+    canonical_name: health_1
+    data_type: number
+  - source_field: health_2
+    original_label: Mental health status
+    canonical_name: health_2
+    data_type: number
+  - source_field: meaning_1
+    original_label: Life has meaning
+    canonical_name: meaning_1
+    data_type: number
+  - source_field: meaning_2
+    original_label: Sense of purpose
+    canonical_name: meaning_2
+    data_type: number
+  - source_field: character_1
+    original_label: Acting to promote good
+    canonical_name: character_1
+    data_type: number
+  - source_field: character_2
+    original_label: Delaying gratification to do right
+    canonical_name: character_2
+    data_type: number
+  - source_field: relationships_1
+    original_label: Satisfying close relationships
+    canonical_name: relationships_1
+    data_type: number
+  - source_field: relationships_2
+    original_label: Supportive relationships
+    canonical_name: relationships_2
+    data_type: number
+  - source_field: financial_1
+    original_label: Worry about meeting expenses
+    canonical_name: financial_1
+    data_type: number
+  - source_field: financial_2
+    original_label: Financial security
+    canonical_name: financial_2
+    data_type: number

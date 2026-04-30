@@ -1,0 +1,15 @@
+version: "0.1"
+canonical_dataset_name: cps_labor_context
+fields:
+  - source_field: occupation_group
+    original_label: Occupation group
+    canonical_name: occupation_group
+    data_type: string
+  - source_field: employment_status
+    original_label: Employment status
+    canonical_name: employment_status
+    data_type: string
+  - source_field: young_adult_share
+    original_label: Young adult share
+    canonical_name: young_adult_share
+    data_type: number

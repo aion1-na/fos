@@ -1,0 +1,19 @@
+version: "0.1"
+canonical_dataset_name: brfss_public
+fields:
+  - source_field: year
+    original_label: Survey year
+    canonical_name: year
+    data_type: integer
+  - source_field: geography_level
+    original_label: Geography level
+    canonical_name: geography_level
+    data_type: string
+  - source_field: measure
+    original_label: Health measure
+    canonical_name: measure
+    data_type: string
+  - source_field: value
+    original_label: Public aggregate value
+    canonical_name: value
+    data_type: number
