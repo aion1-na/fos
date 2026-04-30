@@ -88,6 +88,27 @@ class DatasetReference(ContractModel):
         return (self.canonical_dataset_name, self.version, self.content_hash)
 
 
+class RunDataManifest(ContractModel):
+    run_id: str
+    scenario_id: str
+    population_id: str
+    dataset_references: list[DatasetReference] = Field(default_factory=list)
+    touched_components: list[
+        Literal[
+            "population_synthesis",
+            "transition_models",
+            "validation",
+            "mirofish_adapter",
+        ]
+    ] = Field(default_factory=list)
+    branch_id: str | None = None
+    parent_branch_id: str | None = None
+    manifest_hash: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+
+    def reference_tuples(self) -> tuple[tuple[str, str, str], ...]:
+        return tuple(reference.as_tuple() for reference in self.dataset_references)
+
+
 class DomainPack(ContractModel):
     id: str
     name: str
@@ -156,9 +177,22 @@ class SimulationRun(ContractModel):
 class EvidenceClaim(ContractModel):
     id: str
     scenario_id: str | None = None
+    transition_model_id: str | None = None
     statement: str
+    source_id: str | None = None
     source_uri: str | None = None
     confidence: float | None = Field(default=None, ge=0.0, le=1.0)
+    target_population: str | None = None
+    treatment: str | None = None
+    comparator: str | None = None
+    outcome_domain: str | None = None
+    effect_size: float | None = None
+    uncertainty: float | None = Field(default=None, ge=0.0)
+    risk_of_bias: Literal["low", "medium", "high"] | None = None
+    transportability: Literal["low", "medium", "high"] | None = None
+    review_status: Literal["draft", "advisor_reviewed", "rejected", "superseded"] | None = None
+    citation: str | None = None
+    dataset_reference: DatasetReference | None = None
     metadata: JsonObject = Field(default_factory=dict)
 
 

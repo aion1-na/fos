@@ -53,6 +53,7 @@ def write_snapshot(
     networks: list[dict[str, Any]],
     institutions: list[dict[str, Any]],
     fidelity: dict[str, Any],
+    manifest_metadata: dict[str, Any] | None = None,
 ) -> SnapshotArtifact:
     snapshot_id = content_address(spec, data_versions, pack_version, seed)
     root = store.path(snapshot_id)
@@ -84,6 +85,8 @@ def write_snapshot(
         "data_versions": data_versions,
         "files": {name: Path(path).name for name, path in paths.items() if name != "manifest"},
     }
+    if manifest_metadata:
+        manifest.update(manifest_metadata)
     with store.open(paths["manifest"], "wb") as handle:
         handle.write(
             (json.dumps(manifest, sort_keys=True, separators=(",", ":")) + "\n").encode(

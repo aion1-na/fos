@@ -37,9 +37,31 @@ def test_platform_smoke_fixture_records_every_dataset_reference_touched() -> Non
         assert smoke_run["id"] in lineage["downstream"]
 
 
+def test_api_run_manifest_records_all_simulation_data_components() -> None:
+    from fos_api.main import _simulation_run_artifact
+
+    artifact = _simulation_run_artifact("simulation-run-fdw-smoke")
+    manifest = artifact["manifest"]["run_data_manifest"]
+
+    assert artifact["manifest"]["dataset_references"] == manifest["dataset_references"]
+    assert set(manifest["touched_components"]) == {
+        "population_synthesis",
+        "transition_models",
+        "validation",
+        "mirofish_adapter",
+    }
+    assert artifact["manifest"]["branch_data_manifests"]
+
+
 def test_schema_breaks_return_structured_errors() -> None:
     payload = resolve_dataset("features.community_context", "fixture-0.1", "not-a-hash")
     assert payload["error"] == "dataset_reference_schema_break"
+
+
+def test_missing_dataset_reference_returns_structured_error() -> None:
+    payload = resolve_dataset("features.community_context", "fixture-9.9", "f" * 64)
+    assert payload["error"] == "missing_dataset"
+    assert "is not registered" in payload["message"]
 
 
 def test_old_dataset_reference_versions_remain_resolvable() -> None:

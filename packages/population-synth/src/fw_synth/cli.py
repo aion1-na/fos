@@ -11,6 +11,7 @@ from fw_contracts import SpawnSpec
 from fw_synth.pipeline import synthesize_snapshot
 from fw_synth.snapshot import _snapshot_root
 from fw_synth.store import SynthStore
+from fw_synth.young_adult import synthesize_young_adult_snapshot
 
 
 def _load_spec(path: Path) -> dict[str, Any]:
@@ -24,15 +25,25 @@ def _load_spec(path: Path) -> dict[str, Any]:
 def _cmd_synthesize(args: argparse.Namespace) -> int:
     data = _load_spec(Path(args.spec))
     spawn_spec = SpawnSpec.model_validate(data["spawn_spec"])
-    artifact = synthesize_snapshot(
-        spec=spawn_spec,
-        pack_version=str(data["pack_version"]),
-        seed=int(data["seed"]),
-        output_url=args.out,
-        reference_path=str(data["reference_path"]),
-        data_versions={str(k): str(v) for k, v in data["data_versions"].items()},
-        thresholds=data.get("thresholds"),
-    )
+    if data.get("population_synthesis") == "us_young_adult_calibrated":
+        artifact = synthesize_young_adult_snapshot(
+            spec=spawn_spec,
+            pack_version=str(data["pack_version"]),
+            seed=int(data["seed"]),
+            output_url=args.out,
+            marginal_path=str(data["marginal_path"]),
+            demo_mode=bool(data.get("demo_mode", False)),
+        )
+    else:
+        artifact = synthesize_snapshot(
+            spec=spawn_spec,
+            pack_version=str(data["pack_version"]),
+            seed=int(data["seed"]),
+            output_url=args.out,
+            reference_path=str(data["reference_path"]),
+            data_versions={str(k): str(v) for k, v in data["data_versions"].items()},
+            thresholds=data.get("thresholds"),
+        )
     print(artifact.path)
     return 0
 

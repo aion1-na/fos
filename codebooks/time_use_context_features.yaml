@@ -1,0 +1,23 @@
+version: "0.1"
+canonical_dataset_name: features.time_use_context
+fields:
+  - source_field: geography_level
+    original_label: Geography level
+    canonical_name: geography_level
+    data_type: string
+  - source_field: measure
+    original_label: Time-use measure
+    canonical_name: measure
+    data_type: string
+  - source_field: value
+    original_label: Aggregate time value
+    canonical_name: value
+    data_type: number
+  - source_field: unit
+    original_label: Unit
+    canonical_name: unit
+    data_type: string
+  - source_field: join_allowed
+    original_label: Valid geography join flag
+    canonical_name: join_allowed
+    data_type: boolean

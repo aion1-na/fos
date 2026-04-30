@@ -74,6 +74,19 @@ export interface SpawnSpec {
 
 export declare function parseSpawnSpec(input: unknown): SpawnSpec;
 
+export interface RunDataManifest {
+  branch_id?: string | unknown;
+  dataset_references?: DatasetReference[];
+  manifest_hash?: string | unknown;
+  parent_branch_id?: string | unknown;
+  population_id: string;
+  run_id: string;
+  scenario_id: string;
+  touched_components?: ("population_synthesis" | "transition_models" | "validation" | "mirofish_adapter")[];
+}
+
+export declare function parseRunDataManifest(input: unknown): RunDataManifest;
+
 export interface SimulationRun {
   completed_at?: string | unknown;
   fidelity?: FidelityReport | unknown;
@@ -88,12 +101,25 @@ export interface SimulationRun {
 export declare function parseSimulationRun(input: unknown): SimulationRun;
 
 export interface EvidenceClaim {
+  citation?: string | unknown;
+  comparator?: string | unknown;
   confidence?: number | unknown;
+  dataset_reference?: DatasetReference | unknown;
+  effect_size?: number | unknown;
   id: string;
   metadata?: Record<string, unknown>;
+  outcome_domain?: string | unknown;
+  review_status?: "draft" | "advisor_reviewed" | "rejected" | "superseded" | unknown;
+  risk_of_bias?: "low" | "medium" | "high" | unknown;
   scenario_id?: string | unknown;
+  source_id?: string | unknown;
   source_uri?: string | unknown;
   statement: string;
+  target_population?: string | unknown;
+  transition_model_id?: string | unknown;
+  transportability?: "low" | "medium" | "high" | unknown;
+  treatment?: string | unknown;
+  uncertainty?: number | unknown;
 }
 
 export declare function parseEvidenceClaim(input: unknown): EvidenceClaim;

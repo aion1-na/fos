@@ -1,0 +1,6 @@
+occupation_group,employment_status,young_adult_share
+management_professional,employed,0.24
+service,employed,0.31
+sales_office,employed,0.28
+production_transport,employed,0.22
+not_in_labor_force,student,0.42

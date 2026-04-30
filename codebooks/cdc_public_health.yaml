@@ -1,0 +1,19 @@
+version: "0.1"
+canonical_dataset_name: cdc_public_health
+fields:
+  - source_field: year
+    original_label: Year
+    canonical_name: year
+    data_type: integer
+  - source_field: geography_level
+    original_label: Geography level
+    canonical_name: geography_level
+    data_type: string
+  - source_field: deaths
+    original_label: Death count
+    canonical_name: deaths
+    data_type: integer
+  - source_field: suppressed
+    original_label: Suppression flag
+    canonical_name: suppressed
+    data_type: boolean

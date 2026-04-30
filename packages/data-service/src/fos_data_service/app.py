@@ -60,8 +60,13 @@ TIER1_V1_REFERENCES = [
     ),
     DatasetReference(
         canonical_dataset_name="gfs-wave1",
-        version="1.0.0",
-        content_hash="8630b7664865a8ea63fa4ebb7bed3224aeb97f7db3cddefd112003ce6bef2545",
+        version="request-status-v0.1",
+        content_hash="6215adab47ff0095445ffb257c509f180ecce3ecf1abfad9d686c0c7d0ef39b1",
+    ),
+    DatasetReference(
+        canonical_dataset_name="gfs-wave2",
+        version="request-status-v0.1",
+        content_hash="27d0561e955d5b8a72608e904ac0c35ae81aa98f403a47185fc8290106dc6135",
     ),
     DatasetReference(
         canonical_dataset_name="community-pathways",
@@ -74,6 +79,7 @@ CARD_PATHS = {
     "onet": "docs/data/datasets/onet.md",
     "bls-oews": "docs/data/datasets/bls-oews.md",
     "gfs-wave1": "docs/data/datasets/gfs-wave1.md",
+    "gfs-wave2": "docs/data/datasets/gfs-wave2.md",
     "community-pathways": "docs/data/datasets/community-pathways.md",
     "features.community_context": "docs/data/datasets/community-pathways.md",
 }
@@ -95,6 +101,11 @@ for reference in [OLD_FIXTURE_REFERENCE, FIXTURE_REFERENCE, *TIER1_V1_REFERENCES
                 else ("simulation-run-fdw-smoke",)
             ),
             claim_ids=("claim_mentoring_meaning_v0",),
+            feature_table=(
+                reference.canonical_dataset_name
+                if reference.canonical_dataset_name.startswith("features.")
+                else None
+            ),
         )
     )
 
@@ -510,6 +521,28 @@ def dataset_manifest(
     }
 
 
+@app.get("/datasets/{canonical_dataset_name}/feature_table")
+def dataset_feature_table(
+    canonical_dataset_name: str,
+    version: str | None = None,
+    content_hash: str | None = None,
+) -> dict[str, object]:
+    try:
+        reference = _reference_from_parts(canonical_dataset_name, version, content_hash)
+        record = catalog.resolve_dataset_reference(reference)
+    except DataServiceError as exc:
+        return structured_error(exc)
+    if record.feature_table is None:
+        return {
+            "error": "missing_feature_table",
+            "message": f"{reference.as_tuple()} is not registered as a simulation feature table",
+        }
+    return {
+        "dataset_reference": record.reference.model_dump(mode="json"),
+        "feature_table": record.feature_table,
+    }
+
+
 @app.get("/datasets/{canonical_dataset_name}/lineage")
 def dataset_lineage(
     canonical_dataset_name: str,
@@ -538,6 +571,21 @@ def claim_lookup(claim_id: str) -> dict[str, object]:
     if not matches:
         return {"error": "missing_claim", "message": f"claim {claim_id} is not registered"}
     return {"claim_id": claim_id, "dataset_references": matches}
+
+
+@app.get("/evidence-claims/{claim_id}")
+def evidence_claim_lookup(claim_id: str) -> dict[str, object]:
+    payload = claim_lookup(claim_id)
+    if "error" in payload:
+        return payload
+    return {
+        "evidence_claim_id": claim_id,
+        "dataset_references": payload["dataset_references"],
+        "causal_effect_size_validated": False,
+        "mirofish_boundary": (
+            "MiroFish outputs are interaction/narrative artifacts unless explicitly validated"
+        ),
+    }
 
 
 @app.get("/artifacts/{artifact_id}/lineage")

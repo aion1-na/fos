@@ -14,7 +14,12 @@ from fw_kernel.commit import commit_patch
 from fw_kernel.compute import compute_transition
 from fw_kernel.network import propagate_once
 from fw_kernel.order import deterministic_order
-from fw_kernel.provenance import tick_hash
+from fw_kernel.provenance import (
+    collect_dataset_references,
+    reject_unversioned_dataset_reads,
+    run_data_manifest,
+    tick_hash,
+)
 from fw_kernel.resolve import resolve_composition
 from fw_kernel.snapshot import take_snapshot
 from fw_kernel.state import state_from_population
@@ -48,6 +53,10 @@ def run_simulation(
         raise ValueError("population scenario_id must match scenario id")
 
     parameters = _parameter_dict(scenario)
+    population_metadata = dict(population.metadata)
+    pack_metadata = {"dataset_references": pack.model_dump(mode="json").get("dataset_references", [])}
+    reject_unversioned_dataset_reads(parameters, population_metadata, pack_metadata)
+    dataset_references = collect_dataset_references(parameters, population_metadata, pack_metadata)
     ticks = int(parameters.get("ticks", DEFAULT_TICKS))
     seed = int(parameters.get("seed", 0))
     enabled_transitions = parameters.get("transitions")
@@ -85,9 +94,31 @@ def run_simulation(
         )
 
     run_id = _stable_run_id(scenario, population, pack)
+    manifest = run_data_manifest(
+        run_id=run_id,
+        scenario_id=scenario.id,
+        population_id=population.id,
+        dataset_references=dataset_references,
+    )
+    branch_manifests = [
+        run_data_manifest(
+            run_id=run_id,
+            scenario_id=scenario.id,
+            population_id=population.id,
+            dataset_references=dataset_references,
+            branch_id=branch.id,
+            parent_branch_id=branch.parent_id,
+        )
+        for branch in scenario.branches
+    ]
     outputs: dict[str, Any] = {
         "tick_hash_sequence": [record.tick_hash for record in records],
         "kpis": [record.kpis for record in records],
+        "run_data_manifest": manifest.model_dump(mode="json"),
+        "branch_data_manifests": [
+            branch_manifest.model_dump(mode="json")
+            for branch_manifest in branch_manifests
+        ],
     }
     output_dir = parameters.get("artifact_dir")
     if output_dir is not None:
@@ -97,6 +128,7 @@ def run_simulation(
             scenario_id=scenario.id,
             population_id=population.id,
             records=records,
+            run_data_manifest=manifest,
         )
         outputs["artifact_manifest"] = artifact.manifest
         outputs["artifact_dir"] = str(Path(str(output_dir)))

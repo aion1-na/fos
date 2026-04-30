@@ -1,0 +1,91 @@
+{
+  "dataset_reference": {
+    "canonical_dataset_name": "features.us_young_adult_population_marginals",
+    "version": "fixture-only-v0.1"
+  },
+  "source_references": [
+    {
+      "canonical_dataset_name": "acs_pums_young_adults_fixture_only",
+      "version": "fixture-only-v0.1",
+      "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "canonical_dataset_name": "cps_young_adults_fixture_only",
+      "version": "fixture-only-v0.1",
+      "content_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+      "canonical_dataset_name": "gfs_wave12_panel_non_sensitive_fixture_only",
+      "version": "fixture-only-v0.1",
+      "content_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    }
+  ],
+  "marginals": {
+    "age_band": {
+      "18-20": 0.24,
+      "21-24": 0.36,
+      "25-29": 0.4
+    },
+    "education": {
+      "less_than_hs": 0.08,
+      "high_school": 0.3,
+      "some_college": 0.37,
+      "bachelor_plus": 0.25
+    },
+    "employment_status": {
+      "student": 0.24,
+      "employed": 0.62,
+      "unemployed": 0.08,
+      "caregiver": 0.06
+    },
+    "household_type": {
+      "alone": 0.18,
+      "family": 0.56,
+      "roommates": 0.26
+    },
+    "income_band": {
+      "lt_25k": 0.28,
+      "25k_50k": 0.34,
+      "50k_100k": 0.28,
+      "100k_plus": 0.1
+    },
+    "geography": {
+      "northeast": 0.17,
+      "midwest": 0.21,
+      "south": 0.38,
+      "west": 0.19,
+      "rural": 0.05
+    },
+    "occupation_group": {
+      "management_professional": 0.24,
+      "service": 0.22,
+      "sales_office": 0.21,
+      "production_transport": 0.13,
+      "not_in_labor_force": 0.2
+    }
+  },
+  "priors": {
+    "happiness": {
+      "mean": 0.62,
+      "std": 0.14,
+      "source": "gfs non-sensitive young-adult distribution"
+    },
+    "health": {
+      "mean": 0.7,
+      "std": 0.12,
+      "source": "gfs non-sensitive young-adult distribution"
+    },
+    "childhood_household_income": {
+      "mean": 0.52,
+      "std": 0.18,
+      "imputed": true,
+      "source": "documented prior until linked childhood distribution is approved"
+    },
+    "childhood_parent_education": {
+      "mean": 0.58,
+      "std": 0.17,
+      "imputed": true,
+      "source": "documented prior until linked childhood distribution is approved"
+    }
+  }
+}

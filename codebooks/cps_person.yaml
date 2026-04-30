@@ -1,0 +1,23 @@
+version: "0.1"
+canonical_dataset_name: cps_young_adults
+fields:
+  - source_field: AGE
+    original_label: Age
+    canonical_name: age
+    data_type: integer
+  - source_field: EDUC
+    original_label: Educational attainment
+    canonical_name: education
+    data_type: string
+  - source_field: EMPSTAT
+    original_label: Employment status
+    canonical_name: employment_status
+    data_type: string
+  - source_field: FTOTVAL
+    original_label: Family income
+    canonical_name: household_income
+    data_type: number
+  - source_field: STATEFIP
+    original_label: State FIPS code
+    canonical_name: geography
+    data_type: string

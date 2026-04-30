@@ -1,6 +1,6 @@
 # Dataset Card: Mentoring Literature
 
-Canonical dataset name: `mentoring_literature`
+Canonical dataset name: `intervention_literature.mentoring`
 
 Version: `access-not-approved`
 
@@ -8,7 +8,7 @@ Access status: request-status stub
 
 License metadata: pending curator-approved extraction
 
-Codebook mapping: pending claim extraction protocol
+Codebook mapping: target-trial fields in `features.intervention_effect_size_priors_v1`
 
 Quality profile: pending risk-of-bias review
 

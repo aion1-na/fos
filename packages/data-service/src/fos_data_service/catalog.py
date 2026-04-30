@@ -79,6 +79,7 @@ class DatasetRecord:
     upstream_references: tuple[DatasetReference, ...] = ()
     consumed_by_runs: tuple[str, ...] = ()
     claim_ids: tuple[str, ...] = ()
+    feature_table: str | None = None
 
 
 class DataServiceError(Exception):

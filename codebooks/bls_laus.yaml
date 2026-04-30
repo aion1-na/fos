@@ -1,0 +1,23 @@
+version: "0.1"
+canonical_dataset_name: bls_laus
+fields:
+  - source_field: area_code
+    original_label: LAUS area code
+    canonical_name: area_code
+    data_type: string
+  - source_field: area_title
+    original_label: Area title
+    canonical_name: area_title
+    data_type: string
+  - source_field: period
+    original_label: Reference period
+    canonical_name: period
+    data_type: string
+  - source_field: unemployment_rate
+    original_label: Unemployment rate
+    canonical_name: unemployment_rate
+    data_type: number
+  - source_field: labor_force
+    original_label: Labor force
+    canonical_name: labor_force
+    data_type: integer

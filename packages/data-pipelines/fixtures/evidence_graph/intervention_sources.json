@@ -1,26 +1,182 @@
 [
   {
-    "source_id": "src_paid_leave_meta_stub",
-    "canonical_dataset_name": "paid_leave_literature",
+    "source_id": "src_job_training_request_status",
+    "canonical_dataset_name": "intervention_literature.job_training",
     "access_status": "request_status_stub",
-    "dataset_card": "docs/data/datasets/paid-leave-literature.md",
-    "provenance_manifest": "request-status:paid-leave-literature",
-    "citation": "Paid leave meta-analysis source pending approved extraction."
-  },
-  {
-    "source_id": "src_job_training_rct_stub",
-    "canonical_dataset_name": "job_training_literature",
-    "access_status": "request_status_stub",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.job_training",
+      "version": "request-status-v0.1",
+      "content_hash": "d38ff586b415dfbe3a6b7576fae37051cb33590863e4a2f576ec33b31f38ea69"
+    },
     "dataset_card": "docs/data/datasets/job-training-literature.md",
-    "provenance_manifest": "request-status:job-training-literature",
-    "citation": "Job training impact source pending approved extraction."
+    "provenance_manifest": "request-status:job_training-literature",
+    "citation": "Greenberg, Michalopoulos, and Robins 2003; Card, Kluve, and Weber 2018 training evaluation synthesis.",
+    "license_ref": "literature-extraction-pending",
+    "quality_profile_ref": "docs/data/evidence/job_training-quality-profile.md"
   },
   {
-    "source_id": "src_mentoring_eval_stub",
-    "canonical_dataset_name": "mentoring_literature",
+    "source_id": "src_apprenticeships_request_status",
+    "canonical_dataset_name": "intervention_literature.apprenticeships",
     "access_status": "request_status_stub",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.apprenticeships",
+      "version": "request-status-v0.1",
+      "content_hash": "091996123c7ca57f24acdbddf4e4e6e2e42db5aec9eb00005d3c0e7ccee778c2"
+    },
+    "dataset_card": "docs/data/datasets/apprenticeships-literature.md",
+    "provenance_manifest": "request-status:apprenticeships-literature",
+    "citation": "Registered apprenticeship and sectoral employment program evidence synthesis pending approved extraction.",
+    "license_ref": "literature-extraction-pending",
+    "quality_profile_ref": "docs/data/evidence/apprenticeships-quality-profile.md"
+  },
+  {
+    "source_id": "src_mentoring_request_status",
+    "canonical_dataset_name": "intervention_literature.mentoring",
+    "access_status": "request_status_stub",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.mentoring",
+      "version": "request-status-v0.1",
+      "content_hash": "1a7dc8dfc8fdf08f294f0f601380156c5e2e407284dd1eacb8432a45cdeb3a34"
+    },
     "dataset_card": "docs/data/datasets/mentoring-literature.md",
     "provenance_manifest": "request-status:mentoring-literature",
-    "citation": "Mentoring evaluation source pending approved extraction."
+    "citation": "DuBois et al. mentoring meta-analysis and youth mentoring evaluation synthesis pending approved extraction.",
+    "license_ref": "literature-extraction-pending",
+    "quality_profile_ref": "docs/data/evidence/mentoring-quality-profile.md"
+  },
+  {
+    "source_id": "src_cash_transfers_request_status",
+    "canonical_dataset_name": "intervention_literature.cash_transfers",
+    "access_status": "request_status_stub",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.cash_transfers",
+      "version": "request-status-v0.1",
+      "content_hash": "b71afc01094031a87206c5ebe662b12e670a8cea285b1c584ba1ed3442827f24"
+    },
+    "dataset_card": "docs/data/datasets/cash-transfer-literature.md",
+    "provenance_manifest": "request-status:cash_transfers-literature",
+    "citation": "Income support, unconditional cash transfer, and emergency assistance evidence synthesis pending approved extraction.",
+    "license_ref": "literature-extraction-pending",
+    "quality_profile_ref": "docs/data/evidence/cash_transfers-quality-profile.md"
+  },
+  {
+    "source_id": "src_mental_health_access_request_status",
+    "canonical_dataset_name": "intervention_literature.mental_health_access",
+    "access_status": "request_status_stub",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.mental_health_access",
+      "version": "request-status-v0.1",
+      "content_hash": "afe9290bd757b3ece3f2331b17c5dd3a1007020409732c8bd0792964db4d47fc"
+    },
+    "dataset_card": "docs/data/datasets/mental-health-access-literature.md",
+    "provenance_manifest": "request-status:mental_health_access-literature",
+    "citation": "Collaborative care and access-to-treatment evidence synthesis pending approved extraction.",
+    "license_ref": "literature-extraction-pending",
+    "quality_profile_ref": "docs/data/evidence/mental_health_access-quality-profile.md"
+  },
+  {
+    "source_id": "src_social_prescribing_request_status",
+    "canonical_dataset_name": "intervention_literature.social_prescribing",
+    "access_status": "request_status_stub",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.social_prescribing",
+      "version": "request-status-v0.1",
+      "content_hash": "b297d7a8cb5374e24aecbb872eae44278c306a9b236e131de447ae938d79aa1f"
+    },
+    "dataset_card": "docs/data/datasets/social-prescribing-literature.md",
+    "provenance_manifest": "request-status:social_prescribing-literature",
+    "citation": "Social prescribing and community belonging evidence synthesis pending approved extraction.",
+    "license_ref": "literature-extraction-pending",
+    "quality_profile_ref": "docs/data/evidence/social_prescribing-quality-profile.md"
+  },
+  {
+    "source_id": "src_education_support_request_status",
+    "canonical_dataset_name": "intervention_literature.education_support",
+    "access_status": "request_status_stub",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.education_support",
+      "version": "request-status-v0.1",
+      "content_hash": "426b6f8727976a3d6f27d3aec078f6f7f59b8cfbb591fe7193e5bfade853368a"
+    },
+    "dataset_card": "docs/data/datasets/education-support-literature.md",
+    "provenance_manifest": "request-status:education_support-literature",
+    "citation": "Tutoring, advising, and postsecondary support evidence synthesis pending approved extraction.",
+    "license_ref": "literature-extraction-pending",
+    "quality_profile_ref": "docs/data/evidence/education_support-quality-profile.md"
+  },
+  {
+    "source_id": "src_healthcare_decoupling_request_status",
+    "canonical_dataset_name": "intervention_literature.healthcare_decoupling",
+    "access_status": "request_status_stub",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.healthcare_decoupling",
+      "version": "request-status-v0.1",
+      "content_hash": "4da5465452bb8a51f9d4a1b9c32c3bf694f6fb951c6c5ee8d1ebf19a172553f2"
+    },
+    "dataset_card": "docs/data/datasets/healthcare-decoupling-literature.md",
+    "provenance_manifest": "request-status:healthcare_decoupling-literature",
+    "citation": "Health insurance continuity and employment decoupling evidence synthesis pending approved extraction.",
+    "license_ref": "literature-extraction-pending",
+    "quality_profile_ref": "docs/data/evidence/healthcare_decoupling-quality-profile.md"
+  },
+  {
+    "source_id": "src_eitc_request_status",
+    "canonical_dataset_name": "intervention_literature.eitc",
+    "access_status": "request_status_stub",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.eitc",
+      "version": "request-status-v0.1",
+      "content_hash": "b2dbe5084b770102a1d9f1c5849c260545e89ea42ddeb3cb550a17b0a06a328a"
+    },
+    "dataset_card": "docs/data/datasets/eitc-literature.md",
+    "provenance_manifest": "request-status:eitc-literature",
+    "citation": "Earned Income Tax Credit labor, poverty, and health evidence synthesis pending approved extraction.",
+    "license_ref": "literature-extraction-pending",
+    "quality_profile_ref": "docs/data/evidence/eitc-quality-profile.md"
+  },
+  {
+    "source_id": "src_mto_request_status",
+    "canonical_dataset_name": "intervention_literature.mto",
+    "access_status": "request_status_stub",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.mto",
+      "version": "request-status-v0.1",
+      "content_hash": "67aabad0c9a65ea27f90c41004416581c5d8c6830acd10e4d3d209020c7a52ad"
+    },
+    "dataset_card": "docs/data/datasets/mto-literature.md",
+    "provenance_manifest": "request-status:mto-literature",
+    "citation": "Moving to Opportunity randomized housing mobility evidence synthesis pending approved extraction.",
+    "license_ref": "literature-extraction-pending",
+    "quality_profile_ref": "docs/data/evidence/mto-quality-profile.md"
+  },
+  {
+    "source_id": "src_job_corps_request_status",
+    "canonical_dataset_name": "intervention_literature.job_corps",
+    "access_status": "request_status_stub",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.job_corps",
+      "version": "request-status-v0.1",
+      "content_hash": "25def22f6525e1fdf2d56bc2beb55caf76098fd82e634929fb81fe7bceee71f6"
+    },
+    "dataset_card": "docs/data/datasets/job-corps-literature.md",
+    "provenance_manifest": "request-status:job_corps-literature",
+    "citation": "National Job Corps Study evidence synthesis pending approved extraction.",
+    "license_ref": "literature-extraction-pending",
+    "quality_profile_ref": "docs/data/evidence/job_corps-quality-profile.md"
+  },
+  {
+    "source_id": "src_project_star_request_status",
+    "canonical_dataset_name": "intervention_literature.project_star",
+    "access_status": "request_status_stub",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.project_star",
+      "version": "request-status-v0.1",
+      "content_hash": "a6f8cca9429b99856cf2b4284bd6518cd45b051a748e1304fb23efbc5d1ebad8"
+    },
+    "dataset_card": "docs/data/datasets/project-star-literature.md",
+    "provenance_manifest": "request-status:project_star-literature",
+    "citation": "Tennessee Project STAR class-size experiment evidence synthesis pending approved extraction.",
+    "license_ref": "literature-extraction-pending",
+    "quality_profile_ref": "docs/data/evidence/project_star-quality-profile.md"
   }
 ]

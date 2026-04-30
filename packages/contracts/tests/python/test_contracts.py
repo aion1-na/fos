@@ -8,7 +8,14 @@ from pathlib import Path
 from hypothesis import given, settings, strategies as st
 from pydantic import BaseModel
 
-from fw_contracts import CONTRACTS_VERSION, AgentState, DatasetReference, DomainPack, Scenario
+from fw_contracts import (
+    CONTRACTS_VERSION,
+    AgentState,
+    DatasetReference,
+    DomainPack,
+    RunDataManifest,
+    Scenario,
+)
 from fw_contracts.schema_export import EXPORTED_MODELS
 
 ROOT = Path(__file__).resolve().parents[4]
@@ -70,6 +77,32 @@ def test_dataset_reference_roundtrips_through_ts() -> None:
     )
     returned = ts_roundtrip("DatasetReference", reference.model_dump(mode="json"))
     assert DatasetReference.model_validate(returned) == reference
+
+
+def test_run_data_manifest_roundtrips_through_ts() -> None:
+    manifest = RunDataManifest(
+        run_id="run-1",
+        scenario_id="scenario-1",
+        population_id="population-1",
+        dataset_references=[
+            DatasetReference(
+                canonical_dataset_name="features.community_context",
+                version="fixture-0.1",
+                content_hash="c" * 64,
+            )
+        ],
+        touched_components=[
+            "population_synthesis",
+            "transition_models",
+            "validation",
+            "mirofish_adapter",
+        ],
+        branch_id="baseline",
+        manifest_hash="d" * 64,
+    )
+
+    returned = ts_roundtrip("RunDataManifest", manifest.model_dump(mode="json"))
+    assert RunDataManifest.model_validate(returned) == manifest
 
 
 def test_schema_exports_exist() -> None:

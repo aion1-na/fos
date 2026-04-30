@@ -7,18 +7,24 @@ Owner: Evidence Curator
 - `draft`: extracted or stubbed claim has not been advisor-reviewed.
 - `advisor_reviewed`: claim has passed advisor review and can be used as reviewed prior evidence.
 - `rejected`: claim cannot support an intervention prior.
+- `superseded`: claim remains auditable but has been replaced by a newer claim or extraction.
 
 ## Required Review Fields
 
 - claim id
 - source id
-- population
+- target population
 - treatment
+- comparator
 - outcome
-- estimate
+- outcome domain
+- effect size estimate
 - uncertainty
 - risk of bias
-- confidence label
+- transportability
+- review status label
+- citation
+- source `dataset_reference`
 - provenance link
 
-Draft and advisor-reviewed claims must remain visually distinguishable in Atlas.
+Draft, advisor-reviewed, rejected, and superseded claims must remain visually distinguishable in Atlas.

@@ -39,7 +39,10 @@ def schema_type(schema: dict[str, Any]) -> str:
     if schema_kind == "boolean":
         return "boolean"
     if schema_kind == "array":
-        return f"{schema_type(schema.get('items', {}))}[]"
+        item_type = schema_type(schema.get("items", {}))
+        if " | " in item_type:
+            item_type = f"({item_type})"
+        return f"{item_type}[]"
     if schema_kind == "object":
         additional = schema.get("additionalProperties")
         if isinstance(additional, dict):

@@ -1,0 +1,19 @@
+version: "0.1"
+canonical_dataset_name: oecd_public_context
+fields:
+  - source_field: country_iso3
+    original_label: Country ISO3
+    canonical_name: country_iso3
+    data_type: string
+  - source_field: year
+    original_label: Year
+    canonical_name: year
+    data_type: integer
+  - source_field: indicator
+    original_label: OECD indicator
+    canonical_name: indicator
+    data_type: string
+  - source_field: value
+    original_label: Public aggregate value
+    canonical_name: value
+    data_type: number
