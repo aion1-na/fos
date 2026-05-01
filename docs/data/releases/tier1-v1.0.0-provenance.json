@@ -9,7 +9,15 @@
       ["bls-oews", "1.0.0", "0d5bd5e75a3367a632677ef51aa22949353c4d1db723716165e5137692e21d95"],
       ["gfs-wave1", "request-status-v0.1", "6215adab47ff0095445ffb257c509f180ecce3ecf1abfad9d686c0c7d0ef39b1"],
       ["gfs-wave2", "request-status-v0.1", "27d0561e955d5b8a72608e904ac0c35ae81aa98f403a47185fc8290106dc6135"],
-      ["community-pathways", "1.0.0", "fb28f7b26a0e4047627607aecb9249c45d2a678b34bdda3a34d886810613483a"]
+      ["community-pathways", "1.0.0", "7e69c2385a3cf752567798ed2f786e86ebddfba6f74977be42bc73d5421d490e"],
+      ["features.health_validation_context", "1.0.0", "2954e26e4645106cb79fc671bdc53faec90f4e4d1e30a5f248ea2d74dddc0edb"],
+      ["features.time_use_context", "1.0.0", "a78655cab0e2146dc0fc3991061f365de1a26886ee9264cae2785c61f7cda4d7"],
+      ["features.social_capital_context", "1.0.0", "7e69c2385a3cf752567798ed2f786e86ebddfba6f74977be42bc73d5421d490e"],
+      ["features.place_context", "1.0.0", "018d3d86280b9bfded291887eeb83d289e0f7c3b6077f58d477dc9a24cbcece1"],
+      ["brfss_public", "request-status-v0.1", "3dce2a7d401f4c7594e07b1993a04f95f3a25934cc52e9481d76bf35a5a41770"],
+      ["nhis_public", "request-status-v0.1", "4ca1ffe01b51559462b467429d921517025ceb74f0cbd608d12a19da194660b8"],
+      ["nhanes_public", "request-status-v0.1", "83127db39233c4902cda7cccd83010add8465b1dbc3712fd33989c95f2d07d46"],
+      ["meps_public", "request-status-v0.1", "9b99aa8ac8250f64eed76c72e166fc77f5e2ba9496d557983e06e232bc6aaa1c"]
     ],
     "provenance_complete": true
   }

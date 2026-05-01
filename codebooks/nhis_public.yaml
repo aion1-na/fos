@@ -1,0 +1,11 @@
+version: "0.1"
+canonical_dataset_name: nhis_public
+fields:
+  - source_field: indicator
+    original_label: Public table indicator
+    canonical_name: indicator
+    data_type: string
+  - source_field: value
+    original_label: Public table value
+    canonical_name: value
+    data_type: number

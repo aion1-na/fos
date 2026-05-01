@@ -1,5 +1,12 @@
 {
   "canonical_dataset_name": "social_capital_atlas",
+  "dataset_version": "request-status-v0.1",
+  "content_hash": "b9c5cc31014382a62742e7973a307dc111a6ea5ef35dabe1f6b9b5dfb5538937",
+  "dataset_reference": {
+    "canonical_dataset_name": "social_capital_atlas",
+    "version": "request-status-v0.1",
+    "content_hash": "b9c5cc31014382a62742e7973a307dc111a6ea5ef35dabe1f6b9b5dfb5538937"
+  },
   "access_status": "request_status_stub",
   "public_table_status": "public where published",
   "rows": [],

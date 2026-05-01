@@ -11,6 +11,7 @@ from fos_data_pipelines.references import DatasetReference, build_fixture_refere
 from fos_data_pipelines.codebooks import Codebook, CodebookField, load_codebook
 from fos_data_pipelines.community.context import (
     build_community_context,
+    build_place_context,
     build_social_capital_context,
     build_time_use_context,
 )
@@ -76,6 +77,7 @@ __all__ = [
     "StagedArtifact",
     "build_fixture_reference",
     "build_community_context",
+    "build_place_context",
     "build_social_capital_context",
     "build_time_use_context",
     "build_ai_exposure_ensemble",

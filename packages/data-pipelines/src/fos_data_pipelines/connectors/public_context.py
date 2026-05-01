@@ -34,6 +34,8 @@ def parse_public_context_stub(path: Path) -> dict[str, object]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     if payload.get("access_status") not in {"request_status_stub", "public_metadata_stub"}:
         raise ValueError(f"{path} is not a public-context metadata stub")
+    if payload.get("rows", []) != []:
+        raise ValueError(f"{path} must not include table rows before access is approved")
     return payload
 
 

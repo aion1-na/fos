@@ -10,10 +10,14 @@ Codebook mapping: `codebooks/community_context_features.yaml`; maps religious at
 
 Quality profile: fixture rows are used only for parser, join-validity, and provenance tests. Production quality profiles must document geography coverage, suppression rules, source year, missingness, and construct validity.
 
-Provenance manifest: `packages/data-pipelines/fixtures/community_context/community_pathways_fixture.csv`, `time_use_fixture.csv`, `household_context_fixture.csv`, and request-status stub files.
+Provenance manifest: `packages/data-pipelines/fixtures/community_context/community_pathways_fixture_only.csv`, `time_use_fixture_only.csv`, `household_context_fixture_only.csv`, and request-status stub files.
 
 Access policy: public tables may be staged when license terms allow it. Archive-limited or unapproved microdata must remain request-status metadata until access is approved.
 
 Public table versus microdata limitations: public aggregate tables can support county, ZIP, tract, or national context where the geography is legally and methodologically valid. Individual-level religious attendance, diary, and restricted social-capital archives cannot be backfilled with synthetic rows.
+
+FOS population joins: `features.community_context` links only through documented `join_key` values such as `county_fips`, `zip_code`, `census_tract`, or `country_iso3`; rows with unsupported geography levels are filtered out.
+
+Pathway role: community features are calibration or validation context only and are not causal proof by themselves.
 
 Inappropriate uses: do not infer individual religious behavior, household composition, trust, volunteering, or mobility from aggregate geography-level context. Do not join to geography levels that the source does not support. Religious and community participation variables are voluntary social pathways, not prescriptive recommendations.

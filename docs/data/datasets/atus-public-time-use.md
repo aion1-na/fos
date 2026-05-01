@@ -10,10 +10,14 @@ Codebook mapping: `codebooks/time_use_context_features.yaml`; maps time-use meas
 
 Quality profile: fixture rows validate schema, units, and dataset references only. Production profiles must document survey design, weights, table vintage, and missing categories.
 
-Provenance manifest: `packages/data-pipelines/fixtures/community_context/time_use_fixture.csv`.
+Provenance manifest: `packages/data-pipelines/fixtures/community_context/time_use_fixture_only.csv`.
 
 Access policy: public aggregate tables only unless governed microdata access is approved.
 
 Public table versus microdata limitations: public tables are suitable for broad context, not individual diary reconstruction.
+
+FOS population joins: `features.time_use_context` uses national or approved aggregate segment joins only; it does not reconstruct individual diaries.
+
+Pathway role: time-use context is a calibration input, not causal proof by itself.
 
 Inappropriate uses: do not use public aggregates to infer a specific person's schedule or behavioral sequence.

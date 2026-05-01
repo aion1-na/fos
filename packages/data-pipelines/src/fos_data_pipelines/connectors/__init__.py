@@ -55,6 +55,9 @@ from fos_data_pipelines.connectors.gfs import (
 from fos_data_pipelines.connectors.health_public import (
     brfss_public_connector_config,
     cdc_wonder_connector_config,
+    meps_public_connector_config,
+    nhanes_public_connector_config,
+    nhis_public_connector_config,
 )
 from fos_data_pipelines.connectors.onet import onet_connector_config, parse_onet_fixture_only
 from fos_data_pipelines.connectors.public_context import (
@@ -98,6 +101,9 @@ __all__ = [
     "parse_gfs_wave1_fixture",
     "brfss_public_connector_config",
     "cdc_wonder_connector_config",
+    "meps_public_connector_config",
+    "nhanes_public_connector_config",
+    "nhis_public_connector_config",
     "parse_gfs_wave2_fixture",
     "parse_eloundou_fixture",
     "parse_eloundou_public_archive",

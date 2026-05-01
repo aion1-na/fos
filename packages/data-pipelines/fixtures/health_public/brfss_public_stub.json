@@ -1,5 +1,12 @@
 {
   "canonical_dataset_name": "brfss_public",
+  "dataset_version": "request-status-v0.1",
+  "content_hash": "9f2ec9dc08798436632ac113951fb767ba76a4eb2626913f53bd0e930bb67a19",
+  "dataset_reference": {
+    "canonical_dataset_name": "brfss_public",
+    "version": "request-status-v0.1",
+    "content_hash": "9f2ec9dc08798436632ac113951fb767ba76a4eb2626913f53bd0e930bb67a19"
+  },
   "access_status": "request_status_stub",
   "public_table_status": "public where published",
   "microdata_status": "microdata restricted or governed by source terms",

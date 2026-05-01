@@ -1,5 +1,12 @@
 {
   "canonical_dataset_name": "religious-attendance-context",
+  "dataset_version": "request-status-v0.1",
+  "content_hash": "2c2b25aa7cf4f23175e55bbec85f3c10c6c8821f959865f3d2ce11d5e23794e0",
+  "dataset_reference": {
+    "canonical_dataset_name": "religious-attendance-context",
+    "version": "request-status-v0.1",
+    "content_hash": "2c2b25aa7cf4f23175e55bbec85f3c10c6c8821f959865f3d2ce11d5e23794e0"
+  },
   "access_status": "request_status_stub",
   "reason": "religious attendance microdata is archive-limited or governed by source-specific terms",
   "rows": [],

@@ -1,5 +1,12 @@
 {
   "canonical_dataset_name": "gss_public_context",
+  "dataset_version": "request-status-v0.1",
+  "content_hash": "c681536c11a79921320508a474096bb5854430dbca574073c0fdce053e337866",
+  "dataset_reference": {
+    "canonical_dataset_name": "gss_public_context",
+    "version": "request-status-v0.1",
+    "content_hash": "c681536c11a79921320508a474096bb5854430dbca574073c0fdce053e337866"
+  },
   "access_status": "request_status_stub",
   "public_table_status": "public where published",
   "rows": [],

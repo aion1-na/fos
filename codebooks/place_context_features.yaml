@@ -1,30 +1,22 @@
 version: "0.1"
-canonical_dataset_name: features.community_context
+canonical_dataset_name: features.place_context
 fields:
-  - source_field: geography_level
-    original_label: Geography level
-    canonical_name: geography_level
+  - source_field: source
+    original_label: Source dataset
+    canonical_name: source
+    data_type: string
+  - source_field: construct
+    original_label: Place construct
+    canonical_name: construct
     data_type: string
   - source_field: source_geography_id
     original_label: Source geography identifier
     canonical_name: source_geography_id
     data_type: string
-  - source_field: construct
-    original_label: Community construct
-    canonical_name: construct
+  - source_field: geography_level
+    original_label: Geography level
+    canonical_name: geography_level
     data_type: string
-  - source_field: measure
-    original_label: Context measure
-    canonical_name: measure
-    data_type: string
-  - source_field: value
-    original_label: Aggregate value
-    canonical_name: value
-    data_type: number
-  - source_field: join_allowed
-    original_label: Valid geography join flag
-    canonical_name: join_allowed
-    data_type: boolean
   - source_field: join_key
     original_label: FOS population join key
     canonical_name: join_key
@@ -34,9 +26,17 @@ fields:
     canonical_name: join_segment
     data_type: string
   - source_field: pathway_role
-    original_label: Calibration or validation role
+    original_label: Pathway role
     canonical_name: pathway_role
     data_type: string
+  - source_field: measure
+    original_label: Measure
+    canonical_name: measure
+    data_type: string
+  - source_field: value
+    original_label: Value
+    canonical_name: value
+    data_type: number
   - source_field: causal_interpretation
     original_label: Causal interpretation guardrail
     canonical_name: causal_interpretation

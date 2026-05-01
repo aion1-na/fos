@@ -36,6 +36,9 @@ def parse_request_status_stub(path: Path) -> dict[str, object]:
         raise ValueError(f"{path} is not a request-status stub")
     if payload.get("rows", []) != []:
         raise ValueError(f"{path} must not include source rows before access is approved")
+    for required in ["dataset_version", "content_hash", "dataset_reference"]:
+        if required not in payload:
+            raise ValueError(f"{path} is missing request-status provenance field: {required}")
     return payload
 
 

@@ -1,5 +1,12 @@
 {
   "canonical_dataset_name": "pew_religious_landscape",
+  "dataset_version": "request-status-v0.1",
+  "content_hash": "01c2de1e098b6cb6542719bd71e213ad2fc1be727993254bd610989dec63c5b9",
+  "dataset_reference": {
+    "canonical_dataset_name": "pew_religious_landscape",
+    "version": "request-status-v0.1",
+    "content_hash": "01c2de1e098b6cb6542719bd71e213ad2fc1be727993254bd610989dec63c5b9"
+  },
   "access_status": "request_status_stub",
   "public_table_status": "public where published",
   "rows": [],
