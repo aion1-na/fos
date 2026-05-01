@@ -17,6 +17,7 @@ from fos_data_pipelines.community.context import (
 from fos_data_pipelines.features.ai_exposure import (
     build_ai_exposure_ensemble,
     build_occupation_ai_demographic_distributions,
+    build_us_young_adult_ai_work_context,
 )
 from fos_data_pipelines.features.young_adult_population import (
     build_us_young_adult_population_marginals,
@@ -79,6 +80,7 @@ __all__ = [
     "build_time_use_context",
     "build_ai_exposure_ensemble",
     "build_occupation_ai_demographic_distributions",
+    "build_us_young_adult_ai_work_context",
     "build_us_young_adult_population_marginals",
     "build_gfs_wave1_marginals",
     "build_gfs_wave12_marginals_country",

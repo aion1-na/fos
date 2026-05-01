@@ -1,0 +1,6 @@
+{
+  "canonical_dataset_name": "anthropic_economic_index",
+  "access_status": "request_status_stub",
+  "reason": "Approved public archive source has not been registered for RS-05.",
+  "rows": []
+}

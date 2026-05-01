@@ -42,6 +42,13 @@ def _combined_hash(paths: list[Path]) -> str:
     return digest.hexdigest()
 
 
+def _hash_from_staged_path(path: Path) -> str:
+    candidate = path.stem.rsplit("-", 1)[-1]
+    if len(candidate) == 64 and all(character in "0123456789abcdef" for character in candidate):
+        return candidate
+    return sha256(path.read_bytes()).hexdigest()
+
+
 def _disagreement_level(value: float) -> str:
     if value >= 0.20:
         return "high"
@@ -56,6 +63,7 @@ def build_ai_exposure_ensemble(
     *,
     dataset_version: str = "fixture-0.1",
 ) -> tuple[Path, DatasetReferenceModel]:
+    canonical_dataset_name = "features.occupation_ai_exposure_ensemble"
     measures: dict[str, list[ExposureMeasure]] = defaultdict(list)
     for path in exposure_paths:
         for measure in load_exposure_csv(path):
@@ -63,15 +71,23 @@ def build_ai_exposure_ensemble(
 
     rows: list[dict[str, object]] = []
     for occupation_code, occupation_measures in sorted(measures.items()):
-        if len(occupation_measures) < 2:
-            raise ValueError("headline AI exposure ensemble requires at least two measures")
+        distinct_measure_names = {item.measure_name for item in occupation_measures}
+        if len(distinct_measure_names) != len(occupation_measures):
+            raise ValueError("headline AI exposure ensemble cannot duplicate a measure")
+        if len(distinct_measure_names) < 2:
+            continue
         scores = [item.exposure_score for item in occupation_measures]
         measure_names = sorted(item.measure_name for item in occupation_measures)
+        measure_versions = sorted(
+            f"{item.measure_name}:{item.measure_version}" for item in occupation_measures
+        )
         disagreement = max(scores) - min(scores)
         rows.append(
             {
                 "occupation_code": occupation_code,
+                "source_occupation_code": occupation_code,
                 "measure_names": ",".join(measure_names),
+                "measure_versions": ",".join(measure_versions),
                 "measure_count": len(scores),
                 "mean_exposure": mean(scores),
                 "min_exposure": min(scores),
@@ -84,12 +100,19 @@ def build_ai_exposure_ensemble(
             }
         )
 
+    if not rows:
+        raise ValueError("headline AI exposure ensemble requires at least two distinct measures")
+
     content_hash = _combined_hash(exposure_paths)
+    dataset_reference = (canonical_dataset_name, dataset_version, content_hash)
+    for row in rows:
+        row["dataset_reference"] = dataset_reference
+        row["content_hash"] = content_hash
     output_dir.mkdir(parents=True, exist_ok=True)
-    output_path = output_dir / f"features.ai_exposure_ensemble-{content_hash}.parquet"
+    output_path = output_dir / f"{canonical_dataset_name}-{content_hash}.parquet"
     pq.write_table(pa.Table.from_pylist(rows), output_path)
     return output_path, DatasetReferenceModel(
-        canonical_dataset_name="features.ai_exposure_ensemble",
+        canonical_dataset_name=canonical_dataset_name,
         version=dataset_version,
         content_hash=content_hash,
     )
@@ -109,6 +132,70 @@ def _content_hash_for_payload(payload: object) -> str:
     ).hexdigest()
 
 
+def _dataset_reference_from_feature_table(path: Path) -> dict[str, str] | None:
+    rows = _read_parquet(path)
+    if not rows:
+        return None
+    reference = rows[0].get("dataset_reference")
+    if isinstance(reference, (list, tuple)) and len(reference) == 3:
+        return {
+            "canonical_dataset_name": str(reference[0]),
+            "version": str(reference[1]),
+            "content_hash": str(reference[2]),
+        }
+    return None
+
+
+REQUIRED_AI_WORK_SOURCE_REFERENCES = {
+    "features.us_young_adult_population",
+    "crosswalks.occupation_group_to_soc",
+    "features.occupation_ai_exposure_ensemble",
+    "bls_oews",
+    "bls_laus",
+    "bls_qcew",
+    "bls_employment_projections",
+    "cps_labor_context",
+}
+
+SOURCE_REFERENCE_ALIASES = {
+    "bls-oews": "bls_oews",
+}
+
+
+def _canonical_source_reference_name(name: str) -> str:
+    return SOURCE_REFERENCE_ALIASES.get(name, name)
+
+
+def _expected_ai_work_source_hashes(
+    *,
+    agents_path: Path,
+    occupation_group_crosswalk_path: Path,
+    ensemble_path: Path,
+    oews_path: Path,
+    laus_path: Path,
+    qcew_path: Path,
+    employment_projections_path: Path,
+    cps_labor_context_path: Path,
+) -> dict[str, str]:
+    ensemble_reference = _dataset_reference_from_feature_table(ensemble_path)
+    return {
+        "features.us_young_adult_population": sha256(agents_path.read_bytes()).hexdigest(),
+        "crosswalks.occupation_group_to_soc": sha256(
+            occupation_group_crosswalk_path.read_bytes()
+        ).hexdigest(),
+        "features.occupation_ai_exposure_ensemble": (
+            ensemble_reference["content_hash"]
+            if ensemble_reference
+            else sha256(ensemble_path.read_bytes()).hexdigest()
+        ),
+        "bls_oews": _hash_from_staged_path(oews_path),
+        "bls_laus": _hash_from_staged_path(laus_path),
+        "bls_qcew": _hash_from_staged_path(qcew_path),
+        "bls_employment_projections": _hash_from_staged_path(employment_projections_path),
+        "cps_labor_context": _hash_from_staged_path(cps_labor_context_path),
+    }
+
+
 def build_us_young_adult_ai_work_context(
     *,
     agents_path: Path,
@@ -120,10 +207,49 @@ def build_us_young_adult_ai_work_context(
     employment_projections_path: Path,
     cps_labor_context_path: Path,
     output_dir: Path,
+    source_dataset_references: list[DatasetReferenceModel | dict[str, str]],
     dataset_version: str = "fixture-0.1",
 ) -> tuple[Path, Path, DatasetReferenceModel]:
-    group_to_soc = {
-        row["occupation_group"]: row["occupation_code"]
+    source_references = [
+        DatasetReferenceModel.model_validate(reference).model_dump(mode="json")
+        for reference in source_dataset_references
+    ]
+    provided_reference_names = {
+        _canonical_source_reference_name(str(reference["canonical_dataset_name"]))
+        for reference in source_references
+    }
+    missing_references = REQUIRED_AI_WORK_SOURCE_REFERENCES - provided_reference_names
+    if missing_references:
+        raise ValueError(
+            "features.us_young_adult_ai_work_context requires source dataset_references "
+            f"for {', '.join(sorted(missing_references))}"
+        )
+    expected_hashes = _expected_ai_work_source_hashes(
+        agents_path=agents_path,
+        occupation_group_crosswalk_path=occupation_group_crosswalk_path,
+        ensemble_path=ensemble_path,
+        oews_path=oews_path,
+        laus_path=laus_path,
+        qcew_path=qcew_path,
+        employment_projections_path=employment_projections_path,
+        cps_labor_context_path=cps_labor_context_path,
+    )
+    mismatched_references = sorted(
+        _canonical_source_reference_name(str(reference["canonical_dataset_name"]))
+        for reference in source_references
+        if _canonical_source_reference_name(str(reference["canonical_dataset_name"]))
+        in expected_hashes
+        and reference["content_hash"]
+        != expected_hashes[_canonical_source_reference_name(str(reference["canonical_dataset_name"]))]
+    )
+    if mismatched_references:
+        raise ValueError(
+            "features.us_young_adult_ai_work_context source dataset_references "
+            f"do not match input content_hash values for {', '.join(mismatched_references)}"
+        )
+
+    group_crosswalk = {
+        row["occupation_group"]: row
         for row in csv.DictReader(
             occupation_group_crosswalk_path.read_text(encoding="utf-8").splitlines()
         )
@@ -140,11 +266,39 @@ def build_us_young_adult_ai_work_context(
     rows: list[dict[str, object]] = []
     for agent in _read_parquet(agents_path):
         occupation_group = str(agent.get("occupation_group", "not_in_labor_force"))
-        occupation_code = group_to_soc[occupation_group]
+        crosswalk_row = group_crosswalk[occupation_group]
+        occupation_code = crosswalk_row["occupation_code"]
+        context = cps.get(occupation_group, {})
+        if not occupation_code:
+            rows.append(
+                {
+                    "agent_id": agent["agent_id"],
+                    "age_band": agent.get("age_band"),
+                    "education": agent.get("education"),
+                    "geography": agent.get("geography"),
+                    "occupation_group": occupation_group,
+                    "occupation_code": None,
+                    "occupation_source_label": crosswalk_row["source_label"],
+                    "occupation_crosswalk_version": crosswalk_row["crosswalk_version"],
+                    "labor_market_status": "not_in_labor_force",
+                    "ai_exposure_mean": None,
+                    "ai_exposure_measure_count": 0,
+                    "ai_exposure_range_disagreement": None,
+                    "ai_exposure_disagreement_level": "not_applicable",
+                    "single_score_headline_allowed": False,
+                    "hourly_wage": None,
+                    "unemployment_rate": float(laus_us["unemployment_rate"]),
+                    "labor_force": int(laus_us["labor_force"]),
+                    "annual_average_employment": int(qcew_us["annual_average_employment"]),
+                    "projected_growth_pct": None,
+                    "typical_entry_education": "not_applicable",
+                    "young_adult_share": float(context.get("young_adult_share", 0.0)),
+                }
+            )
+            continue
         exposure = ensemble[occupation_code]
         wage = oews[occupation_code]
         projection = projections[occupation_code]
-        context = cps.get(occupation_group, {})
         rows.append(
             {
                 "agent_id": agent["agent_id"],
@@ -153,6 +307,9 @@ def build_us_young_adult_ai_work_context(
                 "geography": agent.get("geography"),
                 "occupation_group": occupation_group,
                 "occupation_code": occupation_code,
+                "occupation_source_label": crosswalk_row["source_label"],
+                "occupation_crosswalk_version": crosswalk_row["crosswalk_version"],
+                "labor_market_status": "employed_or_job_seeking",
                 "ai_exposure_mean": float(exposure["mean_exposure"]),
                 "ai_exposure_measure_count": int(exposure["measure_count"]),
                 "ai_exposure_range_disagreement": float(exposure["range_disagreement"]),
@@ -187,6 +344,10 @@ def build_us_young_adult_ai_work_context(
         version=dataset_version,
         content_hash=content_hash,
     )
+    dataset_reference = reference.as_tuple()
+    for row in rows:
+        row["dataset_reference"] = dataset_reference
+        row["content_hash"] = content_hash
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / f"features.us_young_adult_ai_work_context-{content_hash}.parquet"
     pq.write_table(pa.Table.from_pylist(rows), output_path)
@@ -201,21 +362,32 @@ def build_us_young_adult_ai_work_context(
         "source_inputs": {
             "agents": str(agents_path),
             "occupation_group_crosswalk": str(occupation_group_crosswalk_path),
-            "ai_exposure_ensemble": str(ensemble_path),
+            "occupation_ai_exposure_ensemble": str(ensemble_path),
             "bls_oews": str(oews_path),
             "bls_laus": str(laus_path),
             "bls_qcew": str(qcew_path),
             "bls_employment_projections": str(employment_projections_path),
             "cps_labor_context": str(cps_labor_context_path),
         },
+        "dataset_references": [
+            {
+                "canonical_dataset_name": reference.canonical_dataset_name,
+                "version": reference.version,
+                "content_hash": reference.content_hash,
+            },
+            *source_references,
+        ],
         "quality_profile": {
             "row_count": len(rows),
             "minimum_exposure_measures_per_row": min(
-                row["ai_exposure_measure_count"] for row in rows
+                row["ai_exposure_measure_count"]
+                for row in rows
+                if row["ai_exposure_measure_count"]
             )
-            if rows
+            if any(row["ai_exposure_measure_count"] for row in rows)
             else 0,
             "single_score_headlines_allowed": False,
+            "not_in_labor_force_rows_have_exposure": False,
         },
     }
     manifest_path = output_dir / f"features.us_young_adult_ai_work_context-{content_hash}.json"
@@ -254,23 +426,33 @@ def build_occupation_ai_demographic_distributions(
         rows.append(
             {
                 "occupation_code": row["occupation_code"],
+                "source_occupation_code": row["occupation_code"],
                 "demographic_group": row["demographic_group"],
                 "geography": row["geography"],
                 "worker_count": int(row["worker_count"]),
+                "mean_exposure": exposure["mean_exposure"],
+                "measure_count": exposure["measure_count"],
                 "exposure_quartile": _quartile(float(exposure["mean_exposure"])),
                 "range_disagreement": exposure["range_disagreement"],
+                "standard_deviation": exposure["standard_deviation"],
                 "disagreement_level": exposure["disagreement_level"],
+                "uncertainty_signal": "exposure_measure_disagreement_by_subgroup",
+                "single_score_headline_allowed": exposure["single_score_headline_allowed"],
             }
         )
 
     content_hash = _combined_hash([ensemble_path, demographics_path])
+    reference = DatasetReferenceModel(
+        canonical_dataset_name="features.occupation_ai_demographic_distributions",
+        version=dataset_version,
+        content_hash=content_hash,
+    )
+    for row in rows:
+        row["dataset_reference"] = reference.as_tuple()
+        row["content_hash"] = content_hash
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / (
         f"features.occupation_ai_demographic_distributions-{content_hash}.parquet"
     )
     pq.write_table(pa.Table.from_pylist(rows), output_path)
-    return output_path, DatasetReferenceModel(
-        canonical_dataset_name="features.occupation_ai_demographic_distributions",
-        version=dataset_version,
-        content_hash=content_hash,
-    )
+    return output_path, reference
