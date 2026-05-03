@@ -27,4 +27,4 @@ Owner: Evidence Curator
 - source `dataset_reference`
 - provenance link
 
-Draft, advisor-reviewed, rejected, and superseded claims must remain visually distinguishable in Atlas.
+Draft, advisor-reviewed, rejected, and superseded claims must remain visually distinguishable in Atlas and FOS Graph Studio forest-plot views. Graph layout and animation are visual artifacts only; they must not be treated as evidence.

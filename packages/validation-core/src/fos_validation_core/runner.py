@@ -32,8 +32,26 @@ def run_validation_suite(
         claims=[
             EvidenceClaim(
                 id="validation-headline-claim",
+                scenario_id=run.scenario_id,
+                transition_model_id="validation_summary",
                 statement="Headline causal claim passed validation gate checks.",
+                source_id="validation_fixture_only",
                 confidence=0.78,
+                target_population="fixture validation cohort",
+                treatment="validation gate pass",
+                comparator="validation gate fail",
+                outcome_domain="validation_status",
+                effect_size=0.0,
+                uncertainty=0.0,
+                risk_of_bias="high",
+                transportability="low",
+                review_status="draft",
+                citation="FOS validation-core fixture_only runner.",
+                dataset_reference={
+                    "canonical_dataset_name": "validation_core.fixture_only",
+                    "version": "fixture-0.1",
+                    "content_hash": "0" * 64,
+                },
                 metadata={"run_id": run.id},
             )
         ],

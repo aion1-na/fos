@@ -21,6 +21,7 @@ def _flourishing_inputs(tmp_path: Path) -> tuple[Scenario, object, object]:
             "mentoring_relationship_boost": 0.01,
             "mentoring_purpose_boost": 0.01,
             "artifact_dir": str(tmp_path / "artifact"),
+            "allow_legacy_vectorized_transitions": True,
         },
     )
     spec = SpawnSpec(

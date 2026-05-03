@@ -34,28 +34,12 @@
   "additionalProperties": false,
   "properties": {
     "citation": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null,
-      "title": "Citation"
+      "title": "Citation",
+      "type": "string"
     },
     "comparator": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null,
-      "title": "Comparator"
+      "title": "Comparator",
+      "type": "string"
     },
     "confidence": {
       "anyOf": [
@@ -72,27 +56,11 @@
       "title": "Confidence"
     },
     "dataset_reference": {
-      "anyOf": [
-        {
-          "$ref": "#/$defs/DatasetReference"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null
+      "$ref": "#/$defs/DatasetReference"
     },
     "effect_size": {
-      "anyOf": [
-        {
-          "type": "number"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null,
-      "title": "Effect Size"
+      "title": "Effect Size",
+      "type": "number"
     },
     "id": {
       "title": "Id",
@@ -104,75 +72,35 @@
       "type": "object"
     },
     "outcome_domain": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null,
-      "title": "Outcome Domain"
+      "title": "Outcome Domain",
+      "type": "string"
     },
     "review_status": {
-      "anyOf": [
-        {
-          "enum": [
-            "draft",
-            "advisor_reviewed",
-            "rejected",
-            "superseded"
-          ],
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
+      "enum": [
+        "draft",
+        "advisor_reviewed",
+        "rejected",
+        "superseded"
       ],
-      "default": null,
-      "title": "Review Status"
+      "title": "Review Status",
+      "type": "string"
     },
     "risk_of_bias": {
-      "anyOf": [
-        {
-          "enum": [
-            "low",
-            "medium",
-            "high"
-          ],
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
+      "enum": [
+        "low",
+        "medium",
+        "high"
       ],
-      "default": null,
-      "title": "Risk Of Bias"
+      "title": "Risk Of Bias",
+      "type": "string"
     },
     "scenario_id": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null,
-      "title": "Scenario Id"
+      "title": "Scenario Id",
+      "type": "string"
     },
     "source_id": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null,
-      "title": "Source Id"
+      "title": "Source Id",
+      "type": "string"
     },
     "source_uri": {
       "anyOf": [
@@ -191,75 +119,49 @@
       "type": "string"
     },
     "target_population": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null,
-      "title": "Target Population"
+      "title": "Target Population",
+      "type": "string"
     },
     "transition_model_id": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null,
-      "title": "Transition Model Id"
+      "title": "Transition Model Id",
+      "type": "string"
     },
     "transportability": {
-      "anyOf": [
-        {
-          "enum": [
-            "low",
-            "medium",
-            "high"
-          ],
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
+      "enum": [
+        "low",
+        "medium",
+        "high"
       ],
-      "default": null,
-      "title": "Transportability"
+      "title": "Transportability",
+      "type": "string"
     },
     "treatment": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null,
-      "title": "Treatment"
+      "title": "Treatment",
+      "type": "string"
     },
     "uncertainty": {
-      "anyOf": [
-        {
-          "minimum": 0.0,
-          "type": "number"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null,
-      "title": "Uncertainty"
+      "minimum": 0.0,
+      "title": "Uncertainty",
+      "type": "number"
     }
   },
   "required": [
     "id",
-    "statement"
+    "scenario_id",
+    "transition_model_id",
+    "statement",
+    "source_id",
+    "target_population",
+    "treatment",
+    "comparator",
+    "outcome_domain",
+    "effect_size",
+    "uncertainty",
+    "risk_of_bias",
+    "transportability",
+    "review_status",
+    "citation",
+    "dataset_reference"
   ],
   "title": "EvidenceClaim",
   "type": "object"

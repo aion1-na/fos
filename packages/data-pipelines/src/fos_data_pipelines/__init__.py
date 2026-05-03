@@ -43,6 +43,7 @@ from fos_data_pipelines.evidence_graph.claims import (
     build_intervention_effect_size_priors,
     load_evidence_claims,
     load_evidence_sources,
+    priors_for_concordia_scene_compiler,
     trace_claim,
 )
 from fos_data_pipelines.health_public.context import build_health_validation_context
@@ -103,6 +104,7 @@ __all__ = [
     "load_codebook",
     "load_evidence_claims",
     "load_evidence_sources",
+    "priors_for_concordia_scene_compiler",
     "load_replication_archive",
     "score_six_domain_country_marginals",
     "score_flourishing_row",

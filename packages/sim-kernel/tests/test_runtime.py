@@ -24,6 +24,7 @@ def _inputs(tmp_path: Path, ticks: int = 3) -> tuple[Scenario, Population, Domai
             "ticks": ticks,
             "amount": 2,
             "artifact_dir": str(tmp_path / "artifact"),
+            "allow_legacy_vectorized_transitions": True,
         },
     )
     population = Population(
@@ -122,7 +123,7 @@ scenario = Scenario(
     id="runtime-scenario",
     domain_pack_id="generic-pack",
     name="Runtime scenario",
-    parameters={{"seed": 123, "ticks": 3, "amount": 2}},
+    parameters={{"seed": 123, "ticks": 3, "amount": 2, "allow_legacy_vectorized_transitions": True}},
 )
 population = Population(
     id="runtime-population",

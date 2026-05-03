@@ -1,0 +1,71 @@
+version: "0.1"
+canonical_dataset_name: features.intervention_effect_size_priors_v1
+fields:
+  - source_field: claim_id
+    original_label: Evidence claim identifier
+    canonical_name: claim_id
+    data_type: string
+  - source_field: scenario_id
+    original_label: Target-trial scenario identifier
+    canonical_name: scenario_id
+    data_type: string
+  - source_field: transition_model_id
+    original_label: Transition model consuming the prior
+    canonical_name: transition_model_id
+    data_type: string
+  - source_field: source_id
+    original_label: Evidence source identifier
+    canonical_name: source_id
+    data_type: string
+  - source_field: target_population
+    original_label: Target population
+    canonical_name: target_population
+    data_type: string
+  - source_field: treatment
+    original_label: Treatment
+    canonical_name: treatment
+    data_type: string
+  - source_field: comparator
+    original_label: Comparator
+    canonical_name: comparator
+    data_type: string
+  - source_field: outcome_domain
+    original_label: Outcome domain
+    canonical_name: outcome_domain
+    data_type: string
+  - source_field: effect_size
+    original_label: Effect-size prior estimate
+    canonical_name: effect_size
+    data_type: number
+  - source_field: effect_size_metric
+    original_label: Effect-size metric
+    canonical_name: effect_size_metric
+    data_type: string
+  - source_field: uncertainty
+    original_label: Prior uncertainty
+    canonical_name: uncertainty
+    data_type: number
+  - source_field: confidence_interval
+    original_label: Prior confidence interval
+    canonical_name: confidence_interval
+    data_type: struct
+  - source_field: risk_of_bias
+    original_label: Risk of bias
+    canonical_name: risk_of_bias
+    data_type: string
+  - source_field: transportability
+    original_label: Transportability to FOS target population
+    canonical_name: transportability
+    data_type: string
+  - source_field: review_status
+    original_label: Curator review status
+    canonical_name: review_status
+    data_type: string
+  - source_field: citation
+    original_label: Citation
+    canonical_name: citation
+    data_type: string
+  - source_field: dataset_reference
+    original_label: Source dataset reference
+    canonical_name: dataset_reference
+    data_type: struct

@@ -25,6 +25,7 @@ def _toy_inputs(tmp_path: Path, ticks: int = 100) -> tuple[Scenario, Population,
             "beta": 0.28,
             "recovery_days": 10,
             "artifact_dir": str(tmp_path / "artifact"),
+            "allow_legacy_vectorized_transitions": True,
         },
     )
     population = Population(

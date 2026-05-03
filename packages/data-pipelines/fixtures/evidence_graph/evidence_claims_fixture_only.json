@@ -3969,5 +3969,335 @@
     },
     "provenance_link": "request-status:project_star-literature",
     "curator_notes": "Fixture-only target-trial prior row. Use for schema, routing, and review workflow tests until approved extraction replaces request-status source metadata."
+  },
+  {
+    "claim_id": "claim_family_support_financial_security_v1",
+    "scenario_id": "family_support",
+    "transition_model_id": "financial_transition",
+    "source_id": "src_family_support_request_status",
+    "target_population": "young adults and households eligible for family support services",
+    "treatment": "family support and household stabilization services",
+    "comparator": "usual community referral or no additional family support service",
+    "outcome_domain": "financial_security",
+    "effect_size": 0.0,
+    "effect_size_metric": "standardized_mean_difference_null_prior",
+    "uncertainty": 0.2,
+    "confidence_interval": {
+      "low": -0.392,
+      "high": 0.392,
+      "level": 0.95
+    },
+    "risk_of_bias": "high",
+    "transportability": "low",
+    "review_status": "draft",
+    "confidence_label": "draft",
+    "citation": "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    "provenance_link": "request-status:family_support-literature",
+    "curator_notes": "Fixture-only null prior row for schema and routing tests. Replace with approved extraction before production use; do not treat as an empirical family-support effect size."
+  },
+  {
+    "claim_id": "claim_family_support_employment_v1",
+    "scenario_id": "family_support",
+    "transition_model_id": "employment_transition",
+    "source_id": "src_family_support_request_status",
+    "target_population": "young adults and households eligible for family support services",
+    "treatment": "family support and household stabilization services",
+    "comparator": "usual community referral or no additional family support service",
+    "outcome_domain": "employment",
+    "effect_size": 0.0,
+    "effect_size_metric": "standardized_mean_difference_null_prior",
+    "uncertainty": 0.2,
+    "confidence_interval": {
+      "low": -0.392,
+      "high": 0.392,
+      "level": 0.95
+    },
+    "risk_of_bias": "high",
+    "transportability": "low",
+    "review_status": "draft",
+    "confidence_label": "draft",
+    "citation": "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    "provenance_link": "request-status:family_support-literature",
+    "curator_notes": "Fixture-only null prior row for schema and routing tests. Replace with approved extraction before production use; do not treat as an empirical family-support effect size."
+  },
+  {
+    "claim_id": "claim_family_support_education_v1",
+    "scenario_id": "family_support",
+    "transition_model_id": "education_transition",
+    "source_id": "src_family_support_request_status",
+    "target_population": "young adults and households eligible for family support services",
+    "treatment": "family support and household stabilization services",
+    "comparator": "usual community referral or no additional family support service",
+    "outcome_domain": "education",
+    "effect_size": 0.0,
+    "effect_size_metric": "standardized_mean_difference_null_prior",
+    "uncertainty": 0.2,
+    "confidence_interval": {
+      "low": -0.392,
+      "high": 0.392,
+      "level": 0.95
+    },
+    "risk_of_bias": "high",
+    "transportability": "low",
+    "review_status": "draft",
+    "confidence_label": "draft",
+    "citation": "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    "provenance_link": "request-status:family_support-literature",
+    "curator_notes": "Fixture-only null prior row for schema and routing tests. Replace with approved extraction before production use; do not treat as an empirical family-support effect size."
+  },
+  {
+    "claim_id": "claim_family_support_mental_health_v1",
+    "scenario_id": "family_support",
+    "transition_model_id": "health_transition",
+    "source_id": "src_family_support_request_status",
+    "target_population": "young adults and households eligible for family support services",
+    "treatment": "family support and household stabilization services",
+    "comparator": "usual community referral or no additional family support service",
+    "outcome_domain": "mental_health",
+    "effect_size": 0.0,
+    "effect_size_metric": "standardized_mean_difference_null_prior",
+    "uncertainty": 0.2,
+    "confidence_interval": {
+      "low": -0.392,
+      "high": 0.392,
+      "level": 0.95
+    },
+    "risk_of_bias": "high",
+    "transportability": "low",
+    "review_status": "draft",
+    "confidence_label": "draft",
+    "citation": "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    "provenance_link": "request-status:family_support-literature",
+    "curator_notes": "Fixture-only null prior row for schema and routing tests. Replace with approved extraction before production use; do not treat as an empirical family-support effect size."
+  },
+  {
+    "claim_id": "claim_family_support_belonging_v1",
+    "scenario_id": "family_support",
+    "transition_model_id": "relationships_transition",
+    "source_id": "src_family_support_request_status",
+    "target_population": "young adults and households eligible for family support services",
+    "treatment": "family support and household stabilization services",
+    "comparator": "usual community referral or no additional family support service",
+    "outcome_domain": "belonging",
+    "effect_size": 0.0,
+    "effect_size_metric": "standardized_mean_difference_null_prior",
+    "uncertainty": 0.2,
+    "confidence_interval": {
+      "low": -0.392,
+      "high": 0.392,
+      "level": 0.95
+    },
+    "risk_of_bias": "high",
+    "transportability": "low",
+    "review_status": "draft",
+    "confidence_label": "draft",
+    "citation": "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    "provenance_link": "request-status:family_support-literature",
+    "curator_notes": "Fixture-only null prior row for schema and routing tests. Replace with approved extraction before production use; do not treat as an empirical family-support effect size."
+  },
+  {
+    "claim_id": "claim_family_support_healthcare_access_v1",
+    "scenario_id": "family_support",
+    "transition_model_id": "health_transition",
+    "source_id": "src_family_support_request_status",
+    "target_population": "young adults and households eligible for family support services",
+    "treatment": "family support and household stabilization services",
+    "comparator": "usual community referral or no additional family support service",
+    "outcome_domain": "healthcare_access",
+    "effect_size": 0.0,
+    "effect_size_metric": "standardized_mean_difference_null_prior",
+    "uncertainty": 0.2,
+    "confidence_interval": {
+      "low": -0.392,
+      "high": 0.392,
+      "level": 0.95
+    },
+    "risk_of_bias": "high",
+    "transportability": "low",
+    "review_status": "draft",
+    "confidence_label": "draft",
+    "citation": "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    "provenance_link": "request-status:family_support-literature",
+    "curator_notes": "Fixture-only null prior row for schema and routing tests. Replace with approved extraction before production use; do not treat as an empirical family-support effect size."
+  },
+  {
+    "claim_id": "claim_family_support_long_run_wellbeing_v1",
+    "scenario_id": "family_support",
+    "transition_model_id": "happiness_transition",
+    "source_id": "src_family_support_request_status",
+    "target_population": "young adults and households eligible for family support services",
+    "treatment": "family support and household stabilization services",
+    "comparator": "usual community referral or no additional family support service",
+    "outcome_domain": "long_run_wellbeing",
+    "effect_size": 0.0,
+    "effect_size_metric": "standardized_mean_difference_null_prior",
+    "uncertainty": 0.2,
+    "confidence_interval": {
+      "low": -0.392,
+      "high": 0.392,
+      "level": 0.95
+    },
+    "risk_of_bias": "high",
+    "transportability": "low",
+    "review_status": "draft",
+    "confidence_label": "draft",
+    "citation": "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    "provenance_link": "request-status:family_support-literature",
+    "curator_notes": "Fixture-only null prior row for schema and routing tests. Replace with approved extraction before production use; do not treat as an empirical family-support effect size."
+  },
+  {
+    "claim_id": "claim_family_support_civic_engagement_v1",
+    "scenario_id": "family_support",
+    "transition_model_id": "meaning_transition",
+    "source_id": "src_family_support_request_status",
+    "target_population": "young adults and households eligible for family support services",
+    "treatment": "family support and household stabilization services",
+    "comparator": "usual community referral or no additional family support service",
+    "outcome_domain": "civic_engagement",
+    "effect_size": 0.0,
+    "effect_size_metric": "standardized_mean_difference_null_prior",
+    "uncertainty": 0.2,
+    "confidence_interval": {
+      "low": -0.392,
+      "high": 0.392,
+      "level": 0.95
+    },
+    "risk_of_bias": "high",
+    "transportability": "low",
+    "review_status": "draft",
+    "confidence_label": "draft",
+    "citation": "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    "provenance_link": "request-status:family_support-literature",
+    "curator_notes": "Fixture-only null prior row for schema and routing tests. Replace with approved extraction before production use; do not treat as an empirical family-support effect size."
+  },
+  {
+    "claim_id": "claim_family_support_housing_stability_v1",
+    "scenario_id": "family_support",
+    "transition_model_id": "financial_transition",
+    "source_id": "src_family_support_request_status",
+    "target_population": "young adults and households eligible for family support services",
+    "treatment": "family support and household stabilization services",
+    "comparator": "usual community referral or no additional family support service",
+    "outcome_domain": "housing_stability",
+    "effect_size": 0.0,
+    "effect_size_metric": "standardized_mean_difference_null_prior",
+    "uncertainty": 0.2,
+    "confidence_interval": {
+      "low": -0.392,
+      "high": 0.392,
+      "level": 0.95
+    },
+    "risk_of_bias": "high",
+    "transportability": "low",
+    "review_status": "draft",
+    "confidence_label": "draft",
+    "citation": "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    "provenance_link": "request-status:family_support-literature",
+    "curator_notes": "Fixture-only null prior row for schema and routing tests. Replace with approved extraction before production use; do not treat as an empirical family-support effect size."
+  },
+  {
+    "claim_id": "claim_family_support_time_use_stability_v1",
+    "scenario_id": "family_support",
+    "transition_model_id": "relationships_transition",
+    "source_id": "src_family_support_request_status",
+    "target_population": "young adults and households eligible for family support services",
+    "treatment": "family support and household stabilization services",
+    "comparator": "usual community referral or no additional family support service",
+    "outcome_domain": "time_use_stability",
+    "effect_size": 0.0,
+    "effect_size_metric": "standardized_mean_difference_null_prior",
+    "uncertainty": 0.2,
+    "confidence_interval": {
+      "low": -0.392,
+      "high": 0.392,
+      "level": 0.95
+    },
+    "risk_of_bias": "high",
+    "transportability": "low",
+    "review_status": "draft",
+    "confidence_label": "draft",
+    "citation": "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    "provenance_link": "request-status:family_support-literature",
+    "curator_notes": "Fixture-only null prior row for schema and routing tests. Replace with approved extraction before production use; do not treat as an empirical family-support effect size."
+  },
+  {
+    "claim_id": "claim_family_support_service_access_v1",
+    "scenario_id": "family_support",
+    "transition_model_id": "health_transition",
+    "source_id": "src_family_support_request_status",
+    "target_population": "young adults and households eligible for family support services",
+    "treatment": "family support and household stabilization services",
+    "comparator": "usual community referral or no additional family support service",
+    "outcome_domain": "service_access",
+    "effect_size": 0.0,
+    "effect_size_metric": "standardized_mean_difference_null_prior",
+    "uncertainty": 0.2,
+    "confidence_interval": {
+      "low": -0.392,
+      "high": 0.392,
+      "level": 0.95
+    },
+    "risk_of_bias": "high",
+    "transportability": "low",
+    "review_status": "draft",
+    "confidence_label": "draft",
+    "citation": "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    "provenance_link": "request-status:family_support-literature",
+    "curator_notes": "Fixture-only null prior row for schema and routing tests. Replace with approved extraction before production use; do not treat as an empirical family-support effect size."
   }
 ]

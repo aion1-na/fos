@@ -93,34 +93,41 @@ def build_intervention_effect_size_priors(
     sources_path: Path,
     output_dir: Path,
     *,
-    dataset_version: str = "fixture-0.1",
+    dataset_version: str = "request-status-v0.1",
 ) -> tuple[Path, DatasetReferenceModel]:
     claims = load_evidence_claims(claims_path)
     sources = {source.source_id: source for source in load_evidence_sources(sources_path)}
-    rows: list[dict[str, object]] = []
-    for claim in claims:
-        source = sources[claim.source_id]
-        rows.append(
-            {
-                **claim.model_dump(mode="json"),
-                "estimate": claim.effect_size,
-                "population": claim.target_population,
-                "outcome": claim.outcome_domain,
-                "canonical_dataset_name": source.canonical_dataset_name,
-                "dataset_card": source.dataset_card,
-                "source_citation": source.citation,
-                "provenance_manifest": source.provenance_manifest,
-            }
-        )
     content_hash = _combined_hash([claims_path, sources_path])
-    output_dir.mkdir(parents=True, exist_ok=True)
-    output_path = output_dir / f"features.intervention_effect_size_priors_v1-{content_hash}.parquet"
-    pq.write_table(pa.Table.from_pylist(rows), output_path)
-    return output_path, DatasetReferenceModel(
+    feature_reference = DatasetReferenceModel(
         canonical_dataset_name="features.intervention_effect_size_priors_v1",
         version=dataset_version,
         content_hash=content_hash,
     )
+    rows: list[dict[str, object]] = []
+    for claim in claims:
+        source = sources[claim.source_id]
+        claim_row = claim.model_dump(mode="json")
+        rows.append(
+            {
+                **claim_row,
+                "estimate": claim.effect_size,
+                "population": claim.target_population,
+                "outcome": claim.outcome_domain,
+                "canonical_dataset_name": source.canonical_dataset_name,
+                "dataset_reference": feature_reference.model_dump(mode="json"),
+                "source_dataset_reference": claim_row["dataset_reference"],
+                "dataset_card": source.dataset_card,
+                "source_citation": source.citation,
+                "license_ref": source.license_ref,
+                "quality_profile_ref": source.quality_profile_ref,
+                "provenance_manifest": source.provenance_manifest,
+                "effect_validated": claim.review_status == "advisor_reviewed",
+            }
+        )
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_path = output_dir / f"features.intervention_effect_size_priors_v1-{content_hash}.parquet"
+    pq.write_table(pa.Table.from_pylist(rows), output_path)
+    return output_path, feature_reference
 
 
 def query_intervention_effect_size_priors(
@@ -165,6 +172,36 @@ def priors_for_research_brief(
             "outcome_domain": claim.outcome_domain,
             "effect_size": claim.effect_size,
             "uncertainty": claim.uncertainty,
+            "risk_of_bias": claim.risk_of_bias,
+            "transportability": claim.transportability,
+            "review_status": claim.review_status,
+            "citation": claim.citation,
+            "dataset_reference": claim.dataset_reference.model_dump(mode="json"),
+        }
+        for claim in query_intervention_effect_size_priors(
+            claims_path,
+            scenario_id=scenario_id,
+        )
+        if claim.review_status in {"draft", "advisor_reviewed"}
+    ]
+
+
+def priors_for_concordia_scene_compiler(
+    scenario_id: str,
+    claims_path: Path,
+) -> list[dict[str, object]]:
+    """Return auditable priors as read-only scene context, never causal outputs."""
+    return [
+        {
+            "claim_id": claim.claim_id,
+            "scenario_id": claim.scenario_id,
+            "transition_model_id": claim.transition_model_id,
+            "qualitative_scene_context_only": True,
+            "may_set_causal_effect_size": False,
+            "target_population": claim.target_population,
+            "treatment": claim.treatment,
+            "comparator": claim.comparator,
+            "outcome_domain": claim.outcome_domain,
             "risk_of_bias": claim.risk_of_bias,
             "transportability": claim.transportability,
             "review_status": claim.review_status,

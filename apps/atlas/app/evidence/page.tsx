@@ -1,9 +1,11 @@
-import { evidenceClaims } from "@/lib/evidence/claims";
+import {
+  evidenceClaims,
+  evidenceClaimsAreFixtureOnly,
+  evidenceClaimsCausalEffectValidated,
+} from "@/lib/evidence/claims";
 
 export default function EvidencePage() {
-  const plottedClaims = evidenceClaims
-    .filter((claim) => claim.reviewStatus !== "rejected")
-    .slice(0, 36);
+  const plottedClaims = evidenceClaims;
   const statusCounts = evidenceClaims.reduce<Record<string, number>>((counts, claim) => {
     counts[claim.reviewStatus] = (counts[claim.reviewStatus] ?? 0) + 1;
     return counts;
@@ -12,10 +14,15 @@ export default function EvidencePage() {
   return (
     <main className="atlas-shell">
       <header>
-        <p className="eyebrow">Atlas</p>
+        <p className="eyebrow">Atlas / FOS Graph Studio</p>
         <h1>Evidence forest plot</h1>
         <p className="lede">
-          Intervention priors with risk-of-bias, confidence labels, and claim-to-provenance traceability.
+          Fixture-only request-status intervention priors with risk-of-bias, confidence labels, and
+          claim-to-provenance traceability.
+        </p>
+        <p className="lede">
+          Fixture only: {String(evidenceClaimsAreFixtureOnly)}. Causal effect validated:{" "}
+          {String(evidenceClaimsCausalEffectValidated)}.
         </p>
       </header>
 
@@ -28,8 +35,12 @@ export default function EvidencePage() {
         ))}
       </section>
 
-      <section className="dataset-card forest-plot" aria-label="Atlas forest-plot view for intervention priors">
+      <section
+        className="dataset-card forest-plot"
+        aria-label="Atlas and FOS Graph Studio forest-plot view for intervention priors"
+      >
         <h2>Forest plot</h2>
+        <p className="lede">Graph position is visual only and does not create evidence or causal effect sizes.</p>
         <div className="forest-axis" aria-hidden="true">
           <span>-0.10</span>
           <span>0</span>
@@ -77,7 +88,7 @@ export default function EvidencePage() {
             </tr>
           </thead>
           <tbody>
-            {evidenceClaims.slice(0, 60).map((claim) => (
+            {evidenceClaims.map((claim) => (
               <tr key={claim.claimId}>
                 <td>{claim.claimId}</td>
                 <td>{claim.transitionModelId}</td>

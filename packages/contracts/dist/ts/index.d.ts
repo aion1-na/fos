@@ -118,25 +118,25 @@ export interface SimulationRun {
 export declare function parseSimulationRun(input: unknown): SimulationRun;
 
 export interface EvidenceClaim {
-  citation?: string | unknown;
-  comparator?: string | unknown;
+  citation: string;
+  comparator: string;
   confidence?: number | unknown;
-  dataset_reference?: DatasetReference | unknown;
-  effect_size?: number | unknown;
+  dataset_reference: DatasetReference;
+  effect_size: number;
   id: string;
   metadata?: Record<string, unknown>;
-  outcome_domain?: string | unknown;
-  review_status?: "draft" | "advisor_reviewed" | "rejected" | "superseded" | unknown;
-  risk_of_bias?: "low" | "medium" | "high" | unknown;
-  scenario_id?: string | unknown;
-  source_id?: string | unknown;
+  outcome_domain: string;
+  review_status: "draft" | "advisor_reviewed" | "rejected" | "superseded";
+  risk_of_bias: "low" | "medium" | "high";
+  scenario_id: string;
+  source_id: string;
   source_uri?: string | unknown;
   statement: string;
-  target_population?: string | unknown;
-  transition_model_id?: string | unknown;
-  transportability?: "low" | "medium" | "high" | unknown;
-  treatment?: string | unknown;
-  uncertainty?: number | unknown;
+  target_population: string;
+  transition_model_id: string;
+  transportability: "low" | "medium" | "high";
+  treatment: string;
+  uncertainty: number;
 }
 
 export declare function parseEvidenceClaim(input: unknown): EvidenceClaim;
