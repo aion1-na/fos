@@ -19,23 +19,23 @@
       "canonical_dataset_name": "onet",
       "version": "1.0.0",
       "content_hash": "9e62214c0f58829191797b942a49e691f1065996a1e445ce4c62f8ea9e84a405",
-      "connector_name": "onet_fixture",
+      "connector_name": "onet_fixture_only",
       "connector_version": "0.1.0",
       "codebook_version": "onet-v0.1",
       "license_class": "fixture-public-metadata",
       "card_url": "docs/data/datasets/onet.md",
-      "artifact_uri": "packages/data-pipelines/fixtures/onet/occupation_fixture.json"
+      "artifact_uri": "packages/data-pipelines/fixtures/onet/occupation_fixture_only.json"
     },
     {
       "canonical_dataset_name": "bls-oews",
       "version": "1.0.0",
       "content_hash": "0d5bd5e75a3367a632677ef51aa22949353c4d1db723716165e5137692e21d95",
-      "connector_name": "bls_oews_fixture",
+      "connector_name": "bls_oews_fixture_only",
       "connector_version": "0.1.0",
       "codebook_version": "bls-oews-v0.1",
       "license_class": "fixture-public-metadata",
       "card_url": "docs/data/datasets/bls-oews.md",
-      "artifact_uri": "packages/data-pipelines/fixtures/bls/oews_fixture.json"
+      "artifact_uri": "packages/data-pipelines/fixtures/bls/oews_fixture_only.json"
     },
     {
       "canonical_dataset_name": "gfs-wave1",
@@ -62,13 +62,101 @@
     {
       "canonical_dataset_name": "community-pathways",
       "version": "1.0.0",
-      "content_hash": "fb28f7b26a0e4047627607aecb9249c45d2a678b34bdda3a34d886810613483a",
+      "content_hash": "7e69c2385a3cf752567798ed2f786e86ebddfba6f74977be42bc73d5421d490e",
       "connector_name": "community_context_fixture",
       "connector_version": "0.1.0",
       "codebook_version": "community-pathways-v0.1",
       "license_class": "fixture-public-metadata",
       "card_url": "docs/data/datasets/community-pathways.md",
-      "artifact_uri": "packages/data-pipelines/fixtures/community_context/community_pathways_fixture.csv"
+      "artifact_uri": "packages/data-pipelines/fixtures/community_context/community_pathways_fixture_only.csv"
+    },
+    {
+      "canonical_dataset_name": "features.health_validation_context",
+      "version": "1.0.0",
+      "content_hash": "2954e26e4645106cb79fc671bdc53faec90f4e4d1e30a5f248ea2d74dddc0edb",
+      "connector_name": "cdc_wonder_fixture_only",
+      "connector_version": "0.1.0",
+      "codebook_version": "health-validation-context-v0.1",
+      "license_class": "fixture-public-metadata",
+      "card_url": "docs/data/datasets/cdc-public-health.md",
+      "artifact_uri": "packages/data-pipelines/fixtures/health_public/cdc_mortality_fixture_only.csv"
+    },
+    {
+      "canonical_dataset_name": "features.time_use_context",
+      "version": "1.0.0",
+      "content_hash": "a78655cab0e2146dc0fc3991061f365de1a26886ee9264cae2785c61f7cda4d7",
+      "connector_name": "atus_public_time_use_fixture_only",
+      "connector_version": "0.1.0",
+      "codebook_version": "time-use-context-v0.1",
+      "license_class": "fixture-public-metadata",
+      "card_url": "docs/data/datasets/atus-public-time-use.md",
+      "artifact_uri": "packages/data-pipelines/fixtures/community_context/time_use_fixture_only.csv"
+    },
+    {
+      "canonical_dataset_name": "features.social_capital_context",
+      "version": "1.0.0",
+      "content_hash": "7e69c2385a3cf752567798ed2f786e86ebddfba6f74977be42bc73d5421d490e",
+      "connector_name": "social_capital_context_fixture_only",
+      "connector_version": "0.1.0",
+      "codebook_version": "social-capital-context-v0.1",
+      "license_class": "fixture-public-metadata",
+      "card_url": "docs/data/datasets/social-capital-context.md",
+      "artifact_uri": "packages/data-pipelines/fixtures/community_context/community_pathways_fixture_only.csv"
+    },
+    {
+      "canonical_dataset_name": "features.place_context",
+      "version": "1.0.0",
+      "content_hash": "018d3d86280b9bfded291887eeb83d289e0f7c3b6077f58d477dc9a24cbcece1",
+      "connector_name": "place_context_fixture_only",
+      "connector_version": "0.1.0",
+      "codebook_version": "place-context-v0.1",
+      "license_class": "fixture-public-metadata",
+      "card_url": "docs/data/datasets/place-context.md",
+      "artifact_uri": "packages/data-pipelines/fixtures/community_context/place_context_fixture_only.csv"
+    },
+    {
+      "canonical_dataset_name": "brfss_public",
+      "version": "request-status-v0.1",
+      "content_hash": "3dce2a7d401f4c7594e07b1993a04f95f3a25934cc52e9481d76bf35a5a41770",
+      "connector_name": "brfss_public",
+      "connector_version": "0.1.0",
+      "codebook_version": "brfss-public-v0.1",
+      "license_class": "request-status-public-table-metadata",
+      "card_url": "docs/data/datasets/brfss-public.md",
+      "artifact_uri": "packages/data-pipelines/fixtures/health_public/brfss_public_stub.json"
+    },
+    {
+      "canonical_dataset_name": "nhis_public",
+      "version": "request-status-v0.1",
+      "content_hash": "4ca1ffe01b51559462b467429d921517025ceb74f0cbd608d12a19da194660b8",
+      "connector_name": "nhis_public",
+      "connector_version": "0.1.0",
+      "codebook_version": "nhis-public-v0.1",
+      "license_class": "request-status-public-table-metadata",
+      "card_url": "docs/data/datasets/nhis-public.md",
+      "artifact_uri": "packages/data-pipelines/fixtures/health_public/nhis_public_stub.json"
+    },
+    {
+      "canonical_dataset_name": "nhanes_public",
+      "version": "request-status-v0.1",
+      "content_hash": "83127db39233c4902cda7cccd83010add8465b1dbc3712fd33989c95f2d07d46",
+      "connector_name": "nhanes_public",
+      "connector_version": "0.1.0",
+      "codebook_version": "nhanes-public-v0.1",
+      "license_class": "request-status-public-table-metadata",
+      "card_url": "docs/data/datasets/nhanes-public.md",
+      "artifact_uri": "packages/data-pipelines/fixtures/health_public/nhanes_public_stub.json"
+    },
+    {
+      "canonical_dataset_name": "meps_public",
+      "version": "request-status-v0.1",
+      "content_hash": "9b99aa8ac8250f64eed76c72e166fc77f5e2ba9496d557983e06e232bc6aaa1c",
+      "connector_name": "meps_public",
+      "connector_version": "0.1.0",
+      "codebook_version": "meps-public-v0.1",
+      "license_class": "request-status-public-table-metadata",
+      "card_url": "docs/data/datasets/meps-public.md",
+      "artifact_uri": "packages/data-pipelines/fixtures/health_public/meps_public_stub.json"
     }
   ]
 }

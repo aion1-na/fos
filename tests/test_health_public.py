@@ -7,9 +7,13 @@ import pyarrow.parquet as pq
 from fos_data_pipelines.connectors import (
     brfss_public_connector_config,
     cdc_wonder_connector_config,
+    meps_public_connector_config,
+    nhanes_public_connector_config,
+    nhis_public_connector_config,
 )
 from fos_data_pipelines.health_public.context import (
     CELL_SUPPRESSION_THRESHOLD,
+    assert_public_health_policy_columns,
     build_health_validation_context,
     parse_public_health_stub,
 )
@@ -20,7 +24,7 @@ FIXTURES = ROOT / "packages" / "data-pipelines" / "fixtures" / "health_public"
 
 def test_mortality_outputs_respect_public_use_cell_suppression(tmp_path: Path) -> None:
     output_path, reference = build_health_validation_context(
-        FIXTURES / "cdc_mortality_fixture.csv",
+        FIXTURES / "cdc_mortality_fixture_only.csv",
         tmp_path,
     )
     rows = pq.read_table(output_path).to_pylist()
@@ -36,6 +40,7 @@ def test_mortality_outputs_respect_public_use_cell_suppression(tmp_path: Path) -
     assert all(len(row["content_hash"]) == 64 for row in rows)
     assert {row["codebook_version"] for row in rows} == {"0.1"}
     assert all(row["dataset_reference"].startswith("(features.health_validation_context") for row in rows)
+    assert "name" not in rows[0]
 
 
 def test_public_health_connectors_are_request_status_for_governed_sources() -> None:
@@ -63,7 +68,19 @@ def test_public_health_connector_configs_have_metadata_refs() -> None:
     for config in [
         brfss_public_connector_config("https://example.org/brfss"),
         cdc_wonder_connector_config("https://example.org/cdc-wonder"),
+        nhis_public_connector_config("request-status://nhis/public"),
+        nhanes_public_connector_config("request-status://nhanes/public"),
+        meps_public_connector_config("request-status://meps/public"),
     ]:
         assert config.dataset_version == "request-status-v0.1"
         assert (ROOT / config.codebook_ref).exists()
         assert (ROOT / config.license_ref.split("#", 1)[0]).exists()
+
+
+def test_sensitive_public_health_fields_are_blocked() -> None:
+    try:
+        assert_public_health_policy_columns({"country_code", "year", "patient_id"})
+    except ValueError as error:
+        assert "sensitive fields" in str(error)
+    else:
+        raise AssertionError("sensitive public health field was allowed")

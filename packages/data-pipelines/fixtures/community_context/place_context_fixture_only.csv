@@ -1,0 +1,5 @@
+source,construct,source_geography_id,geography_level,join_allowed,year,measure,value,source_label,join_key,join_segment,pathway_role,cell_count
+OpportunityAtlas,place_opportunity,06075,county,true,2021,upward_mobility_index,0.58,San Francisco County,county_fips,all,calibration,120
+WorldBank,place_context,USA,country,true,2021,urban_population_share,0.83,United States,country_iso3,all,validation,500
+OECD,place_context,USA,country,true,2021,housing_cost_burden,0.31,United States,country_iso3,all,calibration,500
+RestrictedTaxArchive,place_opportunity,private_archive,individual,false,2021,parent_income_rank,0.00,Restricted individual microdata,restricted_person_id,restricted,blocked,0

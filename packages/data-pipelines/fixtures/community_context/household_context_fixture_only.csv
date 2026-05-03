@@ -1,0 +1,3 @@
+source,construct,source_geography_id,geography_level,join_allowed,year,measure,value,source_label,cell_count
+ACS,household_context,06075,county,true,2021,average_household_size,2.31,San Francisco County,300
+ACS,household_context,94110,zip,true,2021,share_living_alone,0.31,ZIP 94110,130

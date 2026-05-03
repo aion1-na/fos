@@ -11,12 +11,14 @@ from fos_data_pipelines.references import DatasetReference, build_fixture_refere
 from fos_data_pipelines.codebooks import Codebook, CodebookField, load_codebook
 from fos_data_pipelines.community.context import (
     build_community_context,
+    build_place_context,
     build_social_capital_context,
     build_time_use_context,
 )
 from fos_data_pipelines.features.ai_exposure import (
     build_ai_exposure_ensemble,
     build_occupation_ai_demographic_distributions,
+    build_us_young_adult_ai_work_context,
 )
 from fos_data_pipelines.features.young_adult_population import (
     build_us_young_adult_population_marginals,
@@ -41,6 +43,7 @@ from fos_data_pipelines.evidence_graph.claims import (
     build_intervention_effect_size_priors,
     load_evidence_claims,
     load_evidence_sources,
+    priors_for_concordia_scene_compiler,
     trace_claim,
 )
 from fos_data_pipelines.health_public.context import build_health_validation_context
@@ -75,10 +78,12 @@ __all__ = [
     "StagedArtifact",
     "build_fixture_reference",
     "build_community_context",
+    "build_place_context",
     "build_social_capital_context",
     "build_time_use_context",
     "build_ai_exposure_ensemble",
     "build_occupation_ai_demographic_distributions",
+    "build_us_young_adult_ai_work_context",
     "build_us_young_adult_population_marginals",
     "build_gfs_wave1_marginals",
     "build_gfs_wave12_marginals_country",
@@ -99,6 +104,7 @@ __all__ = [
     "load_codebook",
     "load_evidence_claims",
     "load_evidence_sources",
+    "priors_for_concordia_scene_compiler",
     "load_replication_archive",
     "score_six_domain_country_marginals",
     "score_flourishing_row",

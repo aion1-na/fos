@@ -10,6 +10,18 @@ class OccupationCrosswalk:
     version: str
     rows: tuple[dict[str, str], ...]
 
+    def source_codes(self) -> tuple[dict[str, str], ...]:
+        return tuple(
+            {
+                "soc_code": row["soc_code"],
+                "onet_soc_code": row["onet_soc_code"],
+                "census_occ_code": row["census_occ_code"],
+                "source_label": row["source_label"],
+                "canonical_occupation_code": row["canonical_occupation_code"],
+            }
+            for row in self.rows
+        )
+
     def soc_to_onet(self, soc_code: str) -> str | None:
         for row in self.rows:
             if row["soc_code"] == soc_code:

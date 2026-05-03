@@ -1,5 +1,12 @@
 {
   "canonical_dataset_name": "opportunity_atlas",
+  "dataset_version": "request-status-v0.1",
+  "content_hash": "907e04e0735bfd402224c30e96e2d2def323cb96eb542a2b6b10f2afaf3b5081",
+  "dataset_reference": {
+    "canonical_dataset_name": "opportunity_atlas",
+    "version": "request-status-v0.1",
+    "content_hash": "907e04e0735bfd402224c30e96e2d2def323cb96eb542a2b6b10f2afaf3b5081"
+  },
   "access_status": "request_status_stub",
   "public_table_status": "public where published",
   "rows": [],

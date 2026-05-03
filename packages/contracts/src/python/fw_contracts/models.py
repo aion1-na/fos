@@ -198,23 +198,23 @@ class SimulationRun(ContractModel):
 
 class EvidenceClaim(ContractModel):
     id: str
-    scenario_id: str | None = None
-    transition_model_id: str | None = None
+    scenario_id: str
+    transition_model_id: str
     statement: str
-    source_id: str | None = None
+    source_id: str
     source_uri: str | None = None
     confidence: float | None = Field(default=None, ge=0.0, le=1.0)
-    target_population: str | None = None
-    treatment: str | None = None
-    comparator: str | None = None
-    outcome_domain: str | None = None
-    effect_size: float | None = None
-    uncertainty: float | None = Field(default=None, ge=0.0)
-    risk_of_bias: Literal["low", "medium", "high"] | None = None
-    transportability: Literal["low", "medium", "high"] | None = None
-    review_status: Literal["draft", "advisor_reviewed", "rejected", "superseded"] | None = None
-    citation: str | None = None
-    dataset_reference: DatasetReference | None = None
+    target_population: str
+    treatment: str
+    comparator: str
+    outcome_domain: str
+    effect_size: float
+    uncertainty: float = Field(ge=0.0)
+    risk_of_bias: Literal["low", "medium", "high"]
+    transportability: Literal["low", "medium", "high"]
+    review_status: Literal["draft", "advisor_reviewed", "rejected", "superseded"]
+    citation: str
+    dataset_reference: DatasetReference
     metadata: JsonObject = Field(default_factory=dict)
 
 

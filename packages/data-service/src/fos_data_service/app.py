@@ -71,7 +71,47 @@ TIER1_V1_REFERENCES = [
     DatasetReference(
         canonical_dataset_name="community-pathways",
         version="1.0.0",
-        content_hash="fb28f7b26a0e4047627607aecb9249c45d2a678b34bdda3a34d886810613483a",
+        content_hash="7e69c2385a3cf752567798ed2f786e86ebddfba6f74977be42bc73d5421d490e",
+    ),
+    DatasetReference(
+        canonical_dataset_name="features.health_validation_context",
+        version="1.0.0",
+        content_hash="2954e26e4645106cb79fc671bdc53faec90f4e4d1e30a5f248ea2d74dddc0edb",
+    ),
+    DatasetReference(
+        canonical_dataset_name="features.time_use_context",
+        version="1.0.0",
+        content_hash="a78655cab0e2146dc0fc3991061f365de1a26886ee9264cae2785c61f7cda4d7",
+    ),
+    DatasetReference(
+        canonical_dataset_name="features.social_capital_context",
+        version="1.0.0",
+        content_hash="7e69c2385a3cf752567798ed2f786e86ebddfba6f74977be42bc73d5421d490e",
+    ),
+    DatasetReference(
+        canonical_dataset_name="features.place_context",
+        version="1.0.0",
+        content_hash="018d3d86280b9bfded291887eeb83d289e0f7c3b6077f58d477dc9a24cbcece1",
+    ),
+    DatasetReference(
+        canonical_dataset_name="brfss_public",
+        version="request-status-v0.1",
+        content_hash="3dce2a7d401f4c7594e07b1993a04f95f3a25934cc52e9481d76bf35a5a41770",
+    ),
+    DatasetReference(
+        canonical_dataset_name="nhis_public",
+        version="request-status-v0.1",
+        content_hash="4ca1ffe01b51559462b467429d921517025ceb74f0cbd608d12a19da194660b8",
+    ),
+    DatasetReference(
+        canonical_dataset_name="nhanes_public",
+        version="request-status-v0.1",
+        content_hash="83127db39233c4902cda7cccd83010add8465b1dbc3712fd33989c95f2d07d46",
+    ),
+    DatasetReference(
+        canonical_dataset_name="meps_public",
+        version="request-status-v0.1",
+        content_hash="9b99aa8ac8250f64eed76c72e166fc77f5e2ba9496d557983e06e232bc6aaa1c",
     ),
 ]
 CARD_PATHS = {
@@ -82,6 +122,14 @@ CARD_PATHS = {
     "gfs-wave2": "docs/data/datasets/gfs-wave2.md",
     "community-pathways": "docs/data/datasets/community-pathways.md",
     "features.community_context": "docs/data/datasets/community-pathways.md",
+    "features.health_validation_context": "docs/data/datasets/cdc-public-health.md",
+    "features.time_use_context": "docs/data/datasets/atus-public-time-use.md",
+    "features.social_capital_context": "docs/data/datasets/social-capital-context.md",
+    "features.place_context": "docs/data/datasets/place-context.md",
+    "brfss_public": "docs/data/datasets/brfss-public.md",
+    "nhis_public": "docs/data/datasets/nhis-public.md",
+    "nhanes_public": "docs/data/datasets/nhanes-public.md",
+    "meps_public": "docs/data/datasets/meps-public.md",
 }
 
 for reference in [OLD_FIXTURE_REFERENCE, FIXTURE_REFERENCE, *TIER1_V1_REFERENCES]:

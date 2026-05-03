@@ -178,5 +178,20 @@
     "citation": "Tennessee Project STAR class-size experiment evidence synthesis pending approved extraction.",
     "license_ref": "literature-extraction-pending",
     "quality_profile_ref": "docs/data/evidence/project_star-quality-profile.md"
+  },
+  {
+    "source_id": "src_family_support_request_status",
+    "canonical_dataset_name": "intervention_literature.family_support",
+    "access_status": "request_status_stub",
+    "dataset_reference": {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    "dataset_card": "docs/data/datasets/family-support-literature.md",
+    "provenance_manifest": "request-status:family_support-literature",
+    "citation": "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    "license_ref": "literature-extraction-pending",
+    "quality_profile_ref": "docs/data/evidence/family_support-quality-profile.md"
   }
 ]

@@ -98,7 +98,7 @@ export function parseSimulationRun(input) {
 
 export function parseEvidenceClaim(input) {
   const value = cloneObject(input, "EvidenceClaim");
-  requireFields(value, ["id", "statement"], "EvidenceClaim");
+  requireFields(value, ["citation", "comparator", "dataset_reference", "effect_size", "id", "outcome_domain", "review_status", "risk_of_bias", "scenario_id", "source_id", "statement", "target_population", "transition_model_id", "transportability", "treatment", "uncertainty"], "EvidenceClaim");
   return value;
 }
 

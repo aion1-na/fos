@@ -45,3 +45,33 @@ def cdc_wonder_connector_config(source_uri: str) -> ConnectorConfig:
         codebook_ref="codebooks/cdc_public_health.yaml",
         dataset_card="docs/data/datasets/cdc-public-health.md",
     )
+
+
+def nhis_public_connector_config(source_uri: str) -> ConnectorConfig:
+    return _config(
+        connector_name="nhis_public",
+        canonical_dataset_name="nhis_public",
+        source_uri=source_uri,
+        codebook_ref="codebooks/nhis_public.yaml",
+        dataset_card="docs/data/datasets/nhis-public.md",
+    )
+
+
+def nhanes_public_connector_config(source_uri: str) -> ConnectorConfig:
+    return _config(
+        connector_name="nhanes_public",
+        canonical_dataset_name="nhanes_public",
+        source_uri=source_uri,
+        codebook_ref="codebooks/nhanes_public.yaml",
+        dataset_card="docs/data/datasets/nhanes-public.md",
+    )
+
+
+def meps_public_connector_config(source_uri: str) -> ConnectorConfig:
+    return _config(
+        connector_name="meps_public",
+        canonical_dataset_name="meps_public",
+        source_uri=source_uri,
+        codebook_ref="codebooks/meps_public.yaml",
+        dataset_card="docs/data/datasets/meps-public.md",
+    )

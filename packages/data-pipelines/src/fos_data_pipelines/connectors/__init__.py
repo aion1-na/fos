@@ -3,10 +3,14 @@ from fos_data_pipelines.connectors.acs_ipums import (
     parse_acs_fixture,
 )
 from fos_data_pipelines.connectors.ai_exposure import (
+    ai_exposure_connector_config,
     parse_acemoglu_restrepo_robot_fixture_only,
+    parse_acemoglu_restrepo_robot_public_archive,
     parse_anthropic_economic_index_request_status_stub,
     parse_eloundou_fixture,
+    parse_eloundou_public_archive,
     parse_felten_fixture,
+    parse_felten_public_archive,
     parse_webb_request_status_stub,
 )
 from fos_data_pipelines.connectors.bls_oews import (
@@ -16,7 +20,7 @@ from fos_data_pipelines.connectors.bls_oews import (
     bls_qcew_connector_config,
     parse_bls_employment_projections_fixture_only,
     parse_bls_laus_fixture_only,
-    parse_bls_oews_fixture,
+    parse_bls_oews_fixture_only,
     parse_bls_qcew_fixture_only,
 )
 from fos_data_pipelines.connectors.cross_validation import (
@@ -51,8 +55,11 @@ from fos_data_pipelines.connectors.gfs import (
 from fos_data_pipelines.connectors.health_public import (
     brfss_public_connector_config,
     cdc_wonder_connector_config,
+    meps_public_connector_config,
+    nhanes_public_connector_config,
+    nhis_public_connector_config,
 )
-from fos_data_pipelines.connectors.onet import parse_onet_fixture
+from fos_data_pipelines.connectors.onet import onet_connector_config, parse_onet_fixture_only
 from fos_data_pipelines.connectors.public_context import (
     ess_connector_config,
     eurostat_connector_config,
@@ -67,13 +74,15 @@ from fos_data_pipelines.connectors.public_context import (
 __all__ = [
     "parse_acs_fixture",
     "acs_pums_young_adult_connector_config",
+    "ai_exposure_connector_config",
     "parse_acemoglu_restrepo_robot_fixture_only",
+    "parse_acemoglu_restrepo_robot_public_archive",
     "parse_anthropic_economic_index_request_status_stub",
     "bls_oews_connector_config",
     "bls_laus_connector_config",
     "bls_qcew_connector_config",
     "bls_employment_projections_connector_config",
-    "parse_bls_oews_fixture",
+    "parse_bls_oews_fixture_only",
     "parse_bls_laus_fixture_only",
     "parse_bls_qcew_fixture_only",
     "parse_bls_employment_projections_fixture_only",
@@ -92,9 +101,14 @@ __all__ = [
     "parse_gfs_wave1_fixture",
     "brfss_public_connector_config",
     "cdc_wonder_connector_config",
+    "meps_public_connector_config",
+    "nhanes_public_connector_config",
+    "nhis_public_connector_config",
     "parse_gfs_wave2_fixture",
     "parse_eloundou_fixture",
+    "parse_eloundou_public_archive",
     "parse_felten_fixture",
+    "parse_felten_public_archive",
     "parse_world_happiness_report_stub",
     "parse_wvs_stub",
     "gfs_connector_config",
@@ -102,7 +116,8 @@ __all__ = [
     "assert_gfs_non_sensitive_rows",
     "build_gfs_request_status_stub",
     "SensitiveDataAccessError",
-    "parse_onet_fixture",
+    "onet_connector_config",
+    "parse_onet_fixture_only",
     "ess_connector_config",
     "eurostat_connector_config",
     "ilo_connector_config",

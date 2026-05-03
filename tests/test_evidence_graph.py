@@ -8,6 +8,7 @@ from fos_data_pipelines.evidence_graph.claims import (
     build_intervention_effect_size_priors,
     load_evidence_claims,
     load_evidence_sources,
+    priors_for_concordia_scene_compiler,
     priors_for_research_brief,
     priors_for_transition_model,
     trace_claim,
@@ -15,8 +16,8 @@ from fos_data_pipelines.evidence_graph.claims import (
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "packages" / "data-pipelines" / "fixtures" / "evidence_graph"
-CLAIMS = FIXTURES / "evidence_claims.json"
-SOURCES = FIXTURES / "intervention_sources.json"
+CLAIMS = FIXTURES / "evidence_claims_fixture_only.json"
+SOURCES = FIXTURES / "intervention_sources_fixture_only.json"
 
 
 def test_every_effect_size_has_required_claim_fields() -> None:
@@ -65,6 +66,7 @@ def test_intervention_effect_size_priors_emit_required_columns(tmp_path: Path) -
     rows = pq.read_table(output_path).to_pylist()
 
     assert reference.canonical_dataset_name == "features.intervention_effect_size_priors_v1"
+    assert reference.version == "request-status-v0.1"
     assert len(reference.content_hash) == 64
     for row in rows:
         for required in [
@@ -81,9 +83,18 @@ def test_intervention_effect_size_priors_emit_required_columns(tmp_path: Path) -
             "dataset_card",
             "provenance_manifest",
             "dataset_reference",
+            "source_dataset_reference",
+            "license_ref",
+            "quality_profile_ref",
         ]:
             assert row[required] is not None
             assert row[required] != ""
+        assert row["dataset_reference"]["canonical_dataset_name"] == (
+            "features.intervention_effect_size_priors_v1"
+        )
+        assert row["source_dataset_reference"]["canonical_dataset_name"].startswith(
+            "intervention_literature."
+        )
 
 
 def test_claim_trace_links_source_dataset_card_and_provenance_manifest() -> None:
@@ -104,6 +115,15 @@ def test_priors_are_queryable_by_transition_model_and_research_brief() -> None:
     assert brief_priors
     assert all(row["scenario_id"] == "job_corps" for row in brief_priors)
     assert all(row["review_status"] in {"draft", "advisor_reviewed"} for row in brief_priors)
+
+
+def test_priors_are_queryable_by_concordia_scene_compiler_without_causal_authority() -> None:
+    scene_priors = priors_for_concordia_scene_compiler("family_support", CLAIMS)
+
+    assert scene_priors
+    assert all(row["scenario_id"] == "family_support" for row in scene_priors)
+    assert all(row["qualitative_scene_context_only"] is True for row in scene_priors)
+    assert all(row["may_set_causal_effect_size"] is False for row in scene_priors)
 
 
 def test_evidence_graph_migration_initializes_age_and_tables() -> None:
@@ -129,6 +149,21 @@ def test_atlas_trace_view_contains_claim_source_card_and_provenance() -> None:
     assert "claim.sourceId" in page
     assert "claim.datasetCard" in page
     assert "claim.provenanceManifest" in page
+    assert "evidenceClaimsAreFixtureOnly" in page
+    assert "evidenceClaimsCausalEffectValidated" in page
     assert "advisor_reviewed" in source
     assert "draft" in source
     assert "superseded" in source
+
+
+def test_fos_graph_studio_evidence_stage_contains_forest_plot_guardrails() -> None:
+    page = (ROOT / "apps" / "studio" / "app" / "studio" / "[stage]" / "page.tsx").read_text(
+        encoding="utf-8"
+    )
+    source = (
+        ROOT / "apps" / "studio" / "lib" / "evidence" / "interventionPriors.ts"
+    ).read_text(encoding="utf-8")
+
+    assert "FOS Graph Studio forest-plot view" in page
+    assert "causal effect validated" in page
+    assert "reviewStatus: \"rejected\"" in source

@@ -1,4 +1,0 @@
-source,construct,source_geography_id,geography_level,join_allowed,year,measure,hours_per_day,source_label
-ATUSPublic,time_use,US,national,true,2021,caregiving_hours,1.20,United States public-use table
-ATUSPublic,time_use,US,national,true,2021,social_hours,0.80,United States public-use table
-ArchiveLimitedDiaryStudy,time_use,private_archive,individual,false,2021,unapproved_diary_hours,0.00,Archive-limited restricted diary microdata

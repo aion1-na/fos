@@ -1,5 +1,12 @@
 {
   "canonical_dataset_name": "nhis_public",
+  "dataset_version": "request-status-v0.1",
+  "content_hash": "bc1e6b16d37a384dfd7e8f7d19c3cc9aa111fc9883475f190c1c2829607ee354",
+  "dataset_reference": {
+    "canonical_dataset_name": "nhis_public",
+    "version": "request-status-v0.1",
+    "content_hash": "bc1e6b16d37a384dfd7e8f7d19c3cc9aa111fc9883475f190c1c2829607ee354"
+  },
   "access_status": "request_status_stub",
   "public_table_status": "public where published",
   "microdata_status": "microdata restricted or governed by source terms",

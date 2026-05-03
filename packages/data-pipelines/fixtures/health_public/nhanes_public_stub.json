@@ -1,5 +1,12 @@
 {
   "canonical_dataset_name": "nhanes_public",
+  "dataset_version": "request-status-v0.1",
+  "content_hash": "6e917e1789cf3bebf8d1f0515486a00d631ab04cf7ce2bc531b7c52b2f6a26a7",
+  "dataset_reference": {
+    "canonical_dataset_name": "nhanes_public",
+    "version": "request-status-v0.1",
+    "content_hash": "6e917e1789cf3bebf8d1f0515486a00d631ab04cf7ce2bc531b7c52b2f6a26a7"
+  },
   "access_status": "request_status_stub",
   "public_table_status": "public where published",
   "microdata_status": "microdata restricted or governed by source terms",

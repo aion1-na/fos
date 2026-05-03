@@ -21,7 +21,9 @@ def bls_oews_connector_config(source_uri: str) -> ConnectorConfig:
     )
 
 
-def parse_bls_oews_fixture(fixture_path: Path, codebook_path: Path, output_dir: Path) -> StagedArtifact:
+def parse_bls_oews_fixture_only(
+    fixture_path: Path, codebook_path: Path, output_dir: Path
+) -> StagedArtifact:
     codebook = load_codebook(codebook_path)
     payload = json.loads(fixture_path.read_text(encoding="utf-8"))
     rows = payload["Results"]["series"]
@@ -30,7 +32,7 @@ def parse_bls_oews_fixture(fixture_path: Path, codebook_path: Path, output_dir: 
         fixture_path=fixture_path,
         codebook=codebook,
         output_dir=output_dir,
-        connector_name=CONNECTOR_NAME,
+        connector_name=f"{CONNECTOR_NAME}_fixture_only",
         connector_version=CONNECTOR_VERSION,
     )
 

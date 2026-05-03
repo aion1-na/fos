@@ -1,5 +1,12 @@
 {
   "canonical_dataset_name": "social-capital-archive",
+  "dataset_version": "request-status-v0.1",
+  "content_hash": "f1bfa97dbd249c82649580dea415ed520d1dd00fb6a9a185cc4607fac36fb6cd",
+  "dataset_reference": {
+    "canonical_dataset_name": "social-capital-archive",
+    "version": "request-status-v0.1",
+    "content_hash": "f1bfa97dbd249c82649580dea415ed520d1dd00fb6a9a185cc4607fac36fb6cd"
+  },
   "access_status": "request_status_stub",
   "reason": "source archive access is not approved for production ingestion",
   "rows": [],

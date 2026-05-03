@@ -23,10 +23,10 @@ from fos_data_pipelines.connectors.bls_oews import (
     bls_qcew_connector_config,
     parse_bls_employment_projections_fixture_only,
     parse_bls_laus_fixture_only,
-    parse_bls_oews_fixture,
+    parse_bls_oews_fixture_only,
     parse_bls_qcew_fixture_only,
 )
-from fos_data_pipelines.connectors.onet import parse_onet_fixture
+from fos_data_pipelines.connectors.onet import parse_onet_fixture_only
 from fos_data_pipelines.dataset_cards import render_dataset_card
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -65,13 +65,13 @@ def test_acs_onet_and_bls_fixtures_parse_to_staged_parquet(tmp_path: Path) -> No
         CODEBOOKS / "acs_person.yaml",
         tmp_path / "acs",
     )
-    onet = parse_onet_fixture(
-        FIXTURES / "onet" / "occupation_fixture.json",
+    onet = parse_onet_fixture_only(
+        FIXTURES / "onet" / "occupation_fixture_only.json",
         CODEBOOKS / "onet.yaml",
         tmp_path / "onet",
     )
-    bls = parse_bls_oews_fixture(
-        FIXTURES / "bls" / "oews_fixture.json",
+    bls = parse_bls_oews_fixture_only(
+        FIXTURES / "bls" / "oews_fixture_only.json",
         CODEBOOKS / "bls_oews.yaml",
         tmp_path / "bls",
     )

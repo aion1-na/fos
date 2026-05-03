@@ -1,0 +1,14 @@
+{
+  "canonical_dataset_name": "restricted_place_microdata",
+  "dataset_version": "request-status-v0.1",
+  "content_hash": "15f2b2d6eda74b4b69a03350b07cdf91541864f769896554b62fb80b63ba1cec",
+  "dataset_reference": {
+    "canonical_dataset_name": "restricted_place_microdata",
+    "version": "request-status-v0.1",
+    "content_hash": "15f2b2d6eda74b4b69a03350b07cdf91541864f769896554b62fb80b63ba1cec"
+  },
+  "access_status": "request_status_stub",
+  "reason": "restricted individual place-context microdata is not approved for RS-06",
+  "rows": [],
+  "allowed_output": "request-status metadata only"
+}

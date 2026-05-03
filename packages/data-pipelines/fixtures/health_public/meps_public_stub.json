@@ -1,5 +1,12 @@
 {
   "canonical_dataset_name": "meps_public",
+  "dataset_version": "request-status-v0.1",
+  "content_hash": "94bd83925629354d6ab1ca3e148599de6f63f7a1c185a113b76491b2b6be0f49",
+  "dataset_reference": {
+    "canonical_dataset_name": "meps_public",
+    "version": "request-status-v0.1",
+    "content_hash": "94bd83925629354d6ab1ca3e148599de6f63f7a1c185a113b76491b2b6be0f49"
+  },
   "access_status": "request_status_stub",
   "public_table_status": "public where published",
   "microdata_status": "microdata restricted or governed by source terms",

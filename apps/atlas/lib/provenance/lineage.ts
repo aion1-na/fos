@@ -26,7 +26,7 @@ export const selectedDatasetReference: DatasetReference = {
 export const provenanceNodes: ProvenanceNode[] = [
   {
     id: "source-community-fixture",
-    label: "community_pathways_fixture.csv",
+    label: "community_pathways_fixture_only.csv",
     kind: "source",
   },
   {

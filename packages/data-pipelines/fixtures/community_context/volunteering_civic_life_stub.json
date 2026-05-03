@@ -1,5 +1,12 @@
 {
   "canonical_dataset_name": "volunteering_civic_life",
+  "dataset_version": "request-status-v0.1",
+  "content_hash": "d840bf7e790a5bf1f3b574ef7b40c7e9e935684ae90294a58e1c2cb81b536e9e",
+  "dataset_reference": {
+    "canonical_dataset_name": "volunteering_civic_life",
+    "version": "request-status-v0.1",
+    "content_hash": "d840bf7e790a5bf1f3b574ef7b40c7e9e935684ae90294a58e1c2cb81b536e9e"
+  },
   "access_status": "request_status_stub",
   "public_table_status": "public where published",
   "rows": [],

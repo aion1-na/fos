@@ -1,5 +1,4 @@
 export type ReviewStatus = "draft" | "advisor_reviewed" | "rejected" | "superseded";
-
 export interface EvidenceClaimRow {
   claimId: string;
   scenarioId: string;
@@ -22,6 +21,9 @@ export interface EvidenceClaimRow {
   datasetCard: string;
   provenanceManifest: string;
 }
+
+export const evidenceClaimsAreFixtureOnly = true;
+export const evidenceClaimsCausalEffectValidated = false;
 
 export const evidenceClaims: EvidenceClaimRow[] = [
   {
@@ -3455,5 +3457,291 @@ export const evidenceClaims: EvidenceClaimRow[] = [
     },
     datasetCard: "docs/data/datasets/project-star-literature.md",
     provenanceManifest: "request-status:project_star-literature"
+  },
+  {
+    claimId: "claim_family_support_financial_security_v1",
+    scenarioId: "family_support",
+    transitionModelId: "financial_transition",
+    sourceId: "src_family_support_request_status",
+    targetPopulation: "young adults and households eligible for family support services",
+    treatment: "family support and household stabilization services",
+    comparator: "usual community referral or no additional family support service",
+    outcomeDomain: "financial_security",
+    effectSize: 0.0,
+    uncertainty: 0.2,
+    ciLow: -0.392,
+    ciHigh: 0.392,
+    riskOfBias: "high",
+    transportability: "low",
+    confidenceLabel: "draft",
+    reviewStatus: "draft",
+    citation: "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    datasetReference: {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    datasetCard: "docs/data/datasets/family-support-literature.md",
+    provenanceManifest: "request-status:family_support-literature"
+  },
+  {
+    claimId: "claim_family_support_employment_v1",
+    scenarioId: "family_support",
+    transitionModelId: "employment_transition",
+    sourceId: "src_family_support_request_status",
+    targetPopulation: "young adults and households eligible for family support services",
+    treatment: "family support and household stabilization services",
+    comparator: "usual community referral or no additional family support service",
+    outcomeDomain: "employment",
+    effectSize: 0.0,
+    uncertainty: 0.2,
+    ciLow: -0.392,
+    ciHigh: 0.392,
+    riskOfBias: "high",
+    transportability: "low",
+    confidenceLabel: "draft",
+    reviewStatus: "draft",
+    citation: "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    datasetReference: {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    datasetCard: "docs/data/datasets/family-support-literature.md",
+    provenanceManifest: "request-status:family_support-literature"
+  },
+  {
+    claimId: "claim_family_support_education_v1",
+    scenarioId: "family_support",
+    transitionModelId: "education_transition",
+    sourceId: "src_family_support_request_status",
+    targetPopulation: "young adults and households eligible for family support services",
+    treatment: "family support and household stabilization services",
+    comparator: "usual community referral or no additional family support service",
+    outcomeDomain: "education",
+    effectSize: 0.0,
+    uncertainty: 0.2,
+    ciLow: -0.392,
+    ciHigh: 0.392,
+    riskOfBias: "high",
+    transportability: "low",
+    confidenceLabel: "draft",
+    reviewStatus: "draft",
+    citation: "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    datasetReference: {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    datasetCard: "docs/data/datasets/family-support-literature.md",
+    provenanceManifest: "request-status:family_support-literature"
+  },
+  {
+    claimId: "claim_family_support_mental_health_v1",
+    scenarioId: "family_support",
+    transitionModelId: "health_transition",
+    sourceId: "src_family_support_request_status",
+    targetPopulation: "young adults and households eligible for family support services",
+    treatment: "family support and household stabilization services",
+    comparator: "usual community referral or no additional family support service",
+    outcomeDomain: "mental_health",
+    effectSize: 0.0,
+    uncertainty: 0.2,
+    ciLow: -0.392,
+    ciHigh: 0.392,
+    riskOfBias: "high",
+    transportability: "low",
+    confidenceLabel: "draft",
+    reviewStatus: "draft",
+    citation: "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    datasetReference: {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    datasetCard: "docs/data/datasets/family-support-literature.md",
+    provenanceManifest: "request-status:family_support-literature"
+  },
+  {
+    claimId: "claim_family_support_belonging_v1",
+    scenarioId: "family_support",
+    transitionModelId: "relationships_transition",
+    sourceId: "src_family_support_request_status",
+    targetPopulation: "young adults and households eligible for family support services",
+    treatment: "family support and household stabilization services",
+    comparator: "usual community referral or no additional family support service",
+    outcomeDomain: "belonging",
+    effectSize: 0.0,
+    uncertainty: 0.2,
+    ciLow: -0.392,
+    ciHigh: 0.392,
+    riskOfBias: "high",
+    transportability: "low",
+    confidenceLabel: "draft",
+    reviewStatus: "draft",
+    citation: "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    datasetReference: {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    datasetCard: "docs/data/datasets/family-support-literature.md",
+    provenanceManifest: "request-status:family_support-literature"
+  },
+  {
+    claimId: "claim_family_support_healthcare_access_v1",
+    scenarioId: "family_support",
+    transitionModelId: "health_transition",
+    sourceId: "src_family_support_request_status",
+    targetPopulation: "young adults and households eligible for family support services",
+    treatment: "family support and household stabilization services",
+    comparator: "usual community referral or no additional family support service",
+    outcomeDomain: "healthcare_access",
+    effectSize: 0.0,
+    uncertainty: 0.2,
+    ciLow: -0.392,
+    ciHigh: 0.392,
+    riskOfBias: "high",
+    transportability: "low",
+    confidenceLabel: "draft",
+    reviewStatus: "draft",
+    citation: "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    datasetReference: {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    datasetCard: "docs/data/datasets/family-support-literature.md",
+    provenanceManifest: "request-status:family_support-literature"
+  },
+  {
+    claimId: "claim_family_support_long_run_wellbeing_v1",
+    scenarioId: "family_support",
+    transitionModelId: "happiness_transition",
+    sourceId: "src_family_support_request_status",
+    targetPopulation: "young adults and households eligible for family support services",
+    treatment: "family support and household stabilization services",
+    comparator: "usual community referral or no additional family support service",
+    outcomeDomain: "long_run_wellbeing",
+    effectSize: 0.0,
+    uncertainty: 0.2,
+    ciLow: -0.392,
+    ciHigh: 0.392,
+    riskOfBias: "high",
+    transportability: "low",
+    confidenceLabel: "draft",
+    reviewStatus: "draft",
+    citation: "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    datasetReference: {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    datasetCard: "docs/data/datasets/family-support-literature.md",
+    provenanceManifest: "request-status:family_support-literature"
+  },
+  {
+    claimId: "claim_family_support_civic_engagement_v1",
+    scenarioId: "family_support",
+    transitionModelId: "meaning_transition",
+    sourceId: "src_family_support_request_status",
+    targetPopulation: "young adults and households eligible for family support services",
+    treatment: "family support and household stabilization services",
+    comparator: "usual community referral or no additional family support service",
+    outcomeDomain: "civic_engagement",
+    effectSize: 0.0,
+    uncertainty: 0.2,
+    ciLow: -0.392,
+    ciHigh: 0.392,
+    riskOfBias: "high",
+    transportability: "low",
+    confidenceLabel: "draft",
+    reviewStatus: "draft",
+    citation: "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    datasetReference: {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    datasetCard: "docs/data/datasets/family-support-literature.md",
+    provenanceManifest: "request-status:family_support-literature"
+  },
+  {
+    claimId: "claim_family_support_housing_stability_v1",
+    scenarioId: "family_support",
+    transitionModelId: "financial_transition",
+    sourceId: "src_family_support_request_status",
+    targetPopulation: "young adults and households eligible for family support services",
+    treatment: "family support and household stabilization services",
+    comparator: "usual community referral or no additional family support service",
+    outcomeDomain: "housing_stability",
+    effectSize: 0.0,
+    uncertainty: 0.2,
+    ciLow: -0.392,
+    ciHigh: 0.392,
+    riskOfBias: "high",
+    transportability: "low",
+    confidenceLabel: "draft",
+    reviewStatus: "draft",
+    citation: "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    datasetReference: {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    datasetCard: "docs/data/datasets/family-support-literature.md",
+    provenanceManifest: "request-status:family_support-literature"
+  },
+  {
+    claimId: "claim_family_support_time_use_stability_v1",
+    scenarioId: "family_support",
+    transitionModelId: "relationships_transition",
+    sourceId: "src_family_support_request_status",
+    targetPopulation: "young adults and households eligible for family support services",
+    treatment: "family support and household stabilization services",
+    comparator: "usual community referral or no additional family support service",
+    outcomeDomain: "time_use_stability",
+    effectSize: 0.0,
+    uncertainty: 0.2,
+    ciLow: -0.392,
+    ciHigh: 0.392,
+    riskOfBias: "high",
+    transportability: "low",
+    confidenceLabel: "draft",
+    reviewStatus: "draft",
+    citation: "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    datasetReference: {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    datasetCard: "docs/data/datasets/family-support-literature.md",
+    provenanceManifest: "request-status:family_support-literature"
+  },
+  {
+    claimId: "claim_family_support_service_access_v1",
+    scenarioId: "family_support",
+    transitionModelId: "health_transition",
+    sourceId: "src_family_support_request_status",
+    targetPopulation: "young adults and households eligible for family support services",
+    treatment: "family support and household stabilization services",
+    comparator: "usual community referral or no additional family support service",
+    outcomeDomain: "service_access",
+    effectSize: 0.0,
+    uncertainty: 0.2,
+    ciLow: -0.392,
+    ciHigh: 0.392,
+    riskOfBias: "high",
+    transportability: "low",
+    confidenceLabel: "draft",
+    reviewStatus: "draft",
+    citation: "Family support, parent support, and household stabilization evidence synthesis pending approved extraction.",
+    datasetReference: {
+      "canonical_dataset_name": "intervention_literature.family_support",
+      "version": "request-status-v0.1",
+      "content_hash": "283a93e398ba8c17231120b3f6af15c455f51004638e705789ac32f911fb314f"
+    },
+    datasetCard: "docs/data/datasets/family-support-literature.md",
+    provenanceManifest: "request-status:family_support-literature"
   }
 ];

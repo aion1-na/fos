@@ -1,0 +1,59 @@
+version: "0.1"
+canonical_dataset_name: features.place_context
+fields:
+  - source_field: source
+    original_label: Source dataset
+    canonical_name: source
+    data_type: string
+  - source_field: construct
+    original_label: Place construct
+    canonical_name: construct
+    data_type: string
+  - source_field: source_geography_id
+    original_label: Source geography identifier
+    canonical_name: source_geography_id
+    data_type: string
+  - source_field: geography_level
+    original_label: Geography level
+    canonical_name: geography_level
+    data_type: string
+  - source_field: join_key
+    original_label: FOS population join key
+    canonical_name: join_key
+    data_type: string
+  - source_field: join_segment
+    original_label: FOS population join segment
+    canonical_name: join_segment
+    data_type: string
+  - source_field: pathway_role
+    original_label: Pathway role
+    canonical_name: pathway_role
+    data_type: string
+  - source_field: measure
+    original_label: Measure
+    canonical_name: measure
+    data_type: string
+  - source_field: value
+    original_label: Value
+    canonical_name: value
+    data_type: number
+  - source_field: causal_interpretation
+    original_label: Causal interpretation guardrail
+    canonical_name: causal_interpretation
+    data_type: string
+  - source_field: suppressed
+    original_label: Small-cell suppression flag
+    canonical_name: suppressed
+    data_type: boolean
+  - source_field: content_hash
+    original_label: Source content hash
+    canonical_name: content_hash
+    data_type: string
+  - source_field: codebook_version
+    original_label: Feature codebook version
+    canonical_name: codebook_version
+    data_type: string
+  - source_field: dataset_reference
+    original_label: Simulation-facing dataset reference
+    canonical_name: dataset_reference
+    data_type: string
